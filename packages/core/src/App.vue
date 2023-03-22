@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import CoreEditor from './components/CoreEditor.vue'
+import { ref } from 'vue'
+import CoreEditor from './CoreEditor/CoreEditor.vue'
 
-let doc = 'hello, world!'
+const doc = ref('hello, world!')
+
 </script>
 
 <template>

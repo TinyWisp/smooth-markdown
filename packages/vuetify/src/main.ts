@@ -11,6 +11,7 @@ import { createI18n } from 'vue-i18n'
 import messages from './langs/messages'
 
 const i18n = createI18n({
+  legacy: false,
   locale: 'zh_CN', 
   fallbackLocale: 'zh_CN', 
   messages, 

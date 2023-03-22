@@ -1,21 +1,25 @@
-export type CodeRenderer = (code: string, lang: string) => string
-
-export interface CodeRendererMap {
-  [key: string]: CodeRenderer
-}
-
-export type RendererRule = (tokens: any[], idx: number, options?: object, env?: object, slf?: object) => string
-
-export interface RendererRuleMap {
-  [key: string]: RendererRule
-}
+import type { CmDomEventHandlerMap, MditCodeRendererMap, MditRendererRuleMap, CommandMap } from "@/CoreEditor/types"
 
 export interface CorePlugin {
   readonly name: string
-  codeRendererMap?: CodeRendererMap
-  rendererRuleMap?: RendererRuleMap
-  beforeRenderView?: () => void
-  afterRenderView?: () => void
+
+  // markdown-it
+  mditPlugins?: Function[]
+  mditCodeRendererMap?: MditCodeRendererMap
+  mditRendererRuleMap?: MditRendererRuleMap
+  mditBeforeRender?: () => void
+  mditAfterRender?: () => void
+
+  // codemirror
+  cmDomEventHandlerMap?: CmDomEventHandlerMap
+  cmExtensions?: object[]
+
+  // lifecycle
+  mounted?: () => void
+  beforeDestroy?: () => void
+
+  // others
+  commandMap?: CommandMap
 }
 
 export class CorePluginManager {
@@ -33,7 +37,7 @@ export class CorePluginManager {
 
   registerPlugin(plugin: CorePlugin): void {
     if (plugin.name.trim() === '') {
-      console.log('an invalid plugin whose name is empty')
+      console.log('a plugin without name is invalid')
     }
 
     this.plugins.push(plugin)
@@ -45,41 +49,59 @@ export class CorePluginManager {
     })
   }
 
-  beforeRenderView(): void {
+  mditBeforeRender(): void {
     this.plugins.forEach((plugin) => {
-      plugin?.beforeRenderView?.()
+      plugin?.mditBeforeRender?.()
     })
   }
 
-  afterRenderView(): void {
+  mditAfterRender(): void {
     this.plugins.forEach((plugin) => {
-      plugin?.afterRenderView?.()
+      plugin?.mditAfterRender?.()
     })
   }
 
-  getCodeRendererMap(): CodeRendererMap {
-    const codeRendererMap: CodeRendererMap = {}
+  getMditCodeRendererMap(): MditCodeRendererMap {
+    const codeRendererMap: MditCodeRendererMap = {}
     this.plugins.forEach((plugin) => {
-      if (plugin.codeRendererMap) {
-        for(const lang in plugin.codeRendererMap) {
-          codeRendererMap[lang] = plugin.codeRendererMap[lang]
-        }
+      if (plugin.mditCodeRendererMap) {
+        Object.assign(codeRendererMap, plugin.mditCodeRendererMap)
       }
     })
 
     return codeRendererMap
   }
 
-  getRendererRuleMap(): RendererRuleMap {
-    const rendererRuleMap: RendererRuleMap = {}
+  getMditRendererRuleMap(): MditRendererRuleMap {
+    const rendererRuleMap: MditRendererRuleMap = {}
     this.plugins.forEach((plugin) => {
-      if (plugin.rendererRuleMap) {
-        for (const ruleName in plugin.rendererRuleMap) {
-          rendererRuleMap[ruleName] = plugin.rendererRuleMap[ruleName].bind(plugin)
-        }
+      if (plugin.mditRendererRuleMap) {
+        Object.assign(rendererRuleMap, plugin.mditRendererRuleMap)
       }
     })
 
     return rendererRuleMap
+  }
+
+  getCmDomEventHandlerMap(): CmDomEventHandlerMap {
+    const cmDomEventHandlerMap: CmDomEventHandlerMap = {}
+    this.plugins.forEach((plugin) => {
+      if (plugin.cmDomEventHandlerMap) {
+        Object.assign(cmDomEventHandlerMap, plugin.cmDomEventHandlerMap)
+      }
+    })
+
+    return cmDomEventHandlerMap
+  }
+
+  getCommandMap(): CommandMap {
+    const commandMap: CommandMap = {}
+    this.plugins.forEach((plugin) => {
+      if (plugin.commandMap) {
+        Object.assign(commandMap, plugin.commandMap)
+      }
+    })
+
+    return commandMap
   }
 }

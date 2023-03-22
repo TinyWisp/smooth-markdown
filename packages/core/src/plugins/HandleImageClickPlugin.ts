@@ -1,30 +1,32 @@
-import type { CorePlugin, RendererRuleMap } from './CorePlugin'
-import { uniqId, escapeHtml } from '../utils/util'
+import type { MditRendererRuleMap } from '@/CoreEditor/types'
+import type { CorePlugin } from './CorePlugin'
+import { uniqId, escapeHtml } from '@/utils/util'
 
-type ImageClickEventHandler = (images: Image[], idx: number, event: Event) => void
-interface Image {
+export interface ImageData {
   src: string
   alt: string
   title: string
   id: string
 }
 
+export type ImageClickEventHandler = (images: ImageData[], idx: number, event: Event) => void
+
 class HandleImageClickPlugin implements CorePlugin {
   readonly name: string
-  images: Image[]
-  rendererRuleMap: RendererRuleMap
+  images: ImageData[]
+  mditRendererRuleMap: MditRendererRuleMap
   fnImageClick: ImageClickEventHandler
 
   constructor(fnImageClick: ImageClickEventHandler) {
     this.name = 'imageClickEvent'
     this.images = []
-    this.rendererRuleMap = {
+    this.mditRendererRuleMap = {
       image: this.imageRenderer
     }
     this.fnImageClick = fnImageClick
   }
 
-  beforeRenderView(): void {
+  mditBeforeRender(): void {
     this.images.splice(0, this.images.length)
   }
 

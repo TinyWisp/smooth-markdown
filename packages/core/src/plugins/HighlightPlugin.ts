@@ -1,22 +1,16 @@
+import type { MditCodeRendererMap } from '@/CoreEditor/types'
 import type { CorePlugin } from './CorePlugin'
-import type { CodeRendererMap } from './CorePlugin'
 import { uniqId, escapeHtml } from '../utils/util'
 import hljs from 'highlight.js/lib/common'
 import copyToClipboard from 'copy-to-clipboard'
 
-if (!Object.prototype.hasOwnProperty.call(window, 'svmeCopyCode')) {
-  Object.defineProperty(window, 'svmeCopyCode', { value: function (code: string) {
-    copyToClipboard(decodeURIComponent(code))
-  }})
-}
-
 class HighlightPlugin implements CorePlugin {
   name: string
-  codeRendererMap: CodeRendererMap
+  mditCodeRendererMap: MditCodeRendererMap
 
   constructor() {
     this.name = 'highlight'
-    this.codeRendererMap = {
+    this.mditCodeRendererMap = {
       default: this.highlightCodeRenderer,
     }
   }

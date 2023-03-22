@@ -48,15 +48,16 @@ import { markdown } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
 import { undo, redo } from '@codemirror/commands'
 import { indentWithTab } from "@codemirror/commands"
-import type { CorePlugin }  from '../plugins/CorePlugin'
+import type { CorePlugin }  from '@/plugins/CorePlugin'
 import { CorePluginManager } from '../plugins/CorePlugin'
 import ClassicEditorLayout from './ClassicEditorLayout.vue'
+import type { CoreContext } from './types'
 
 export interface CoreEditorProps {
-  readonly modelValue: string,
+  modelValue: string,
   mode: 'edit' | 'view' | 'both',
-  height: string,
-  plugins: CorePlugin[],
+  height?: string,
+  plugins?: CorePlugin[],
 }
 
 const props = withDefaults(defineProps<CoreEditorProps>(), {
@@ -71,8 +72,19 @@ const props = withDefaults(defineProps<CoreEditorProps>(), {
 const emit = defineEmits(['update:modelValue'])
 
 const html: Ref<string> = ref('')
-const edit = ref()
-const view = ref()
+const edit = ref<HTMLElement | null>(null)
+const view = ref<HTMLElement | null>(null)
+const context: CoreContext = {
+  methods: {
+    insertOrReplace,
+    command,
+  },
+  doms: {
+    edit,
+    view
+  },
+  props
+}
 const pluginManager = new CorePluginManager()
 pluginManager.registerPlugins(props.plugins)
 
@@ -97,8 +109,7 @@ const markdownIt: any = {
     [ mark ], 
     [ deflist ],
   ],
-  images: [],
-  codeRendererMap: {...pluginManager.getCodeRendererMap()}
+  codeRendererMap: {...pluginManager.getMditCodeRendererMap()}
 }
 
 function renderCode(code: string, lang: string): string {
@@ -118,32 +129,16 @@ function renderCode(code: string, lang: string): string {
 }
 
 function renderView(): void {
-  pluginManager.beforeRenderView()
+  pluginManager.mditBeforeRender()
   html.value = markdownIt.instance.render(props.modelValue)
-  pluginManager.afterRenderView()
+  pluginManager.mditAfterRender()
 }
 
 markdownIt.instance = new MarkdownIt(markdownIt.initOptions)
 markdownIt.loadPlugins.forEach((params: any) => {
   markdownIt.instance.use(...params)
 })
-Object.assign(markdownIt.instance.renderer.rules, pluginManager.getRendererRuleMap())
-markdownIt.instance.renderer.rules.link_open = function(): string {
-  console.log('---link-open---')
-  console.log(arguments)
-  return '<a>'
-}
-markdownIt.instance.renderer.rules.link_close = function(): string {
-  console.log('---link-close---')
-  console.log(arguments)
-  return '</a>'
-}
-markdownIt.instance.renderer.rules.text = function(): string {
-  console.log('---text-----')
-  console.log(arguments)
-  return 'hello world'
-}
-
+Object.assign(markdownIt.instance.renderer.rules, pluginManager.getMditRendererRuleMap())
 
 watch(
   () => props.modelValue, 
@@ -164,6 +159,15 @@ const codeMirror: CodeMirrorData = {
   editorView: null,
   scrollTop: 0,
 }
+function scrollHandler() {
+  const leftScrollHeight = codeMirror.editorView!.scrollDOM.scrollHeight
+  const leftScrollTop    = codeMirror.editorView!.scrollDOM.scrollTop
+  const leftScrollOffset = leftScrollTop - codeMirror.scrollTop
+  const rightScrollHeight = view.value!.scrollHeight
+  const rightScrollTop = view.value!.scrollTop
+  view.value!.scrollTop = rightScrollTop + (rightScrollHeight * leftScrollOffset / leftScrollHeight)
+  codeMirror.scrollTop = leftScrollTop 
+}
 onMounted(() => {
   codeMirror.editorView = new EditorView({
     doc: props.modelValue,
@@ -171,7 +175,8 @@ onMounted(() => {
       minimalSetup,
       lineNumbers(),
       keymap.of([indentWithTab]),
-      markdown({codeLanguages: languages}),
+      // markdown({codeLanguages: languages}),
+      markdown(),
       EditorView.lineWrapping,
       EditorView.updateListener.of((viewUpdate) => {
         if (viewUpdate.docChanged) {
@@ -180,18 +185,11 @@ onMounted(() => {
         }
       }),
       EditorView.domEventHandlers({
-        scroll: () => {
-          const leftScrollHeight = codeMirror.editorView!.scrollDOM.scrollHeight
-          const leftScrollTop    = codeMirror.editorView!.scrollDOM.scrollTop
-          const leftScrollOffset = leftScrollTop - codeMirror.scrollTop
-          const rightScrollHeight = view.value.scrollHeight
-          const rightScrollTop = view.value.scrollTop
-          view.value.scrollTop = rightScrollTop + (rightScrollHeight * leftScrollOffset / leftScrollHeight)
-          codeMirror.scrollTop = leftScrollTop
-        }
+        scroll: scrollHandler,
+        ...pluginManager.getCmDomEventHandlerMap(),
       }),
     ],
-    parent: edit.value
+    parent: edit.value!
   })
 })
 
@@ -315,6 +313,7 @@ const commandMap: { [key: string]: (params: any) => void } = {
     const text = rows.join('\n') + '\n'
     insertOrReplace(text, true)
   },
+  ...pluginManager.getCommandMap()
 }
 
 /**
@@ -322,7 +321,7 @@ const commandMap: { [key: string]: (params: any) => void } = {
  * @param {string} cmd
  * @param {object} params
  */
-function command(cmd: string, params: object) {
+function command(cmd: string, params?: object) {
   if (!commandMap[cmd]) {
     console.error(`invalid command: ${cmd}`)
     return
@@ -331,7 +330,7 @@ function command(cmd: string, params: object) {
 }
 
 // --------------------------------------- expose ---------------------------------------------
-defineExpose({ insertOrReplace, command })
+defineExpose({ insertOrReplace, command, context })
 
 </script>
 

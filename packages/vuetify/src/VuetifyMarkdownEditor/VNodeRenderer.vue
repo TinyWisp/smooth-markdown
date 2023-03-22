@@ -4,14 +4,13 @@ import type { VNode, PropType } from 'vue'
 
 export default defineComponent({
   props: {
-    renderer: { 
+    vnode: { 
       type: Object as PropType<VNode>,
       required: true,
     }
   },
   render () {
-    console.log(this.renderer)
-    return h(this.renderer)
+    return h(this.vnode)
   }
 })
 </script>
