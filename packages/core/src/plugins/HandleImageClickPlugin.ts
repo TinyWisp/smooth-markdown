@@ -18,7 +18,7 @@ class HandleImageClickPlugin implements CorePlugin {
   fnImageClick: ImageClickEventHandler
 
   constructor(fnImageClick: ImageClickEventHandler) {
-    this.name = 'imageClickEvent'
+    this.name = 'ImageClickEvent'
     this.images = []
     this.mditRendererRuleMap = {
       image: this.imageRenderer
@@ -57,7 +57,7 @@ class HandleImageClickPlugin implements CorePlugin {
       })
     }, 0)
 
-    return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" title="${escapeHtml(title)}" id="${id}" class="svme-image-click-event-plugin">`
+    return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" title="${escapeHtml(title)}" id="${id}" class="svme-plugin-handle-image-click">`
   }
 }
 

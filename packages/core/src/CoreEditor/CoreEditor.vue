@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, provide } from 'vue'
 import type { Ref } from 'vue'
 import MarkdownIt from 'markdown-it'
 import { escapeHtml } from 'markdown-it/lib/common/utils'
@@ -40,14 +40,13 @@ import br  from 'markdown-it-br'
 import mark from 'markdown-it-mark'
 import deflist from 'markdown-it-deflist'
 // import emoji from 'markdown-it-emoji/bare.js'
-import linkAttr from 'markdown-it-link-attributes'
 import { EditorView, minimalSetup } from 'codemirror'
 import { keymap, lineNumbers } from '@codemirror/view'
 import { EditorSelection } from '@codemirror/state'
 import { markdown } from '@codemirror/lang-markdown'
-import { languages } from '@codemirror/language-data'
 import { undo, redo } from '@codemirror/commands'
 import { indentWithTab } from "@codemirror/commands"
+import { languages } from '@codemirror/language-data'
 import type { CorePlugin }  from '@/plugins/CorePlugin'
 import { CorePluginManager } from '../plugins/CorePlugin'
 import ClassicEditorLayout from './ClassicEditorLayout.vue'
@@ -74,17 +73,6 @@ const emit = defineEmits(['update:modelValue'])
 const html: Ref<string> = ref('')
 const edit = ref<HTMLElement | null>(null)
 const view = ref<HTMLElement | null>(null)
-const context: CoreContext = {
-  methods: {
-    insertOrReplace,
-    command,
-  },
-  doms: {
-    edit,
-    view
-  },
-  props
-}
 const pluginManager = new CorePluginManager()
 pluginManager.registerPlugins(props.plugins)
 
@@ -94,20 +82,16 @@ const markdownIt: any = {
   initOptions: {
     breaks: true,
     highlight: renderCode,
+    ...pluginManager.getMditInitOptions()
   },
   loadPlugins: [
-    /*[linkAttr, {
-      attrs: {
-        target: "_blank",
-        rel: "noopener noreferrer nofollow",
-      }
-    }],*/
     [ sup ],
     [ sub ],
     [ ins ],
     [ br ],
     [ mark ], 
     [ deflist ],
+    ...pluginManager.getMditLoadPlugins()
   ],
   codeRendererMap: {...pluginManager.getMditCodeRendererMap()}
 }
@@ -160,28 +144,31 @@ const codeMirror: CodeMirrorData = {
   scrollTop: 0,
 }
 function scrollHandler() {
-  const leftScrollHeight = codeMirror.editorView!.scrollDOM.scrollHeight
-  const leftScrollTop    = codeMirror.editorView!.scrollDOM.scrollTop
-  const leftScrollOffset = leftScrollTop - codeMirror.scrollTop
-  const rightScrollHeight = view.value!.scrollHeight
-  const rightScrollTop = view.value!.scrollTop
-  view.value!.scrollTop = rightScrollTop + (rightScrollHeight * leftScrollOffset / leftScrollHeight)
-  codeMirror.scrollTop = leftScrollTop 
+  setTimeout(() => {
+    const leftScrollHeight = codeMirror.editorView!.scrollDOM.scrollHeight
+    const leftScrollTop    = codeMirror.editorView!.scrollDOM.scrollTop
+    const leftScrollOffset = leftScrollTop - codeMirror.scrollTop
+    const rightScrollHeight = view.value!.scrollHeight
+    const rightScrollTop = view.value!.scrollTop
+    view.value!.scrollTop = rightScrollTop + (rightScrollHeight * leftScrollOffset / leftScrollHeight)
+    codeMirror.scrollTop = leftScrollTop 
+  }, 0)
 }
 onMounted(() => {
   codeMirror.editorView = new EditorView({
     doc: props.modelValue,
     extensions: [
+      ...pluginManager.getCmExtensions(),
       minimalSetup,
       lineNumbers(),
       keymap.of([indentWithTab]),
-      // markdown({codeLanguages: languages}),
-      markdown(),
+      markdown(pluginManager.getCmMarkdownConfig()),
       EditorView.lineWrapping,
       EditorView.updateListener.of((viewUpdate) => {
         if (viewUpdate.docChanged) {
           const doc = viewUpdate.state.doc.toString()
           emit('update:modelValue', doc)
+          pluginManager.cmDocChanged(doc)
         }
       }),
       EditorView.domEventHandlers({
@@ -329,8 +316,27 @@ function command(cmd: string, params?: object) {
   commandMap[cmd](params)
 }
 
-// --------------------------------------- expose ---------------------------------------------
-defineExpose({ insertOrReplace, command, context })
+
+// --------------------------------------- getCoreContext ---------------------------------------------
+function getCoreContext(): CoreContext {
+  const context: CoreContext = {
+    methods: {
+      insertOrReplace,
+      command,
+    },
+    doms: {
+      edit,
+      view
+    },
+    props
+  }
+  return context
+}
+
+provide('getCoreContext', getCoreContext)
+
+// ------------------------------------------- expose ------------------------------------------------
+defineExpose({ insertOrReplace, command, getCoreContext })
 
 </script>
 
@@ -450,11 +456,9 @@ defineExpose({ insertOrReplace, command, context })
   font-family: 'Droid Sans Mono', 'monospace', monospace;
   padding: 1em 1.5em;
   overflow: auto;
-  font-size: 0.85em;
   line-height: 1.45em;
   background-color: #1e1e1e;
   border-radius: 0.45em;
-  margin: 1.75em 0;
   color: #e9e9e9;
 }
 

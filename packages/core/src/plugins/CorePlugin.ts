@@ -1,10 +1,12 @@
-import type { CmDomEventHandlerMap, MditCodeRendererMap, MditRendererRuleMap, CommandMap } from "@/CoreEditor/types"
+import type { CmDomEventHandlerMap, CmDocChanged, MditCodeRendererMap, MditRendererRuleMap, CommandMap, MditLoadPlugin, MditInitOptions } from "@/CoreEditor/types"
+import type { Extension as CmExtension } from '@codemirror/state'
 
 export interface CorePlugin {
   readonly name: string
 
   // markdown-it
-  mditPlugins?: Function[]
+  mditInitOptions?: MditInitOptions
+  mditLoadPlugins?: MditLoadPlugin[]
   mditCodeRendererMap?: MditCodeRendererMap
   mditRendererRuleMap?: MditRendererRuleMap
   mditBeforeRender?: () => void
@@ -12,7 +14,9 @@ export interface CorePlugin {
 
   // codemirror
   cmDomEventHandlerMap?: CmDomEventHandlerMap
-  cmExtensions?: object[]
+  cmExtensions?: CmExtension[]
+  cmDocChanged?: CmDocChanged
+  cmMarkdownConfig?: object
 
   // lifecycle
   mounted?: () => void
@@ -65,7 +69,9 @@ export class CorePluginManager {
     const codeRendererMap: MditCodeRendererMap = {}
     this.plugins.forEach((plugin) => {
       if (plugin.mditCodeRendererMap) {
-        Object.assign(codeRendererMap, plugin.mditCodeRendererMap)
+        for (const lang of Object.keys(plugin.mditCodeRendererMap)) {
+          codeRendererMap[lang] = plugin.mditCodeRendererMap[lang].bind(plugin)
+        }
       }
     })
 
@@ -83,6 +89,31 @@ export class CorePluginManager {
     return rendererRuleMap
   }
 
+  getMditInitOptions(): MditInitOptions {
+    const options: MditInitOptions = {}
+
+    this.plugins.forEach((plugin) => {
+      if (plugin.mditInitOptions) {
+        Object.assign(options, plugin.mditInitOptions)
+      }
+    })
+
+    return options
+  }
+
+  getMditLoadPlugins(): MditLoadPlugin[] {
+    const loadPlugins: MditLoadPlugin[] = []
+    this.plugins.forEach((plugin) => {
+      if (plugin.mditLoadPlugins) {
+        plugin.mditLoadPlugins.forEach((loadPlugin) => {
+          loadPlugins.push(loadPlugin)
+        })
+      }
+    })
+
+    return loadPlugins
+  }
+
   getCmDomEventHandlerMap(): CmDomEventHandlerMap {
     const cmDomEventHandlerMap: CmDomEventHandlerMap = {}
     this.plugins.forEach((plugin) => {
@@ -92,6 +123,34 @@ export class CorePluginManager {
     })
 
     return cmDomEventHandlerMap
+  }
+
+  getCmExtensions(): CmExtension[] {
+    const exts: CmExtension[] = []
+    this.plugins.forEach((plugin) => {
+      if (plugin.cmExtensions) {
+        exts.splice(exts.length - 1, 0, plugin.cmExtensions)
+      }
+    })
+
+    return exts
+  }
+
+  getCmMarkdownConfig(): object {
+    const config = {}
+    this.plugins.forEach((plugin) => {
+      if (plugin.cmMarkdownConfig) {
+        Object.assign(config, plugin.cmMarkdownConfig)
+      }
+    })
+
+    return config
+  }
+
+  cmDocChanged(doc: string): void {
+    this.plugins.forEach((plugin) => {
+      plugin?.cmDocChanged?.(doc)
+    })
   }
 
   getCommandMap(): CommandMap {

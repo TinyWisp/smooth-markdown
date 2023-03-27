@@ -18,7 +18,7 @@
         :relative-element-selector="`#${containerId}`"
         :scroll-affix="false"
         :offset="{
-          top: 0,
+          top: 1,
           bottom: 100,
         }"
         v-if="enableAffixToolbar">
