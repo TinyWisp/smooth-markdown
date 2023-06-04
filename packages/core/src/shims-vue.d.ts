@@ -10,6 +10,7 @@ declare module 'markdown-it-images-preview'
 declare module 'markdown-it-link-attributes'
 declare module 'vue-affix'
 declare module '*.vue' {
-  import Vue from 'vue';
-  export default Vue;
+  import { defineComponent } from 'vue'
+  const component: ReturnType<typeof defineComponent>
+  export default component
 }

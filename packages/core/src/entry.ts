@@ -1,7 +1,7 @@
-import CoreEditor from './CoreEditor/CoreEditor.vue'
-import highlightPlugin from './plugins/HighlightPlugin/HighlightPlugin'
-import imageClickEventPlugin from './plugins/HandleImageClickPlugin'
+import CoreEditor from './CoreEditor'
 import { uniqId, escapeHtml } from './utils/util'
-import type { CorePlugin, CorePluginManager } from './plugins/CorePlugin'
+import VNodeRenderer from './utils/VNodeRenderer.vue'
 
-export { CoreEditor, highlightPlugin, imageClickEventPlugin, uniqId, escapeHtml, CorePlugin, CorePluginManager }
+export { CoreEditor, uniqId, escapeHtml, VNodeRenderer }
+export * from './CoreEditor/types'
+export * from './CorePlugin'

@@ -1,0 +1,1 @@
+{"version":3,"file":"handleImageClickPlugin.js","sourceRoot":"","sources":["handleImageClickPlugin.ts"],"names":[],"mappings":"AAAA,OAAO,gBAAgB,MAAM,mCAAmC,CAAA;AAEhE,eAAe,gBAAgB,CAAA","sourcesContent":["import handleImageClick from '../plugins/HandleImageClickPlugin'\n\nexport default handleImageClick"]}

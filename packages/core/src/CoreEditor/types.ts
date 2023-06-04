@@ -1,4 +1,5 @@
 import type { Ref } from 'vue'
+import type { PluginSimple as MditPluginSimple, PluginWithOptions as MditPluginWithOptions, PluginWithParams as MditPluginWithParams} from 'markdown-it'
 
 // ---------------- types related to markdown-it  -------------------
 
@@ -14,7 +15,9 @@ export interface MditRendererRuleMap {
   [key: string]: MditRendererRule
 }
 
-export type MditLoadPlugin = [Function, object] | [Function]
+export type MditPlugin = MditPluginSimple | MditPluginWithOptions | MditPluginWithParams
+
+export type MditLoadPlugin = [MditPlugin, object] | [MditPlugin]
 
 export interface MditInitOptions {
   [key: string]: any

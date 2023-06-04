@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["index.ts"],"names":[],"mappings":"AAAA,OAAO,UAAU,MAAM,kBAAkB,CAAA;AAEzC,eAAe,UAAU,CAAA;AACzB,cAAc,SAAS,CAAA","sourcesContent":["import CoreEditor from './CoreEditor.vue' \n\nexport default CoreEditor\nexport * from './types'"]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"customLinkAttrsPlugin.js","sourceRoot":"","sources":["customLinkAttrsPlugin.ts"],"names":[],"mappings":"AAAA,OAAO,eAAe,MAAM,kCAAkC,CAAA;AAE9D,eAAe,eAAe,CAAA","sourcesContent":["import customLinkAttrs from '../plugins/CustomLinkAttrsPlugin'\n\nexport default customLinkAttrs"]}

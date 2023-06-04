@@ -1,4 +1,9 @@
 {
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "declaration": true,
+    "declarationDir": "./lib"
+  },
   "files": [],
   "references": [
     {

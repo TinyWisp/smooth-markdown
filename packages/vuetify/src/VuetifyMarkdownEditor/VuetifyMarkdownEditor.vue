@@ -51,7 +51,6 @@ import type { ToolbarItemMap, ToolbarItem, VuetifyContext, Mode } from './types'
 import { useI18n } from 'vue-i18n'
 import { VuetifyPluginManager, type VuetifyPlugin } from '@/plugins/VuetifyPlugin'
 import VNodeRenderer from './VNodeRenderer.vue'
-import '@smooth-vue-markdown-editor/core/dist/style.css'
 import {
   mdiUndo,
   mdiRedo,

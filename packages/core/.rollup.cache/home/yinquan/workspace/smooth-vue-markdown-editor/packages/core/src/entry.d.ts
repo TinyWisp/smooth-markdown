@@ -1,0 +1,12 @@
+import CoreEditor from './CoreEditor/CoreEditor.vue';
+import highlightPlugin from './plugins/HighlightPlugin';
+import handleImageClick from './plugins/HandleImageClickPlugin';
+import pasteImage from './plugins/PasteImagePlugin';
+import customCodeBlockRenderer from './plugins/CustomCodeBlockRendererPlugin';
+import customLinkAttrs from './plugins/CustomLinkAttrsPlugin';
+import { uniqId, escapeHtml } from './utils/util';
+import type { CorePlugin } from './plugins/CorePlugin';
+import { CorePluginManager } from './plugins/CorePlugin';
+export { CoreEditor, CorePluginManager, highlightPlugin, handleImageClick, pasteImage, customCodeBlockRenderer, customLinkAttrs, uniqId, escapeHtml };
+export type { CorePlugin };
+export * from './CoreEditor/types';

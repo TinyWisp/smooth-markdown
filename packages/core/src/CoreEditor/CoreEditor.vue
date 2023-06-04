@@ -7,6 +7,9 @@
     containerId="test"
   >
     <template v-slot:classic-editor-toolbar>
+      <div class="svme-core-extra">
+        <v-node-renderer :vnodes="extraVnodes"></v-node-renderer>
+      </div>
       <slot name="toolbar">
       </slot>
     </template>
@@ -29,8 +32,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, provide } from 'vue'
-import type { Ref } from 'vue'
+import { ref, onMounted, watch, provide, computed } from 'vue'
+import type { Ref, VNode } from 'vue'
 import MarkdownIt from 'markdown-it'
 import { escapeHtml } from 'markdown-it/lib/common/utils'
 import sup from 'markdown-it-sup'
@@ -46,11 +49,11 @@ import { EditorSelection } from '@codemirror/state'
 import { markdown } from '@codemirror/lang-markdown'
 import { undo, redo } from '@codemirror/commands'
 import { indentWithTab } from "@codemirror/commands"
-import { languages } from '@codemirror/language-data'
-import type { CorePlugin }  from '@/plugins/CorePlugin'
-import { CorePluginManager } from '../plugins/CorePlugin'
+import type { CorePlugin }  from '../CorePlugin'
+import { CorePluginManager } from '../CorePlugin'
 import ClassicEditorLayout from './ClassicEditorLayout.vue'
-import type { CoreContext } from './types'
+import VNodeRenderer from '../utils/VNodeRenderer.vue'
+import type { CoreContext, MditCodeRendererMap, MditInitOptions, MditLoadPlugin } from './types'
 
 export interface CoreEditorProps {
   modelValue: string,
@@ -75,9 +78,18 @@ const edit = ref<HTMLElement | null>(null)
 const view = ref<HTMLElement | null>(null)
 const pluginManager = new CorePluginManager()
 pluginManager.registerPlugins(props.plugins)
+const extraVnodes = computed<VNode[]>(() => {
+  return pluginManager.getExtraVnodes()
+})
 
 // -------------------------------- initialize markdownIt ---------------------------------------------
-const markdownIt: any = {
+interface MarkdownItData {
+  instance: any,
+  initOptions: MditInitOptions,
+  loadPlugins: MditLoadPlugin[],
+  codeRendererMap: MditCodeRendererMap,
+}
+const markdownIt: MarkdownItData = {
   instance: null,
   initOptions: {
     breaks: true,
@@ -341,6 +353,17 @@ defineExpose({ insertOrReplace, command, getCoreContext })
 </script>
 
 <style scoped>
+.svme-core-extra {
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 .svme-core-body {
   width: 100%;
   height: 100%;
@@ -388,9 +411,7 @@ defineExpose({ insertOrReplace, command, getCoreContext })
 .cm-editor {
   height: 100%;
 }
-</style>
 
-<style>
 .svme-core-view {
   padding: 1em;
 }
@@ -450,25 +471,6 @@ defineExpose({ insertOrReplace, command, getCoreContext })
   height: 1em;
   padding: 0;
   margin: 0;
-}
-
-.svme-core-view pre {
-  font-family: 'Droid Sans Mono', 'monospace', monospace;
-  padding: 1em 1.5em;
-  overflow: auto;
-  line-height: 1.45em;
-  background-color: #1e1e1e;
-  border-radius: 0.45em;
-  color: #e9e9e9;
-}
-
-.svme-core-view :not(pre) > code {
-  font-family: 'Droid Sans Mono', 'monospace', monospace;
-  font-size: 0.85em;
-  background-color: #f1f1f1;
-  color: #476582;
-  padding: .15em .5em;
-  border-radius: 0.25em;
 }
 
 .svme-core-view a {
@@ -555,67 +557,5 @@ defineExpose({ insertOrReplace, command, getCoreContext })
 
 .svme-core-view .nothing {
   display: none;
-}
-
-.svme-core-view .svme-codeblock {
-  position: relative;
-}
-
-.svme-core-view .svme-codeblock .svme-codeblock-lang {
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin: 0.4em 0.6em 0 0;
-  z-index: 1;
-  display: block;
-  color: grey;
-  font-weight: bolder;
-  opacity: 1;
-  transition: opacity 0.4s;
-  font-size: 0.8em;
-}
-
-.svme-core-view .svme-codeblock .svme-codeblock-copy {
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin: 0.5em 0.5em 0 0;
-  z-index: 2;
-  width: 3em;
-  height: 3em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.4s;
-  cursor: pointer;
-  border-radius: 0.3em;
-}
-
-.svme-core-view .svme-codeblock .svme-codeblock-copy::before {
-  display: block;
-  content: ' ';
-  position: absolute;
-  margin: auto;
-  width: 1.5em;
-  height: 1.5em;
-  --svg: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE5LDIxSDhWN0gxOU0xOSw1SDhBMiwyIDAgMCwwIDYsN1YyMUEyLDIgMCAwLDAgOCwyM0gxOUEyLDIgMCAwLDAgMjEsMjFWN0EyLDIgMCAwLDAgMTksNU0xNiwxSDRBMiwyIDAgMCwwIDIsM1YxN0g0VjNIMTZWMVoiIC8+PC9zdmc+Cg==);
-  -webkit-mask: var(--svg);
-  mask: var(--svg);
-  background-color: grey;
-}
-
-.svme-core-view .svme-codeblock:hover .svme-codeblock-lang {
-  opacity: 0;
-}
-
-.svme-core-view .svme-codeblock:hover .svme-codeblock-copy {
-  opacity: 1;
-  display: flex;
-}
-
-.svme-core-view .svme-codeblock .svme-codeblock-copy:hover {
-  background-color: #292d3e;
 }
 </style>
