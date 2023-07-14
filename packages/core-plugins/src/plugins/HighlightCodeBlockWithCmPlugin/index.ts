@@ -2,11 +2,11 @@ import { CustomCodeBlockRendererPlugin } from "../CustomCodeBlockRendererPlugin"
 import HighlightCodeBlock from "./HighlightCodeBlock.vue"
 import type { Extension } from "@codemirror/state"
 
-export interface HighlightPluginConfig {
+export interface HighlightCodeBlockWithCmPluginConfig {
   theme?: Extension
 }
 
-export default function highlight(config?: HighlightPluginConfig) {
+export default function highlightCodeBlockWithCm(config?: HighlightCodeBlockWithCmPluginConfig) {
   return new CustomCodeBlockRendererPlugin({
       default: [HighlightCodeBlock, config]
   })

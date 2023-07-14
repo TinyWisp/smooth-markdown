@@ -1,1 +1,0 @@
-{"version":3,"file":"pasteImagePlugin.js","sourceRoot":"","sources":["pasteImagePlugin.ts"],"names":[],"mappings":"AAAA,OAAO,UAAU,MAAM,6BAA6B,CAAA;AAEpD,eAAe,UAAU,CAAA","sourcesContent":["import pasteImage from '../plugins/PasteImagePlugin'\n\nexport default pasteImage"]}

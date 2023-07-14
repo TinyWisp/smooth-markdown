@@ -2,11 +2,11 @@ import { languages } from "@codemirror/language-data"
 import type { CorePlugin } from "@smooth-vue-markdown-editor/core"
 
 class HighlightCodeBlockInEditableAreaPlugin implements CorePlugin {
-  cmMarkdownConfig: object;
+  cmMarkdownConfig: object
 
   constructor() {
     this.cmMarkdownConfig = {
-      languages
+      codeLanguages: languages
     }
   }
 }

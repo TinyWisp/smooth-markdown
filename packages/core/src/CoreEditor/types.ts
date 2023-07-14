@@ -38,6 +38,10 @@ export type CmDomEventHandlerMap = {
   [key: string]: (event: Event) => void
 }
 
+export type CmPasteEventHandlerMap = {
+  [key: string]: (item: DataTransferItem) => void
+}
+
 export type CmDocChanged = (doc: string) => void
 
 // ------------------------------------------------------------------

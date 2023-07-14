@@ -53,7 +53,7 @@ import type { CorePlugin }  from '../CorePlugin'
 import { CorePluginManager } from '../CorePlugin'
 import ClassicEditorLayout from './ClassicEditorLayout.vue'
 import VNodeRenderer from '../utils/VNodeRenderer.vue'
-import type { CoreContext, MditCodeRendererMap, MditInitOptions, MditLoadPlugin } from './types'
+import type { CmPasteEventHandlerMap, CoreContext, MditCodeRendererMap, MditInitOptions, MditLoadPlugin } from './types'
 
 export interface CoreEditorProps {
   modelValue: string,
@@ -150,10 +150,12 @@ watch(
 interface CodeMirrorData {
   editorView: null | EditorView,
   scrollTop: number,
+  pasteEventHandlerMap: CmPasteEventHandlerMap
 }
 const codeMirror: CodeMirrorData = {
   editorView: null,
   scrollTop: 0,
+  pasteEventHandlerMap: pluginManager.getCmPasteEventHandlerMap()
 }
 function scrollHandler() {
   setTimeout(() => {
@@ -165,6 +167,20 @@ function scrollHandler() {
     view.value!.scrollTop = rightScrollTop + (rightScrollHeight * leftScrollOffset / leftScrollHeight)
     codeMirror.scrollTop = leftScrollTop 
   }, 0)
+}
+function pasteHandler(cevent: ClipboardEvent) {
+  if(cevent.clipboardData?.items) {
+    for (const item of cevent.clipboardData.items) {
+      if (codeMirror.pasteEventHandlerMap[item.type]) {
+        (codeMirror.pasteEventHandlerMap[item.type])(item)
+      }
+      if (item.type === 'text/plain') {
+        item.getAsString((text: string) => {
+          insertOrReplace(text)
+        })
+      }
+    }
+  }
 }
 onMounted(() => {
   codeMirror.editorView = new EditorView({
@@ -185,6 +201,7 @@ onMounted(() => {
       }),
       EditorView.domEventHandlers({
         scroll: scrollHandler,
+        paste: pasteHandler,
         ...pluginManager.getCmDomEventHandlerMap(),
       }),
     ],

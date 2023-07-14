@@ -21,13 +21,11 @@ class CustomCodeBlockRendererPlugin implements CorePlugin {
   langComponentMap: LangComponentMap
   codeBlocks: CodeBlock[]
   extraVnodes: UnwrapNestedRefs<VNode[]>
-  disableTeleport: Ref<boolean>
 
   constructor(langComponentMap: LangComponentMap) {
     this.langComponentMap = langComponentMap
     this.codeBlocks = []
     this.extraVnodes = reactive<VNode[]>([])
-    this.disableTeleport = ref(true)
 
     const langs = Object.keys(langComponentMap)
     this.mditCodeRendererMap = {}
@@ -71,6 +69,7 @@ class CustomCodeBlockRendererPlugin implements CorePlugin {
       lang: codeblock.lang,
       code: codeblock.code,
       config,
+      key: codeblock.id
     })
     return h(Teleport, {
       to: `#${codeblock.id}`,

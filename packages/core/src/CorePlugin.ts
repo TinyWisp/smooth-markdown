@@ -1,4 +1,4 @@
-import type { CmDomEventHandlerMap, CmDocChanged, MditCodeRendererMap, MditRendererRuleMap, CommandMap, MditLoadPlugin, MditInitOptions } from "./CoreEditor/types"
+import type { CmDomEventHandlerMap, CmPasteEventHandlerMap, CmDocChanged, MditCodeRendererMap, MditRendererRuleMap, CommandMap, MditLoadPlugin, MditInitOptions } from "./CoreEditor/types"
 import type { Extension as CmExtension } from '@codemirror/state'
 import type { VNode, UnwrapNestedRefs } from 'vue'
 import { reactive } from 'vue'
@@ -18,6 +18,7 @@ export interface CorePlugin {
 
   // codemirror
   cmDomEventHandlerMap?: CmDomEventHandlerMap
+  cmPasteEventHandlerMap?: CmPasteEventHandlerMap
   cmExtensions?: CmExtension[]
   cmDocChanged?: CmDocChanged
   cmMarkdownConfig?: object
@@ -133,6 +134,17 @@ export class CorePluginManager {
     })
 
     return cmDomEventHandlerMap
+  }
+
+  getCmPasteEventHandlerMap(): CmPasteEventHandlerMap {
+    const cmPasteEventHandlerMap: CmPasteEventHandlerMap = {}
+    this.plugins.forEach((plugin) => {
+      if (plugin.cmPasteEventHandlerMap) {
+        Object.assign(cmPasteEventHandlerMap, plugin.cmPasteEventHandlerMap)
+      }
+    })
+
+    return cmPasteEventHandlerMap
   }
 
   getCmExtensions(): CmExtension[] {

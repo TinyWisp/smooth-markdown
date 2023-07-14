@@ -1,31 +1,26 @@
-import type { CorePlugin, CoreContext, CmDomEventHandlerMap, FnUpload } from '@smooth-vue-markdown-editor/core'
+import type { CorePlugin, CoreContext, CmPasteEventHandlerMap, FnUpload } from '@smooth-vue-markdown-editor/core'
 import { inject } from 'vue' 
+import type { TransferListItem } from 'worker_threads'
 
 /**
  * upload the image from clipboard and insert it into the editor
  */
 class PasteImagePlugin implements CorePlugin {
-  cmDomEventHandlerMap: CmDomEventHandlerMap
+  cmPasteEventHandlerMap: CmPasteEventHandlerMap
 
   /**
    * @param fnUpload : the upload function
    */
   constructor(fnUpload: FnUpload) {
-    this.cmDomEventHandlerMap = {
-      paste: async (event: Event) => {
-        const cevent = event as ClipboardEvent
-        if(cevent.clipboardData?.items) {
-          for (const item of cevent.clipboardData.items) {
-            if (item.type.indexOf("image") >= 0) {
-              const file = item.getAsFile();
-              if (file) {
-                const url = await fnUpload(file)
-                this.insertImage(url)
-              }
-            }
+    this.cmPasteEventHandlerMap = {
+      'image/*': async (item: DataTransferItem) => {
+        if (item.type.indexOf('image') >= 0) {
+          const file = item.getAsFile();
+          if (file) {
+            const url = await fnUpload(file)
+            this.insertImage(url)
           }
         }
-
       }
     }
   }

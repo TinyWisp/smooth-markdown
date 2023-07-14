@@ -11,7 +11,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "build:lib": "./build.types.sh && rollup --bundleConfigAsCjs --config build.lib.config.js && rm -rf ./lib/types"
+    "build:lib": "./build.types.sh && rollup --bundleConfigAsCjs --config build.lib.config.js"
   },
   "dependencies": {
     "vue": "^3.2.47"
@@ -20,7 +20,8 @@
     "@codemirror/language-data": "^6.3.1",
     "@codemirror/state": "^6.2.1",
     "codemirror": "^6.0.1",
-    "copy-to-clipboard": "^3.3.3"
+    "copy-to-clipboard": "^3.3.3",
+    "highlight.js": "^11.8.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.4",

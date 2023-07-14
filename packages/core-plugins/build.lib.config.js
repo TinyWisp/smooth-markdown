@@ -73,7 +73,8 @@ const external = [
   'vue',
   'codemirror',
   '@codemirror/state',
-  '@codemirror/view'
+  '@codemirror/view',
+  '@codemirror/language-data'
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -106,6 +107,16 @@ buildPlugin({
   input: 'src/plugins/CustomLinkAttrsPlugin.ts',
   outputDir: 'lib/customLinkAttrs',
   outputName: 'customLinkAttrs',
+});
+buildPlugin({
+  input: 'src/plugins/HighlightCodeBlockInEditableAreaPlugin.ts',
+  outputDir: 'lib/highlightCodeBlockInEditableArea',
+  outputName: 'highlightCodeBlockInEditableArea',
+});
+buildPlugin({
+  input: 'src/plugins/HighlightPlugin/index.ts',
+  outputDir: 'lib/highlight',
+  outputName: 'highlight',
 });
 // ----- build a plugin ------
 function buildPlugin({input, outputDir, outputName}) {
@@ -150,7 +161,52 @@ function buildPlugin({input, outputDir, outputName}) {
       resolve(baseConfig.plugins.resolve)
     ],
   });
+
+  builds.push({
+    input: 'lib/types/entry.d.ts',
+    output: {
+      file: 'lib/index.d.ts',
+      format: 'esm'
+    },
+    plugins: [
+      dts.default()
+    ]
+  });
 }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+/*
+buildAsyncPlugin({
+  input: 'src/plugins/HighlightCodeBlockInEditableAreaPlugin.ts',
+  outputDir: 'lib/highlightCodeBlockInEditableArea',
+});
+buildAsyncPlugin({
+  input: 'src/plugins/HighlightPlugin/index.ts',
+  outputDir: 'lib/highlight',
+});
+function buildAsyncPlugin({input, outputDir}) {
+  builds.push({
+    input: input,
+    external,
+    output: {
+      dir: outputDir,
+      format: 'esm',
+      exports: 'named',
+    },
+    plugins: [
+      replace(baseConfig.plugins.replace),
+      ...baseConfig.plugins.preVue,
+      vue(baseConfig.plugins.vue),
+      ...baseConfig.plugins.postVue,
+      babel(baseConfig.plugins.babel),
+      commonjs(),
+      typescript(),
+      resolve(baseConfig.plugins.resolve),
+    ],
+  });
+}
+*/
 
 // Export config
 export default builds;

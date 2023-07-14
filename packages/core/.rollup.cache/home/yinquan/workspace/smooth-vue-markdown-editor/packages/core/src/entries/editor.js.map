@@ -1,1 +1,0 @@
-{"version":3,"file":"editor.js","sourceRoot":"","sources":["editor.ts"],"names":[],"mappings":"AAAA,OAAO,UAAU,MAAM,eAAe,CAAA;AAEtC,eAAe,UAAU,CAAA","sourcesContent":["import CoreEditor from \"../CoreEditor\"\n\nexport default CoreEditor"]}

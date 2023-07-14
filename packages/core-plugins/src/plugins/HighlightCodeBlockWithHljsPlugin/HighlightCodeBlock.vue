@@ -5,22 +5,20 @@
     <div class="svme-codeblock-copied" v-show="copied">
       {{ config.tip?.copied }}
     </div>
-    <code ref="codeBlockEl"></code>
+    <code ref="codeBlockEl" :class="'hljs language-' + lang">{{ code }}</code>
   </div>
+
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import type { Ref, PropType } from 'vue'
 import copyToClipboard from 'copy-to-clipboard'
-import { minimalSetup, EditorView } from "codemirror"
-import { languages } from '@codemirror/language-data'
-import type { LanguageDescription } from '@codemirror/language'
-import type { Extension } from '@codemirror/state'
-import { defaultTheme } from './defaultTheme'
+import hljs from 'highlight.js/lib/common'
+import { getLangDef } from './hljs'
+import 'highlight.js/styles/vs2015.css'
 
-export interface HighlightCodeBlockConfig {
-  theme?: Extension
+export interface HighlightCodeBlockWithHljsConfig {
   tip?: {
     copied: string
   }
@@ -36,11 +34,10 @@ const props = defineProps({
     required: true,
   },
   config: {
-    type: Object as PropType<HighlightCodeBlockConfig>,
+    type: Object as PropType<HighlightCodeBlockWithHljsConfig>,
     required: false,
     default: () => {
       return {
-        theme: defaultTheme,
         tip: {
           copied: 'Copied'
         }
@@ -49,7 +46,7 @@ const props = defineProps({
   }
 })
 
-const codeBlockEl: Ref<Element | null> = ref(null)
+const codeBlockEl: Ref<HTMLElement | null> = ref(null)
 const copied: Ref<boolean> = ref(false)
 const stayCopiedTime = 5000
 
@@ -61,22 +58,18 @@ function copy() {
   }, stayCopiedTime)
 }
 
-onMounted(async () => {
-  const extensions: Extension[] = [minimalSetup, props.config.theme ?? defaultTheme]
-  const langDes: LanguageDescription | undefined = languages.find((item) => {
-    return (item.name.toLowerCase() === props.lang || item.alias.includes(props.lang) || item.extensions.includes(props.lang))
-  })
-
-  if (langDes) {
-    const langSupport = await langDes.load()
-    extensions.push(langSupport)
+onMounted(() => {
+  const langDef = getLangDef(props.lang)
+  if (langDef) {
+    (async() => {
+      if (!hljs.getLanguage(props.lang)) {
+        const langDefModule = await langDef()
+        hljs.registerLanguage(props.lang, langDefModule.default)
+      }
+      const el = document.getElementById('mytestcb')
+      codeBlockEl.value && hljs.highlightElement(codeBlockEl.value)
+    })()
   }
-
-  new EditorView({
-    doc: props.code,
-    extensions,
-    parent: codeBlockEl.value!
-  })
 })
 </script>
 

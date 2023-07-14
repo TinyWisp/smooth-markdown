@@ -1,1 +1,0 @@
-{"version":3,"file":"highlightPlugin.js","sourceRoot":"","sources":["highlightPlugin.ts"],"names":[],"mappings":"AAAA,cAAc,4BAA4B,CAAA","sourcesContent":["export * from '../plugins/HighlightPlugin'"]}
