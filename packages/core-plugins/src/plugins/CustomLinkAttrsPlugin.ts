@@ -6,6 +6,7 @@ export type FnCustomLinkAttrs = (oldAttrMap: MditTokenAttrMap) => MditTokenAttrM
  * customize a link's attributes, like src, title, referer and so on.
  */
 class CustomLinkAttrsPlugin implements CorePlugin {
+  name: string = 'core-plugin-custom-link-attrs'
   mditLoadPlugins: MditLoadPlugin[]
 
   constructor(fnCustomLinkAttrs: FnCustomLinkAttrs) {

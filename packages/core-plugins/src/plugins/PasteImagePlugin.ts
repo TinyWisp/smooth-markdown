@@ -1,12 +1,12 @@
 import type { CorePlugin, CoreContext, CmPasteEventHandlerMap, FnUpload } from '@smooth-vue-markdown-editor/core'
-import { inject } from 'vue' 
-import type { TransferListItem } from 'worker_threads'
 
 /**
  * upload the image from clipboard and insert it into the editor
  */
 class PasteImagePlugin implements CorePlugin {
+  name: string = 'core-plugin-paste-image'
   cmPasteEventHandlerMap: CmPasteEventHandlerMap
+  getCoreContext?: () => CoreContext
 
   /**
    * @param fnUpload : the upload function
@@ -14,12 +14,10 @@ class PasteImagePlugin implements CorePlugin {
   constructor(fnUpload: FnUpload) {
     this.cmPasteEventHandlerMap = {
       'image/*': async (item: DataTransferItem) => {
-        if (item.type.indexOf('image') >= 0) {
-          const file = item.getAsFile();
-          if (file) {
-            const url = await fnUpload(file)
-            this.insertImage(url)
-          }
+        const file = item.getAsFile();
+        if (file) {
+          const url = await fnUpload(file)
+          this.insertImage(url)
         }
       }
     }
@@ -31,7 +29,7 @@ class PasteImagePlugin implements CorePlugin {
    * @returns 
    */
   private insertImage (url: string): void {
-    const getCoreContext = inject<() => CoreContext>('getCoreContext')
+    const getCoreContext = this?.getCoreContext
     if (!getCoreContext) {
       console.error('PasteImagePlugin Error: cannot access the getCoreContext() method')
       return

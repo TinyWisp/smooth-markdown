@@ -9,6 +9,8 @@ declare module 'markdown-it-deflist'
 declare module 'markdown-it-images-preview'
 declare module 'markdown-it-link-attributes'
 declare module 'markdown-it/lib/common/utils'
+declare module 'lodash/get'
+declare module 'lodash/merge'
 declare module 'vue-affix'
 declare module '*.vue' {
   import { defineComponent } from 'vue'

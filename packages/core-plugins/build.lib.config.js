@@ -88,38 +88,24 @@ const globals = {
 // Customize configs for individual targets
 const builds = [];
 
-buildPlugin({
-  input: 'src/plugins/HandleImageClickPlugin.ts',
-  outputDir: 'lib/handleImageClick',
-  outputName: 'handleImageClick',
-});
-buildPlugin({
-  input: 'src/plugins/PasteImagePlugin.ts',
-  outputDir: 'lib/pasteImage',
-  outputName: 'pasteImage',
-});
-buildPlugin({
-  input: 'src/plugins/CustomCodeBlockRendererPlugin.ts',
-  outputDir: 'lib/customCodeBlockRenderer',
-  outputName: 'customCodeBlockRenderer',
-});
-buildPlugin({
-  input: 'src/plugins/CustomLinkAttrsPlugin.ts',
-  outputDir: 'lib/customLinkAttrs',
-  outputName: 'customLinkAttrs',
-});
-buildPlugin({
-  input: 'src/plugins/HighlightCodeBlockInEditableAreaPlugin.ts',
-  outputDir: 'lib/highlightCodeBlockInEditableArea',
-  outputName: 'highlightCodeBlockInEditableArea',
-});
-buildPlugin({
-  input: 'src/plugins/HighlightPlugin/index.ts',
-  outputDir: 'lib/highlight',
-  outputName: 'highlight',
-});
+/*
+buildPlugin('HandleImageClickPlugin');
+buildPlugin('PasteImagePlugin');
+buildPlugin('CustomCodeBlockRendererPlugin');
+buildPlugin('CustomLinkAttrsPlugin');
+buildPlugin('HighlightCodeBlockInEditableAreaPlugin');
+buildAsyncPlugin('HighlightCodeBlockWithHljsPlugin');
+buildAsyncPlugin('HighlightCodeBlockWithCmPlugin');
+*/
+buildAllPluginsInOne();
+
 // ----- build a plugin ------
-function buildPlugin({input, outputDir, outputName}) {
+function buildPlugin(pluginName) {
+  const input = `src/plugins/${pluginName}.ts`;
+  const flPluginName = pluginName.charAt(0).toLowerCase() + pluginName.substr(1).replace(/Plugin$/, '');
+  const outputDir = `lib/${flPluginName}`;
+  const outputName = flPluginName;
+ 
   builds.push({
     input: input,
     external,
@@ -163,9 +149,9 @@ function buildPlugin({input, outputDir, outputName}) {
   });
 
   builds.push({
-    input: 'lib/types/entry.d.ts',
+    input: `lib/types/${pluginName}.d.ts`,
     output: {
-      file: 'lib/index.d.ts',
+      file: `lib/${flPluginName}/index.d.ts`,
       format: 'esm'
     },
     plugins: [
@@ -174,24 +160,55 @@ function buildPlugin({input, outputDir, outputName}) {
   });
 }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-/*
-buildAsyncPlugin({
-  input: 'src/plugins/HighlightCodeBlockInEditableAreaPlugin.ts',
-  outputDir: 'lib/highlightCodeBlockInEditableArea',
-});
-buildAsyncPlugin({
-  input: 'src/plugins/HighlightPlugin/index.ts',
-  outputDir: 'lib/highlight',
-});
-function buildAsyncPlugin({input, outputDir}) {
+// ---- build a plugin that will import dependencies asyncrously ----
+function buildAsyncPlugin(pluginName) {
+  const input = `src/plugins/${pluginName}/index.ts`
+  const flPluginName = pluginName.charAt(0).toLowerCase() + pluginName.substr(1).replace(/Plugin$/, '');
+  const outputDir = `lib/${flPluginName}`;
+ 
   builds.push({
     input: input,
     external,
     output: {
       dir: outputDir,
       format: 'esm',
+      exports: 'named'
+    },
+    plugins: [
+      replace(baseConfig.plugins.replace),
+      ...baseConfig.plugins.preVue,
+      vue(baseConfig.plugins.vue),
+      ...baseConfig.plugins.postVue,
+      babel(baseConfig.plugins.babel),
+      commonjs(),
+      typescript(),
+      resolve(baseConfig.plugins.resolve),
+    ],
+  });
+
+  builds.push({
+    input: `lib/types/${pluginName}/index.d.ts`,
+    output: {
+      dir: `lib/${flPluginName}`,
+      format: 'esm'
+    },
+    plugins: [
+      dts.default()
+    ]
+  })
+}
+
+
+// ---- build all plugins in one ----- 
+function buildAllPluginsInOne() {
+  const input = `src/index.ts`;
+  
+  builds.push({
+    input: input,
+    external,
+    output: {
+      dir: 'lib/esm',
+      format: 'es',
       exports: 'named',
     },
     plugins: [
@@ -205,8 +222,51 @@ function buildAsyncPlugin({input, outputDir}) {
       resolve(baseConfig.plugins.resolve),
     ],
   });
+
+  builds.push({
+    input: input,
+    external,
+    output: {
+      dir: 'lib/cjs',
+      format: 'cjs',
+      exports: 'named',
+      globals,
+    },
+    plugins: [
+      replace(baseConfig.plugins.replace),
+      ...baseConfig.plugins.preVue,
+      vue(baseConfig.plugins.vue),
+      ...baseConfig.plugins.postVue,
+      babel(baseConfig.plugins.babel),
+      commonjs(),
+      typescript(),
+      resolve(baseConfig.plugins.resolve)
+    ],
+  });
+
+  builds.push({
+    input: `lib/types/index.d.ts`,
+    output: {
+      file: `lib/esm/index.d.ts`,
+      format: 'es'
+    },
+    plugins: [
+      dts.default()
+    ]
+  });
+
+  builds.push({
+    input: `lib/types/index.d.ts`,
+    output: {
+      file: `lib/cjs/index.d.ts`,
+      format: 'cjs'
+    },
+    plugins: [
+      dts.default()
+    ]
+  });
 }
-*/
+
 
 // Export config
 export default builds;

@@ -6,7 +6,7 @@
   "main": "./lib/index.umd.js",
   "module": "./lib/index.esm.js",
   "browser": "./lib/index.esm.js",
-  "types": "./lib/index.d.ts",
+  "typings": "./lib/index.d.ts",
   "keywords": [
     "vue",
     "markdown",
@@ -25,7 +25,6 @@
   "dependencies": {
     "codemirror6-themes": "^0.1.2",
     "copy-to-clipboard": "^3.3.3",
-    "markdown-it-link-attributes": "^4.0.1",
     "vue-affix": "^0.5.2"
   },
   "devDependencies": {
@@ -70,11 +69,13 @@
     "@codemirror/state": "^6.2.1",
     "@codemirror/view": "^6.12.0",
     "@types/markdown-it": "^12.2.3",
+    "lodash": "^4.17.21",
     "markdown-it": "^13.0.1",
     "markdown-it-br": "^1.0.0",
     "markdown-it-deflist": "^2.1.0",
     "markdown-it-emoji": "^2.0.2",
     "markdown-it-ins": "^3.0.1",
+    "markdown-it-link-attributes": "^4.0.1",
     "markdown-it-mark": "^3.0.1",
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",

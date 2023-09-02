@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import CoreEditor from './views/CoreEditor.vue'
+import BasicExample from './views/vuetify/BasicExample.vue'
 </script>
 
 <template>
-  <core-editor></core-editor>
+  <basic-example></basic-example>
 </template>
 
 <style scoped>

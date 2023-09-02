@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import VuetifyMarkdownEditor from './VuetifyMarkdownEditor/VuetifyMarkdownEditor.vue'
-import toolbarImageBtn from './plugins/ToolbarImageBtnPlugin'
-import toolbarTableBtn from './plugins/ToolbarTableBtnPlugin'
-import toolbarLinkBtn from './plugins/ToolbarLinkBtnPlugin'
 import { ref } from 'vue'
 
 const doc = ref<string>('hello world')
@@ -17,7 +14,7 @@ function upload(file: File) {
 </script>
 
 <template>
-  <vuetify-markdown-editor v-model="doc" v-model:mode="mode" height="30em" :plugins="[toolbarImageBtn(upload), toolbarTableBtn(), toolbarLinkBtn()]"></vuetify-markdown-editor>
+  <vuetify-markdown-editor v-model="doc" v-model:mode="mode" height="30em"></vuetify-markdown-editor>
 </template>
 
 <style>

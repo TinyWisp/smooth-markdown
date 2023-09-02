@@ -173,7 +173,18 @@ function pasteHandler(cevent: ClipboardEvent) {
     for (const item of cevent.clipboardData.items) {
       if (codeMirror.pasteEventHandlerMap[item.type]) {
         (codeMirror.pasteEventHandlerMap[item.type])(item)
+        return
       }
+
+      for (const handlerType of Object.keys(codeMirror.pasteEventHandlerMap)) {
+        const tmps1 = handlerType.split('/')
+        const tmps2 = item.type.split('/')
+        if (tmps1.length === 2 && tmps2.length === 2 && tmps1[0] === tmps2[0] && tmps1[1] === '*') {
+          codeMirror.pasteEventHandlerMap[handlerType](item)
+          return
+        }
+      }
+
       if (item.type === 'text/plain') {
         item.getAsString((text: string) => {
           insertOrReplace(text)
@@ -363,6 +374,7 @@ function getCoreContext(): CoreContext {
 }
 
 provide('getCoreContext', getCoreContext)
+pluginManager.setGetCoreContext(getCoreContext)
 
 // ------------------------------------------- expose ------------------------------------------------
 defineExpose({ insertOrReplace, command, getCoreContext })

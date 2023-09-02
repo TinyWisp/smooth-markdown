@@ -1,7 +1,7 @@
 import type { MditCodeRendererMap, CorePlugin } from '@smooth-vue-markdown-editor/core'
-import type { Component, Ref, UnwrapNestedRefs, VNode } from 'vue'
+import type { Component, UnwrapNestedRefs, VNode } from 'vue'
 import { uniqId } from '@smooth-vue-markdown-editor/core'
-import { nextTick, ref, reactive, Teleport, h } from 'vue'
+import { nextTick, reactive, Teleport, h } from 'vue'
 
 export interface LangComponentMap {
   [lang: string]: [Component, object?]
@@ -17,6 +17,7 @@ export interface CodeBlock {
  * render a code block using a user defined component
  */
 class CustomCodeBlockRendererPlugin implements CorePlugin {
+  name: string = 'core-plugin-custom-code-block-renderer'
   mditCodeRendererMap: MditCodeRendererMap
   langComponentMap: LangComponentMap
   codeBlocks: CodeBlock[]

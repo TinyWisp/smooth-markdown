@@ -1,4 +1,3 @@
-import type { VuetifyPlugin } from '@/plugins/VuetifyPlugin'
 import type { VNode, Ref } from 'vue'
 
 export interface ToolbarItem {
@@ -7,7 +6,7 @@ export interface ToolbarItem {
   tip?: string | (() => string)
   cmd?: string
   exec?: () => void
-  render?: () => VNode
+  vnode?: () => VNode
 }
 
 export interface ToolbarItemMap {

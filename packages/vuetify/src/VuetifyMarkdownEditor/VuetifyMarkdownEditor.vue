@@ -20,7 +20,7 @@
           <v-spacer v-else-if="item.name === 'spacer'"/>
 
           <!-- -->
-          <VNodeRenderer :vnode="item.render()" v-else-if="item.render" />
+          <v-node-renderer :vnodes="[item.vnode()]" v-else-if="item.vnode" />
 
           <!-- button -->
           <v-btn
@@ -32,7 +32,7 @@
             @click="clickToolbarButton(item)"
             v-else>
             <v-icon small color="grey darken-1" :icon="typeof item.icon === 'function' ? item.icon() : item.icon"></v-icon>
-            <v-tooltip location="bottom" activator="parent">{{ typeof item.tip === 'function' ? item.tip() : $t(`svme.toolbar.${item.name}`)}}</v-tooltip>
+            <v-tooltip location="bottom" activator="parent">{{ typeof item.tip === 'function' ? item.tip() : t(`svme.toolbar.${item.name}`)}}</v-tooltip>
           </v-btn>
 
         </template>
@@ -46,11 +46,12 @@
 
 <script setup lang="ts">
 import { computed, provide, ref } from 'vue'
-import { CoreEditor } from '@smooth-vue-markdown-editor/core'
+import { CoreEditor, VNodeRenderer, lang, t } from '@smooth-vue-markdown-editor/core'
 import type { ToolbarItemMap, ToolbarItem, VuetifyContext, Mode } from './types'
-import { useI18n } from 'vue-i18n'
-import { VuetifyPluginManager, type VuetifyPlugin } from '@/plugins/VuetifyPlugin'
-import VNodeRenderer from './VNodeRenderer.vue'
+import { VuetifyPluginManager, type VuetifyPlugin } from '../VuetifyPlugin'
+import { VToolbar } from 'vuetify/lib/components/VToolbar/index'
+import en from '../langs/en'
+import zh_CN from '../langs/zh_CN'
 import {
   mdiUndo,
   mdiRedo,
@@ -97,11 +98,12 @@ const props = withDefaults(defineProps<VuetifyMarkdownEditorProps>(), {
   plugins: () => [],
 })
 
-const { t } = useI18n()
 const emit = defineEmits(['update:modelValue', 'update:mode'])
 const theCoreEditor = ref<InstanceType<typeof CoreEditor> | null>(null)
 const pluginManager = new VuetifyPluginManager()
 pluginManager.registerPlugins(props.plugins)
+lang.merge({en, zh_CN})
+lang.merge(pluginManager.getMessageMap())
 const toolbarItemMap: ToolbarItemMap = {
   divider: {
     name: 'divider',
@@ -266,6 +268,7 @@ function getContext(): VuetifyContext {
     methods: {
       command,
       insertOrReplace,
+      t
     },
     refs: {
       coreEditor: theCoreEditor,
@@ -285,4 +288,4 @@ provide('getVuetifyContext', getContext)
 .svme-toolbar {
   background-color: white;
 }
-</style>
+</style>@/VuetifyPlugin

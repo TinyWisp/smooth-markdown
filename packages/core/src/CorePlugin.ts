@@ -1,4 +1,4 @@
-import type { CmDomEventHandlerMap, CmPasteEventHandlerMap, CmDocChanged, MditCodeRendererMap, MditRendererRuleMap, CommandMap, MditLoadPlugin, MditInitOptions } from "./CoreEditor/types"
+import type { CmDomEventHandlerMap, CmPasteEventHandlerMap, CmDocChanged, MditCodeRendererMap, MditRendererRuleMap, CommandMap, MditLoadPlugin, MditInitOptions, CoreContext } from "./CoreEditor/types"
 import type { Extension as CmExtension } from '@codemirror/state'
 import type { VNode, UnwrapNestedRefs } from 'vue'
 import { reactive } from 'vue'
@@ -8,6 +8,9 @@ import { reactive } from 'vue'
  * prefix 'cm' indicates that the function/property is related to codemirror
  */
 export interface CorePlugin {
+  name: string
+  getCoreContext?: () => CoreContext
+
   // markdown-it
   mditInitOptions?: MditInitOptions
   mditLoadPlugins?: MditLoadPlugin[]
@@ -54,9 +57,35 @@ export class CorePluginManager {
    * @param plugin 
    */
   registerPlugin(plugin: CorePlugin): void {
+    if (plugin.name.indexOf('core-plugin-') !== 0) {
+      console.error('a valid plugin has a name that begins with "core-plugin-"')
+      return
+    }
+
     this.plugins.push(plugin)
   }
 
+  /**
+   * unregister a plugin
+   */
+  unregisterPlugin(name: string): void {
+    this.plugins = this.plugins.filter((plugin) => {
+      return plugin.name !== name
+    })
+  }
+
+  /**
+   * set the getCoreContext method for all the plugins
+   */
+  setGetCoreContext(fnGetCoreContext: () => CoreContext) {
+    for (let i=0; i<this.plugins.length; i++) {
+      this.plugins[i].getCoreContext = fnGetCoreContext
+    }
+  }
+
+  /**
+   * execute every plugin's midtBeforeRender method
+   */
   mditBeforeRender(): void {
     this.plugins.forEach((plugin) => {
       plugin.mditBeforeRender && plugin.mditBeforeRender.apply(plugin)
@@ -93,7 +122,9 @@ export class CorePluginManager {
     const rendererRuleMap: MditRendererRuleMap = {}
     this.plugins.forEach((plugin) => {
       if (plugin.mditRendererRuleMap) {
-        Object.assign(rendererRuleMap, plugin.mditRendererRuleMap)
+        for (const rule of Object.keys(plugin.mditRendererRuleMap)) {
+          rendererRuleMap[rule] = plugin.mditRendererRuleMap[rule].bind(plugin)
+        }
       }
     })
 
@@ -140,7 +171,9 @@ export class CorePluginManager {
     const cmPasteEventHandlerMap: CmPasteEventHandlerMap = {}
     this.plugins.forEach((plugin) => {
       if (plugin.cmPasteEventHandlerMap) {
-        Object.assign(cmPasteEventHandlerMap, plugin.cmPasteEventHandlerMap)
+        for (const ctype of Object.keys(plugin.cmPasteEventHandlerMap)) {
+          cmPasteEventHandlerMap[ctype] = plugin.cmPasteEventHandlerMap[ctype].bind(plugin)
+        }
       }
     })
 
