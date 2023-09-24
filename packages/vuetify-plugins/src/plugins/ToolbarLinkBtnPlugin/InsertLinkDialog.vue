@@ -44,12 +44,17 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
 import { mdiClose } from '@mdi/js'
-import { t } from '@smooth-vue-markdown-editor/core'
+import type { VuetifyContext } from '@smooth-vue-markdown-editor/vuetify'
 
 export default defineComponent({
   setup() {
+    const getVuetifyContext = inject<() => VuetifyContext>('getVuetifyContext')
+    const context = (getVuetifyContext as () => VuetifyContext)()
+    const { t } = context.methods
+
     return { t }
   },
+
   props: {
     modelValue: {
       type: Boolean,

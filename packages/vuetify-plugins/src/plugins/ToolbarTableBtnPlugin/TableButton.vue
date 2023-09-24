@@ -29,10 +29,10 @@ import InsertTableBoard from './InsertTableBoard.vue'
 export default defineComponent({
   setup() {
     const getVuetifyContext = inject<() => VuetifyContext>('getVuetifyContext')
+    const context = (getVuetifyContext as () => VuetifyContext)()
+    const { command, t } = context.methods
 
-    return {
-      getVuetifyContext
-    }
+    return { command, t }
   },
   components: {
     InsertTableBoard
@@ -44,12 +44,7 @@ export default defineComponent({
   },
   methods: {
     insertTable(row: number, col: number) {
-      if (!this.getVuetifyContext) {
-        console.error('ToolbarTableBtn: cannot access the getVuetifyContext() method')
-        return
-      }
-      const context = this.getVuetifyContext()
-      context.methods.command('table', {row, col})
+      this.command('table', {row, col})
     },
   }
 })

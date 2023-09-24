@@ -11,6 +11,7 @@ import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts'
 import json from '@rollup/plugin-json'
+import vuetify from 'vite-plugin-vuetify'
 
 const esbrowserslist = ['last 2 versions and > 2%'];
 
@@ -75,6 +76,7 @@ const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
   'vue',
+  'vuetify'
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -82,7 +84,8 @@ const external = [
 const globals = {
   // Provide global variable names to replace your external imports
   // eg. jquery: '$'
-  vue: 'Vue'
+  vue: 'Vue',
+  vuetify: 'Vuetify'
 };
 
 // Customize configs for individual targets
@@ -108,6 +111,7 @@ builds.push({
     json(),
     typescript(),
     resolve(baseConfig.plugins.resolve),
+    vuetify()
   ],
 });
 
@@ -131,6 +135,7 @@ builds.push({
     json(),
     typescript(),
     resolve(baseConfig.plugins.resolve),
+    vuetify()
   ],
 });
 

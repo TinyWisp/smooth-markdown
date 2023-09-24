@@ -54,8 +54,3 @@ export class Lang {
     console.log(this.messageMap)
   }
 }
-
-const lang = new Lang()
-const t = lang.t.bind(lang)
-
-export { lang, t }

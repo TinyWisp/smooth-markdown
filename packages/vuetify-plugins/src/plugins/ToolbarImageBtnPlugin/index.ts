@@ -4,7 +4,7 @@ import type { FnUpload } from './types'
 import ImageButton from './ImageButton.vue'
 
 class ToolbarImageBtnPlugin implements VuetifyPlugin {
-  readonly name = 'ToolbarImageBtnPlugin'
+  readonly name = 'vuetify-plugin-toolbar-image-btn'
   fnUploadImage: FnUpload
   toolbarItemMap: ToolbarItemMap
 

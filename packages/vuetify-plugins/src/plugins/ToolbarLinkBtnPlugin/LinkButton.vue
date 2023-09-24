@@ -22,16 +22,14 @@ import { defineComponent, inject } from 'vue'
 import type { VuetifyContext } from '@smooth-vue-markdown-editor/vuetify'
 import { mdiLinkVariant } from '@mdi/js'
 import InsertLinkDialog from './InsertLinkDialog.vue'
-import { t } from '@smooth-vue-markdown-editor/core'
 
 export default defineComponent({
   setup() {
     const getVuetifyContext = inject<() => VuetifyContext>('getVuetifyContext')
+    const context = (getVuetifyContext as () => VuetifyContext)()
+    const { command, t } = context.methods
 
-    return {
-      getVuetifyContext,
-      t
-    }
+    return { command, t }
   },
   data: function () {
     return {
@@ -57,12 +55,7 @@ export default defineComponent({
     },
     insertLink() {
       this.hideLinkDialog()
-      if (!this.getVuetifyContext) {
-        console.error('ToolbarImageBtn: cannot access the getVuetifyContext() method')
-        return
-      }
-      const context = this.getVuetifyContext()
-      context.methods.command('link', {
+      this.command('link', {
         title: this.linkDialog.title,
         url: this.linkDialog.url
       })

@@ -46,10 +46,9 @@
 
 <script setup lang="ts">
 import { computed, provide, ref } from 'vue'
-import { CoreEditor, VNodeRenderer, lang, t } from '@smooth-vue-markdown-editor/core'
+import { CoreEditor, VNodeRenderer, Lang } from '@smooth-vue-markdown-editor/core'
 import type { ToolbarItemMap, ToolbarItem, VuetifyContext, Mode } from './types'
 import { VuetifyPluginManager, type VuetifyPlugin } from '../VuetifyPlugin'
-import { VToolbar } from 'vuetify/lib/components/VToolbar/index'
 import en from '../langs/en'
 import zh_CN from '../langs/zh_CN'
 import {
@@ -98,11 +97,14 @@ const props = withDefaults(defineProps<VuetifyMarkdownEditorProps>(), {
   plugins: () => [],
 })
 
+const lang = new Lang()
+const t = lang.t.bind(lang)
+lang.merge({en, zh_CN})
+
 const emit = defineEmits(['update:modelValue', 'update:mode'])
 const theCoreEditor = ref<InstanceType<typeof CoreEditor> | null>(null)
-const pluginManager = new VuetifyPluginManager()
+const pluginManager = new VuetifyPluginManager(getVuetifyContext)
 pluginManager.registerPlugins(props.plugins)
-lang.merge({en, zh_CN})
 lang.merge(pluginManager.getMessageMap())
 const toolbarItemMap: ToolbarItemMap = {
   divider: {
@@ -263,12 +265,12 @@ function insertOrReplace(text: string, forceNewLine: boolean = false): void {
   theCoreEditor.value!.insertOrReplace(text, forceNewLine)
 }
 
-function getContext(): VuetifyContext {
+function getVuetifyContext(): VuetifyContext {
   const context = {
     methods: {
       command,
       insertOrReplace,
-      t
+      t,
     },
     refs: {
       coreEditor: theCoreEditor,
@@ -279,8 +281,8 @@ function getContext(): VuetifyContext {
   return context
 }
 
-defineExpose({command, insertOrReplace, getContext})
-provide('getVuetifyContext', getContext)
+defineExpose({command, insertOrReplace, getVuetifyContext})
+provide('getVuetifyContext', getVuetifyContext)
 
 </script>
 

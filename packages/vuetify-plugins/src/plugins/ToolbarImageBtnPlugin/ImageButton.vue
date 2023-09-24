@@ -43,16 +43,15 @@ import type { PropType } from 'vue'
 import { mdiImage } from '@mdi/js'
 import type { FnUpload } from './types'
 import type { VuetifyContext } from '@smooth-vue-markdown-editor/vuetify'
-import { t } from '@smooth-vue-markdown-editor/core'
 import InsertNetworkImageDialog from './InsertNetworkImageDialog.vue'
 
 export default defineComponent({
   setup() {
     const getVuetifyContext = inject<() => VuetifyContext>('getVuetifyContext')
+    const context = (getVuetifyContext as () => VuetifyContext)()
+    const { command, t } = context.methods
 
-    return {
-      getVuetifyContext, t
-    }
+    return { command, t }
   },
   components: {
     InsertNetworkImageDialog
@@ -75,12 +74,7 @@ export default defineComponent({
   },
   methods: {
     insert (params: {url: string, title: string}) {
-      if (!this.getVuetifyContext) {
-        console.error('ToolbarImageBtn: cannot access the getVuetifyContext() method')
-        return
-      }
-      const context = this.getVuetifyContext()
-      context.methods.command('image', params)
+      this.command('image', params)
     },
     showNetworkImageDialog () {
       console.log('---showNetworkImageDialog---')

@@ -3,7 +3,7 @@ import type { ToolbarItemMap, VuetifyPlugin } from '@smooth-vue-markdown-editor/
 import TableButton from './TableButton.vue'
 
 class ToolbarTableBtnPlugin implements VuetifyPlugin {
-  readonly name = 'ToolbarTableBtnPlugin'
+  readonly name = 'vuetify-plugin-toolbar-table-btn'
   toolbarItemMap: ToolbarItemMap
 
   constructor() {
@@ -17,6 +17,6 @@ class ToolbarTableBtnPlugin implements VuetifyPlugin {
   }
 }
 
-export default function toolbarTableBtnPlugin() {
+export default function toolbarTableBtn() {
   return new ToolbarTableBtnPlugin()
 }

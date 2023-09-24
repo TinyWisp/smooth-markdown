@@ -3,7 +3,7 @@ import type { ToolbarItemMap, VuetifyPlugin } from '@smooth-vue-markdown-editor/
 import LinkButton from './LinkButton.vue'
 
 class ToolbarLinkBtnPlugin implements VuetifyPlugin {
-  readonly name = 'ToolbarLinkBtnPlugin'
+  readonly name = 'vuetify-plugin-toolbar-link-btn'
   toolbarItemMap: ToolbarItemMap
 
   constructor() {
@@ -17,6 +17,6 @@ class ToolbarLinkBtnPlugin implements VuetifyPlugin {
   }
 }
 
-export default function toolbarLinkBtnPlugin() {
+export default function toolbarLinkBtn() {
   return new ToolbarLinkBtnPlugin()
 }

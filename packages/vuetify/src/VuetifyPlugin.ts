@@ -1,5 +1,5 @@
 import type { CorePlugin, MessageMap } from '@smooth-vue-markdown-editor/core'
-import type { ToolbarItemMap } from './VuetifyMarkdownEditor/types'
+import type { ToolbarItemMap, VuetifyContext } from './VuetifyMarkdownEditor/types'
 import { merge } from 'lodash/merge'
 
 interface VuetifyPlugin {
@@ -7,13 +7,16 @@ interface VuetifyPlugin {
   toolbarItemMap?: ToolbarItemMap
   corePlugins?: CorePlugin[]
   messageMap?: MessageMap
+  getVuetifyContext?: () => VuetifyContext
 }
 
 class VuetifyPluginManager {
   plugins: VuetifyPlugin[]
+  getVuetifyContext: () => VuetifyContext
 
-  constructor() {
+  constructor(getVuetifyContext: () => VuetifyContext) {
     this.plugins = []
+    this.getVuetifyContext = getVuetifyContext
   }
 
   registerPlugins(plugins:  (VuetifyPlugin | CorePlugin)[]) {
@@ -32,6 +35,8 @@ class VuetifyPluginManager {
       console.error('a valid plugin has a name that begins with "vuetify-plugin-"')
       return
     }
+
+    (plugin as VuetifyPlugin).getVuetifyContext = this.getVuetifyContext
 
     this.plugins.push(plugin)
   }

@@ -21,11 +21,16 @@
   </div>
 </template>
 
-<script>
-import { t } from '@smooth-vue-markdown-editor/core'
+<script lang="ts">
+import type { VuetifyContext } from '@smooth-vue-markdown-editor/vuetify'
+import { defineComponent, inject } from 'vue'
 
-export default {
+export default defineComponent({
   setup() {
+    const getVuetifyContext = inject<() => VuetifyContext>('getVuetifyContext')
+    const context = (getVuetifyContext as () => VuetifyContext)()
+    const { t } = context.methods
+
     return { t }
   },
   data: function () {
@@ -36,11 +41,11 @@ export default {
       minColNum: 10,
       curRow: 0,
       curCol: 0,
-      timer: null,
+      timer: 0,
     }
   },
   methods: {
-    setCurrentRowAndCol(row, col) {
+    setCurrentRowAndCol(row: number, col: number) {
       this.curRow = row
       this.curCol = col
 
@@ -83,7 +88,7 @@ export default {
   beforeUnmount () {
     clearInterval(this.timer)
   }
-}
+})
 </script>
 
 <style scoped>

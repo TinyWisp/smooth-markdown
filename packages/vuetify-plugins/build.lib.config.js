@@ -9,7 +9,8 @@ import babel from '@rollup/plugin-babel';
 import PostCSS from 'rollup-plugin-postcss';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
-import dts from 'rollup-plugin-dts'
+import dts from 'rollup-plugin-dts';
+import vuetify from 'vite-plugin-vuetify';
 
 const esbrowserslist = ['last 2 versions and > 2%'];
 
@@ -71,6 +72,7 @@ const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
   'vue',
+  'vuetify'
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -79,6 +81,7 @@ const globals = {
   // Provide global variable names to replace your external imports
   // eg. jquery: '$'
   vue: 'Vue',
+  vuetify: 'Vuetify'
 };
 
 // Customize configs for individual targets
@@ -140,7 +143,8 @@ function buildPlugin(pluginName) {
       babel(baseConfig.plugins.babel),
       commonjs(),
       typescript(),
-      resolve(baseConfig.plugins.resolve)
+      resolve(baseConfig.plugins.resolve),
+      vuetify()
     ],
   });
 
@@ -179,6 +183,7 @@ function buildAsyncPlugin(pluginName) {
       commonjs(),
       typescript(),
       resolve(baseConfig.plugins.resolve),
+      vuetify()
     ],
   });
 
@@ -216,6 +221,7 @@ function buildAllPluginsInOne() {
       commonjs(),
       typescript(),
       resolve(baseConfig.plugins.resolve),
+      vuetify()
     ],
   });
 
@@ -236,7 +242,8 @@ function buildAllPluginsInOne() {
       babel(baseConfig.plugins.babel),
       commonjs(),
       typescript(),
-      resolve(baseConfig.plugins.resolve)
+      resolve(baseConfig.plugins.resolve),
+      vuetify()
     ],
   });
 

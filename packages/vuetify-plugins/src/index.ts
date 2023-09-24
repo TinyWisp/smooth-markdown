@@ -1,5 +1,5 @@
 import toolbarImageBtn from "./plugins/ToolbarImageBtnPlugin"
-import toolbarLinkBtnPlugin from "./plugins/ToolbarLinkBtnPlugin"
-import toolbarTableBtnPlugin from "./plugins/ToolbarTableBtnPlugin"
+import toolbarLinkBtn from "./plugins/ToolbarLinkBtnPlugin"
+import toolbarTableBtn from "./plugins/ToolbarTableBtnPlugin"
 
-export { toolbarImageBtn, toolbarLinkBtnPlugin, toolbarTableBtnPlugin }
+export { toolbarImageBtn, toolbarLinkBtn, toolbarTableBtn }

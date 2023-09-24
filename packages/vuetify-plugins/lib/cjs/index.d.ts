@@ -3,7 +3,7 @@ import { VuetifyPlugin, ToolbarItemMap } from '@smooth-vue-markdown-editor/vueti
 type FnUpload = (file: File) => (string | Promise<string>);
 
 declare class ToolbarImageBtnPlugin implements VuetifyPlugin {
-    readonly name = "ToolbarImageBtnPlugin";
+    readonly name = "vuetify-plugin-toolbar-image-btn";
     fnUploadImage: FnUpload;
     toolbarItemMap: ToolbarItemMap;
     constructor(fnUploadImage: FnUpload);
@@ -11,17 +11,17 @@ declare class ToolbarImageBtnPlugin implements VuetifyPlugin {
 declare function toolbarImageBtn(fnUploadImage: FnUpload): ToolbarImageBtnPlugin;
 
 declare class ToolbarLinkBtnPlugin implements VuetifyPlugin {
-    readonly name = "ToolbarLinkBtnPlugin";
+    readonly name = "vuetify-plugin-toolbar-link-btn";
     toolbarItemMap: ToolbarItemMap;
     constructor();
 }
-declare function toolbarLinkBtnPlugin(): ToolbarLinkBtnPlugin;
+declare function toolbarLinkBtn(): ToolbarLinkBtnPlugin;
 
 declare class ToolbarTableBtnPlugin implements VuetifyPlugin {
-    readonly name = "ToolbarTableBtnPlugin";
+    readonly name = "vuetify-plugin-toolbar-table-btn";
     toolbarItemMap: ToolbarItemMap;
     constructor();
 }
-declare function toolbarTableBtnPlugin(): ToolbarTableBtnPlugin;
+declare function toolbarTableBtn(): ToolbarTableBtnPlugin;
 
-export { toolbarImageBtn, toolbarLinkBtnPlugin, toolbarTableBtnPlugin };
+export { toolbarImageBtn, toolbarLinkBtn, toolbarTableBtn };
