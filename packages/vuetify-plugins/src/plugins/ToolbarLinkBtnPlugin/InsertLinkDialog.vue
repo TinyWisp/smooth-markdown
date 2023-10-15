@@ -16,7 +16,7 @@
             <v-col cols="12">
               <v-text-field
                 :value="title"
-                @input="$emit('update:title', $event)"
+                @update:modelValue="$emit('update:title', $event)"
                 :placeholder="t('svme.insertLinkDialog.titleFieldPlaceHolder')"
                 required>
               </v-text-field>
@@ -24,7 +24,7 @@
             <v-col cols="12">
               <v-text-field
                 :value="url"
-                @input="$emit('update:url', $event)"
+                @update:modelValue="$emit('update:url', $event)"
                 :placeholder="t('svme.insertLinkDialog.urlFieldPlaceHolder')"
                 required></v-text-field>
             </v-col>

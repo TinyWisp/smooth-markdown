@@ -1,4 +1,4 @@
-import type { VNode, Ref } from 'vue'
+import type { VNode, Ref, Component } from 'vue'
 
 export interface ToolbarItem {
   name?: string
@@ -7,6 +7,7 @@ export interface ToolbarItem {
   cmd?: string
   exec?: () => void
   vnode?: () => VNode
+  comp?: Component
 }
 
 export interface ToolbarItemMap {

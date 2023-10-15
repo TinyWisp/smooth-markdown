@@ -19,8 +19,11 @@
           <!-- spacer -->
           <v-spacer v-else-if="item.name === 'spacer'"/>
 
-          <!-- -->
+          <!-- custom button -->
           <v-node-renderer :vnodes="[item.vnode()]" v-else-if="item.vnode" />
+
+          <!-- custom component -->
+          <component :is="item.comp" v-else-if="item.comp"></component>
 
           <!-- button -->
           <v-btn
@@ -28,7 +31,7 @@
             variant="flat"
             color="white"
             class="svme-toolbar-button"
-            :key="item.name"
+            :key="(item.name ?? '') + idx"
             @click="clickToolbarButton(item)"
             v-else>
             <v-icon small color="grey darken-1" :icon="typeof item.icon === 'function' ? item.icon() : item.icon"></v-icon>
@@ -240,7 +243,11 @@ const calcToolbarItems = computed<ToolbarItem[]>(() => {
     }
 
     if (typeof val === 'string' && toolbarItemMap[val]) {
-      items.push(toolbarItemMap[val])
+      const item = { ...toolbarItemMap[val] }
+      if (!item.name) {
+        item.name = val
+      }
+      items.push(item)
       return
     }
 

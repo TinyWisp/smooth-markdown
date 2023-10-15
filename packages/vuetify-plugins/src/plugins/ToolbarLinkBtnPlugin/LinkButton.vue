@@ -4,6 +4,7 @@
     variant="flat"
     color="white"
     class="svme-toolbar-button"
+    @click="showLinkDialog"
   >
     <v-icon small color="grey darken-1" :icon= "mdiLinkVariant"></v-icon>
     <v-tooltip location="bottom" activator="parent">{{ t('svme.toolbar.link') }}</v-tooltip>

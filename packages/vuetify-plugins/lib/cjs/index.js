@@ -8804,7 +8804,7 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
             }, {
               default: vue.withCtx(() => [vue.createVNode(VTextField, {
                 value: _ctx.title,
-                onInput: _cache[1] || (_cache[1] = $event => _ctx.$emit('update:title', $event)),
+                "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.$emit('update:title', $event)),
                 placeholder: _ctx.t('svme.insertLinkDialog.titleFieldPlaceHolder'),
                 required: ""
               }, null, 8 /* PROPS */, ["value", "placeholder"])]),
@@ -8814,7 +8814,7 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
             }, {
               default: vue.withCtx(() => [vue.createVNode(VTextField, {
                 value: _ctx.url,
-                onInput: _cache[2] || (_cache[2] = $event => _ctx.$emit('update:url', $event)),
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.$emit('update:url', $event)),
                 placeholder: _ctx.t('svme.insertLinkDialog.urlFieldPlaceHolder'),
                 required: ""
               }, null, 8 /* PROPS */, ["value", "placeholder"])]),
@@ -8997,7 +8997,8 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
     size: "small",
     variant: "flat",
     color: "white",
-    class: "svme-toolbar-button"
+    class: "svme-toolbar-button",
+    onClick: _ctx.showLinkDialog
   }, {
     default: vue.withCtx(() => [vue.createVNode(VIcon, {
       small: "",
@@ -9020,7 +9021,7 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
       onOk: _cache[3] || (_cache[3] = $event => _ctx.insertLink())
     }, null, 8 /* PROPS */, ["modelValue", "title", "url"])]),
     _: 1 /* STABLE */
-  });
+  }, 8 /* PROPS */, ["onClick"]);
 }
 
 script$2.render = render$2;
@@ -9031,9 +9032,7 @@ class ToolbarLinkBtnPlugin {
   constructor() {
     this.toolbarItemMap = {
       link: {
-        vnode: () => {
-          return vue.h(script$2);
-        }
+        comp: script$2
       }
     };
   }
@@ -9219,9 +9218,7 @@ class ToolbarTableBtnPlugin {
   constructor() {
     this.toolbarItemMap = {
       table: {
-        vnode: () => {
-          return vue.h(script);
-        }
+        comp: script
       }
     };
   }

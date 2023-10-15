@@ -11,8 +11,8 @@ export default defineComponent({
   },
   render () {
     return this.vnodes.length !== 1
-      ? h('div', {}, [this.vnodes])
-      : h(this.vnodes[0])
+      ? h('div', {}, this.vnodes)
+      : this.vnodes[0]
   }
 })
 </script>
