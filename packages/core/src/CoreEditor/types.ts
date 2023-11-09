@@ -44,6 +44,8 @@ export type CmPasteEventHandlerMap = {
 
 export type CmDocChanged = (doc: string) => void
 
+export type CmScrollHandler = (scrollHeight: number, scrollTop: number, scrollOffset: number) => void
+
 // ------------------------------------------------------------------
 
 export interface CoreContext {
@@ -51,7 +53,7 @@ export interface CoreContext {
     [key: string]: Function
   },
   doms: {
-    [key: string]: Ref<HTMLElement | null>
+    [key: string]: HTMLElement | null
   },
   props: {
     [key: string]: any

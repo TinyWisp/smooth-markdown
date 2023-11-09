@@ -1,4 +1,4 @@
-import type { CmDomEventHandlerMap, CmPasteEventHandlerMap, CmDocChanged, MditCodeRendererMap, MditRendererRuleMap, CommandMap, MditLoadPlugin, MditInitOptions, CoreContext } from "./CoreEditor/types"
+import type { CmDomEventHandlerMap, CmPasteEventHandlerMap, CmDocChanged, CmScrollHandler, MditCodeRendererMap, MditRendererRuleMap, CommandMap, MditLoadPlugin, MditInitOptions, CoreContext } from "./CoreEditor/types"
 import type { Extension as CmExtension } from '@codemirror/state'
 import type { VNode, UnwrapNestedRefs } from 'vue'
 import { reactive } from 'vue'
@@ -25,6 +25,7 @@ export interface CorePlugin {
   cmExtensions?: CmExtension[]
   cmDocChanged?: CmDocChanged
   cmMarkdownConfig?: object
+  cmScrollHandler?: CmScrollHandler
 
   // lifecycle
   mounted?: () => void
@@ -37,9 +38,11 @@ export interface CorePlugin {
 
 export class CorePluginManager {
   plugins: CorePlugin[]
+  getCoreContext: () => CoreContext
 
-  constructor() {
+  constructor(getCoreContext: () => CoreContext) {
     this.plugins = []
+    this.getCoreContext = getCoreContext
   }
 
   /**
@@ -62,6 +65,7 @@ export class CorePluginManager {
       return
     }
 
+    plugin.getCoreContext = this.getCoreContext
     this.plugins.push(plugin)
   }
 
@@ -72,15 +76,6 @@ export class CorePluginManager {
     this.plugins = this.plugins.filter((plugin) => {
       return plugin.name !== name
     })
-  }
-
-  /**
-   * set the getCoreContext method for all the plugins
-   */
-  setGetCoreContext(fnGetCoreContext: () => CoreContext) {
-    for (let i=0; i<this.plugins.length; i++) {
-      this.plugins[i].getCoreContext = fnGetCoreContext
-    }
   }
 
   /**
@@ -184,7 +179,9 @@ export class CorePluginManager {
     const exts: CmExtension[] = []
     this.plugins.forEach((plugin) => {
       if (plugin.cmExtensions) {
-        exts.splice(exts.length - 1, 0, plugin.cmExtensions)
+        plugin.cmExtensions.forEach((ext) => {
+          exts.push(ext)
+        })
       }
     })
 
@@ -205,6 +202,12 @@ export class CorePluginManager {
   cmDocChanged(doc: string): void {
     this.plugins.forEach((plugin) => {
       plugin?.cmDocChanged?.(doc)
+    })
+  }
+
+  cmScrollHandler(scrollHeight: number, scrollTop: number, scrollOffset: number) {
+    this.plugins.forEach((plugin) => {
+      plugin?.cmScrollHandler?.(scrollHeight, scrollTop, scrollOffset)
     })
   }
 

@@ -1,3 +1,4 @@
+import type { VuetifyPluginManager } from '@/VuetifyPlugin'
 import type { VNode, Ref, Component } from 'vue'
 
 export interface ToolbarItem {
@@ -15,13 +16,16 @@ export interface ToolbarItemMap {
 }
 
 export interface VuetifyContext {
+  pluginManager: VuetifyPluginManager
   methods: {
     [key: string]: Function
   },
   refs: {
     [key: string]: Ref
   },
-  props: object,
+  props: {
+    [key: string]: any
+  },
 }
 
 export type Mode = 'edit' | 'view' | 'both'

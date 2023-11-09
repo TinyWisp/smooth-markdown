@@ -1,4 +1,4 @@
-import CoreEditor from './CoreEditor.vue' 
-
-export default CoreEditor
 export * from './types'
+export * from './useCodeMirror'
+export * from './useMarkdownIt'
+export * from './useCoreEditor'

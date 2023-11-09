@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import VuetifyMarkdownEditor from './VuetifyMarkdownEditor/VuetifyMarkdownEditor.vue'
+import { showLineNumbers, highlightCodeBlockWithHljs, syncScrollbar } from '@smooth-vue-markdown-editor/core-plugins'
 import { ref } from 'vue'
 
 const doc = ref<string>('hello world')
@@ -14,13 +15,24 @@ function upload(file: File) {
 </script>
 
 <template>
-  <vuetify-markdown-editor v-model="doc" v-model:mode="mode" height="30em"></vuetify-markdown-editor>
+  <div style="width: 1000px; height:500px; border: 1px solid gray; position: relative; left: 100px; top: 100px;">
+    <vuetify-markdown-editor
+      v-model="doc"
+      v-model:mode="mode"
+      height="100%"
+      :plugins="[showLineNumbers(), highlightCodeBlockWithHljs(), syncScrollbar()]">
+    </vuetify-markdown-editor>
+  </div>
 </template>
 
 <style>
-#app {
+body {
   width: 100vw;
   height: 100vh;
+}
+#app {
+  width: 100%;
+  height: 100%;
 }
 </style>
 

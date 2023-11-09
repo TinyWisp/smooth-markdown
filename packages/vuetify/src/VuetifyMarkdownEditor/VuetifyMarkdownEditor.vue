@@ -1,88 +1,49 @@
 <template>
-  <core-editor
-    :mode="mode"
-    :modelValue="modelValue"
-    height="30em"
-    ref="theCoreEditor"
-    @update:modelValue="(val: string) => $emit('update:modelValue', val)"
-    @update:mode="(val: string) => $emit('update:mode', val)"
+  <classic-editor-layout
+    :class="[`svme-mode-${mode}`, 'svme-container']"
+    :show-toolbar="true"
+    :show-edit="mode === 'both' || mode === 'edit'"
+    :show-view="mode === 'both' || mode === 'view'"
   >
-    <template v-slot:toolbar>
-      <v-toolbar density="compact" class="svme-toolbar">
-        <template v-for="(item, idx) of calcToolbarItems" :key="item.name + idx">
-          <!-- divider -->
-          <v-divider
-            class="vertical-divider mx-2"
-            vertical
-            v-if="item.name === 'divider'"/>
-
-          <!-- spacer -->
-          <v-spacer v-else-if="item.name === 'spacer'"/>
-
-          <!-- custom button -->
-          <v-node-renderer :vnodes="[item.vnode()]" v-else-if="item.vnode" />
-
-          <!-- custom component -->
-          <component :is="item.comp" v-else-if="item.comp"></component>
-
-          <!-- button -->
-          <v-btn
-            size="small"
-            variant="flat"
-            color="white"
-            class="svme-toolbar-button"
-            :key="(item.name ?? '') + idx"
-            @click="clickToolbarButton(item)"
-            v-else>
-            <v-icon small color="grey darken-1" :icon="typeof item.icon === 'function' ? item.icon() : item.icon"></v-icon>
-            <v-tooltip location="bottom" activator="parent">{{ typeof item.tip === 'function' ? item.tip() : t(`svme.toolbar.${item.name}`)}}</v-tooltip>
-          </v-btn>
-
-        </template>
-      </v-toolbar>
-
-      <v-divider></v-divider>
-
+    <template v-slot:classic-editor-extra>
+      <v-node-renderer :vnodes="extraVnodes"></v-node-renderer>
     </template>
-  </core-editor>
+    <template v-slot:classic-editor-toolbar v-if="showToolbar">
+      <vuetify-toolbar :items="toolbarItems"></vuetify-toolbar>
+      <v-divider></v-divider>
+    </template>
+    <template v-slot:classic-editor-body-edit>
+      <div
+        class="svme-edit"
+        ref="edit"
+        v-if="mode === 'edit' || mode === 'both'"
+      ></div>
+    </template>
+    <template v-slot:classic-editor-body-view>
+      <div
+        class="svme-view"
+        ref="view"
+        v-if="mode === 'view' || mode === 'both'"
+      ></div>
+    </template>
+  </classic-editor-layout>
 </template>
 
 <script setup lang="ts">
-import { computed, provide, ref } from 'vue'
-import { CoreEditor, VNodeRenderer, Lang } from '@smooth-vue-markdown-editor/core'
-import type { ToolbarItemMap, ToolbarItem, VuetifyContext, Mode } from './types'
+import { provide, ref, type Ref } from 'vue'
+import ClassicEditorLayout from './ClassicEditorLayout.vue'
+import { useCoreEditor, VNodeRenderer, Lang } from '@smooth-vue-markdown-editor/core'
+import type { VuetifyContext, Mode } from './types'
 import { VuetifyPluginManager, type VuetifyPlugin } from '../VuetifyPlugin'
 import en from '../langs/en'
 import zh_CN from '../langs/zh_CN'
-import {
-  mdiUndo,
-  mdiRedo,
-  mdiFormatBold,
-  mdiFormatItalic,
-  mdiFormatStrikethrough,
-  mdiFormatUnderline,
-  mdiFormatSubscript,
-  mdiFormatSuperscript,
-  mdiFormatColorHighlight,
-  mdiFormatHeader1,
-  mdiFormatHeader2,
-  mdiFormatHeader3,
-  mdiFormatHeader4,
-  mdiFormatHeader5,
-  mdiFormatHeader6,
-  mdiFormatListBulleted,
-  mdiFormatListNumbered,
-  mdiFormatQuoteClose,
-  mdiCodeTags,
-  mdiMinus,
-  mdiEyeOffOutline,
-  mdiEyeOutline,
-} from '@mdi/js'
+import VuetifyToolbar from './VuetifyToolbar.vue'
 
 export interface VuetifyMarkdownEditorProps {
   modelValue: string
   mode: Mode
   height?: string
+  showToolbar?: boolean
   toolbarItems?: string[]
   plugins?: VuetifyPlugin[]
 }
@@ -91,6 +52,7 @@ const props = withDefaults(defineProps<VuetifyMarkdownEditorProps>(), {
   modelValue: '',
   mode: 'both',
   height: '30em',
+  showToolbar: true,
   toolbarItems: () => ['undo', 'redo', 'divider', 
     'bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'mark', 'heading1', 'heading2', 'heading3', 'divider',
     'bulletedList', 'numberedList', 'quote', 'codeBlock', 'link', 'image', 'horizontalRule', 'table',
@@ -104,183 +66,41 @@ const lang = new Lang()
 const t = lang.t.bind(lang)
 lang.merge({en, zh_CN})
 
+const edit: Ref<HTMLElement | null> = ref(null)
+const view: Ref<HTMLElement | null> = ref(null)
+
 const emit = defineEmits(['update:modelValue', 'update:mode'])
-const theCoreEditor = ref<InstanceType<typeof CoreEditor> | null>(null)
 const pluginManager = new VuetifyPluginManager(getVuetifyContext)
 pluginManager.registerPlugins(props.plugins)
 lang.merge(pluginManager.getMessageMap())
-const toolbarItemMap: ToolbarItemMap = {
-  divider: {
-    name: 'divider',
-  },
-  spacer: {
-    name: 'spacer'
-  },
-  undo: {
-    name: 'undo',
-    icon: mdiUndo,
-    cmd: 'undo',
-  },
-  redo: {
-    name: 'redo',
-    icon: mdiRedo,
-    cmd: 'redo',
-  },
-  bold: {
-    name: 'bold',
-    icon: mdiFormatBold,
-    cmd: 'bold',
-  },
-  italic: {
-    name: 'italic',
-    icon: mdiFormatItalic,
-    cmd: 'italic',
-  },
-  strike: {
-    name: 'strike',
-    icon: mdiFormatStrikethrough,
-    cmd: 'strike',
-  },
-  underline: {
-    name: 'underline',
-    icon: mdiFormatUnderline,
-    cmd: 'underline',
-  },
-  subscript: {
-    name: 'subscript',
-    icon: mdiFormatSubscript,
-    cmd: 'subscript',
-  },
-  superscript: {
-    name: 'superscript',
-    icon: mdiFormatSuperscript,
-    cmd: 'superscript',
-  },
-  mark: {
-    name: 'mark',
-    icon: mdiFormatColorHighlight,
-    cmd: 'mark',
-  },
-  heading1: {
-    name: 'heading1',
-    icon: mdiFormatHeader1,
-    cmd: 'heading1',
-  },
-  heading2: {
-    name: 'heading2',
-    icon: mdiFormatHeader2,
-    cmd: 'heading2',
-  },
-  heading3: {
-    name: 'heading3',
-    icon: mdiFormatHeader3,
-    cmd: 'heading3',
-  },
-  heading4: {
-    name: 'heading4',
-    icon: mdiFormatHeader4,
-    cmd: 'heading4',
-  },
-  heading5: {
-    name: 'heading5',
-    icon: mdiFormatHeader5,
-    cmd: 'heading5',
-  },
-  heading6: {
-    name: 'heading6',
-    icon: mdiFormatHeader6,
-    cmd: 'heading6',
-  },
-  bulletedList: {
-    name: 'bulletedList',
-    icon: mdiFormatListBulleted,
-    cmd: 'bulletedList',
-  },
-  numberedList: {
-    name: 'numberedList',
-    icon: mdiFormatListNumbered,
-    cmd: 'numberedList',
-  },
-  quote: {
-    name: 'quote',
-    icon: mdiFormatQuoteClose,
-    cmd: 'quote',
-  },
-  codeBlock: {
-    name: 'codeBlock',
-    icon: mdiCodeTags,
-    cmd: 'codeBlock',
-  },
-  horizontalRule: {
-    name: 'horizontalRule',
-    icon: mdiMinus,
-    cmd: 'horizontalRule',
-  },
-  preview: {
-    name: 'preview',
-    icon: () => {
-      return props.mode === 'both'
-              ? mdiEyeOffOutline
-              : mdiEyeOutline
-    },
-    exec: () => {
-      emit('update:mode', props.mode === 'both' ? 'edit' : 'both')
-    },
-    tip: () => {
-      return props.mode === 'both'
-             ? t('svme.toolbar.closePreview')
-             : t('svme.toolbar.openPreview')
-    }
-  },
-  ...pluginManager.getToolbarItemMap()
-}
-const calcToolbarItems = computed<ToolbarItem[]>(() => {
-  const items: ToolbarItem[] = []
-  props.toolbarItems!.forEach((val: (ToolbarItem | string)) => {
-    if (typeof val === 'string' && !toolbarItemMap[val]) {
-      console.error(`invalid toolbar item: ${val}`)
-      return
-    }
 
-    if (typeof val === 'string' && toolbarItemMap[val]) {
-      const item = { ...toolbarItemMap[val] }
-      if (!item.name) {
-        item.name = val
-      }
-      items.push(item)
-      return
-    }
-
-  })
-  return items
+const core = useCoreEditor({
+  doc: ref(props.modelValue),
+  editElem: edit,
+  viewElem: view,
+  plugins: pluginManager.getCorePlugins()
 })
 
-function clickToolbarButton (item: ToolbarItem) {
-  if (item.exec) {
-    item.exec()
+const command = core.command
+const insertOrReplace = core.insertOrReplace
+const extraVnodes = core.extraVnodes
 
-  } else if (item.cmd) {
-    command(item.cmd)
-  }
-}
-
-function command(cmd: string, params?: object): void {
-  theCoreEditor.value!.command(cmd, params)
-}
-
-function insertOrReplace(text: string, forceNewLine: boolean = false): void {
-  theCoreEditor.value!.insertOrReplace(text, forceNewLine)
+function setMode(mode: Mode) {
+  emit('update:mode', mode)
 }
 
 function getVuetifyContext(): VuetifyContext {
   const context = {
+    pluginManager,
     methods: {
       command,
       insertOrReplace,
+      setMode,
       t,
     },
     refs: {
-      coreEditor: theCoreEditor,
+      edit,
+      view
     },
     props,
   }
@@ -297,4 +117,197 @@ provide('getVuetifyContext', getVuetifyContext)
 .svme-toolbar {
   background-color: white;
 }
-</style>@/VuetifyPlugin
+</style>
+
+<style scoped>
+.svme-body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.svme-edit, .svme-view {
+  overflow-y: auto;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  height: 100%;
+}
+
+.svme-edit {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 0;
+}
+
+.svme-view {
+  padding: 1em;
+}
+
+.svme-mode-both .svme-edit {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  flex-basis: 50%;
+  width: 50%;
+}
+
+.svme-mode-both .svme-view {
+  flex-basis: 50%;
+  width: 50%;
+}
+</style>
+
+<style>
+.cm-editor {
+  height: 100%;
+}
+
+.svme-view {
+  padding: 1em;
+}
+
+.svme-view table {
+  border-spacing: 0;
+  width: auto;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+  margin: 1.75em 0;
+  border: 1px solid teal;
+  border-radius: 0.45em;
+  border-collapse: separate;
+  font-size: 0.85em;
+  overflow: hidden;
+}
+
+.svme-view table th {
+  background-color: #eaf3f3;
+  color: teal;
+  font-weight: bold;
+  text-align: left;
+}
+
+.svme-view td, .svme-view th {
+  padding: 0.5em 1em;
+  border: 0;
+  height: 2em;
+  min-width: 4em;
+}
+
+.svme-view tr:nth-child(2n) {
+  background-color: #0000000d;
+}
+
+.svme-view tr td:not(:last-child) {
+  border-right: 1px solid lightgray;
+}
+
+.svme-view tr th:not(:last-child) {
+  border-right: 1px solid lightgray;
+}
+
+.svme-view tr:hover td {
+  background-color: #eaf3f3;
+}
+
+.svme-view img {
+  max-width: 100%;
+}
+
+.svme-view img.emoji {
+  display: inline;
+  border: 0;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  margin: 0;
+}
+
+.svme-view a {
+  color: teal;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.svme-view a:hover {
+  text-decoration: underline;
+}
+
+.svme-view a > code {
+  color: #476582;
+  text-decoration: none;
+}
+
+.svme-view p {
+  line-height: 1.6em;
+  letter-spacing: 0.2px;
+}
+
+.svme-view strong {
+  color: saddlebrown;
+  font-weight: bold;
+}
+
+.svme-view mark {
+  padding: 0.15em 0.5em;
+}
+
+.svme-view blockquote {
+  margin: 2em 0;
+  padding-left: 20px;
+  border-left: 4px solid teal;
+}
+
+.svme-view ul {
+  margin: 0.5em 0;
+}
+
+.svme-view h1 {
+  margin: 0 0 3rem;
+  font-size: 2.4em;
+  line-height: 1.4em;
+  font-weight: 600;
+  padding-bottom: 0.7em;
+  border-bottom: 2px solid #ddd;
+}
+
+.svme-view h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 2.8em 0 0.8em;
+  padding-bottom: 0.7em;
+  border-bottom: 1px solid #ddd;
+}
+
+.svme-view h3 {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: 3rem 0 1.25rem 0;
+}
+
+.svme-view h4 {
+  font-size: 1em;
+  margin: 1em 0;
+}
+
+.svme-view h5 {
+  font-size: 0.85em;
+  margin: 1em 0;
+}
+
+.svme-view h6 {
+  font-size: 0.7em;
+  margin: 1em 0;
+}
+
+.svme-view hr {
+  border-left: 0;
+  border-right: 0;
+}
+
+.svme-view .nothing {
+  display: none;
+}
+</style>

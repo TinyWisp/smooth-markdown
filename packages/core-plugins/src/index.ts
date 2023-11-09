@@ -5,6 +5,10 @@ import customCodeBlockRenderer from "./plugins/CustomCodeBlockRendererPlugin"
 import customLinkAttrs from "./plugins/CustomLinkAttrsPlugin"
 import handleImageClick from "./plugins/HandleImageClickPlugin"
 import pasteImage from "./plugins/PasteImagePlugin"
+import codemirrorExt from "./plugins/CodeMirrorExtensionPlugin"
+import markdownItPlugin from "./plugins/MarkdownItPluginPlugin"
+import showLineNumbers from "./plugins/ShowLineNumbersPlugin"
+import syncScrollbar from "./plugins/SyncScrollbarPlugin"
 
 export {
   highlightCodeBlockInEditableArea,
@@ -13,5 +17,9 @@ export {
   customCodeBlockRenderer,
   customLinkAttrs,
   handleImageClick,
-  pasteImage
+  pasteImage,
+  codemirrorExt,
+  markdownItPlugin,
+  showLineNumbers,
+  syncScrollbar
 }
