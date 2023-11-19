@@ -1,1 +1,0 @@
-[Document](https://github.com/TinyWisp/smooth-vue-markdown-editor)

@@ -37,3 +37,4 @@ const coreContext = useCoreEditor({
   flex-grow: 0;
 }
 </style>
+./core

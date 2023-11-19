@@ -1,13 +1,13 @@
 import { fileURLToPath, URL } from 'node:url'
-import { resolve } from 'path'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import dts from 'vite-plugin-dts'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), dts({ rollupTypes: true })],
+  plugins: [vue(), vueJsx()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -16,19 +16,16 @@ export default defineConfig({
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: [
-        resolve(__dirname, 'src/entry.editor.ts'),
-        resolve(__dirname, 'src/entry.plugins.ts')
-      ],
-      formats: ['es'],
-      name: 'core',
+      entry: resolve(__dirname, 'src/entry.ts'),
+      formats: ['es', 'umd'],
+      name: 'vuetify-toolbar',
       // the proper extensions will be added
-      fileName: 'core',
+      fileName: 'index',
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['vue', /markdown-it/, /codemirror/],
+      external: ['vue', /vuetify/],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
@@ -37,5 +34,5 @@ export default defineConfig({
         },
       },
     },
-  },
+  }
 })

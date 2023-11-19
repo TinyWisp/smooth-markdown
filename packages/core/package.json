@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "private": false,
   "author": "TinyWisp",
-  "main": "./lib/index.umd.js",
-  "module": "./lib/index.esm.js",
-  "browser": "./lib/index.esm.js",
-  "typings": "./lib/index.d.ts",
   "keywords": [
     "vue",
     "markdown",
@@ -20,23 +16,26 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "build:lib": "./build.types.sh && rollup --bundleConfigAsCjs --config build.lib.config.js && rm -rf ./lib/types"
+    "build:lib": "./build.types.sh && rollup --bundleConfigAsCjs --config build.lib.config.js"
   },
   "dependencies": {
+    "@codemirror/language-data": "^6.3.1",
+    "copy-to-clipboard": "^3.3.3",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.21.0",
     "@babel/types": "^7.21.3",
-    "@rollup/plugin-alias": "^4.0.3",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^24.0.1",
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-replace": "^5.0.2",
-    "@rollup/plugin-terser": "^0.4.0",
-    "@rollup/plugin-typescript": "^11.0.0",
+    "@rollup/plugin-alias": "^4.0.4",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/jsdom": "^21.1.0",
     "@types/node": "^18.14.2",
@@ -49,14 +48,13 @@
     "eslint-plugin-vue": "^9.9.0",
     "jsdom": "^21.1.0",
     "npm-run-all": "^4.1.5",
-    "rollup": "^3.20.2",
-    "rollup-plugin-dts": "^5.3.0",
+    "rollup": "^3.29.4",
+    "rollup-plugin-dts": "^5.3.1",
     "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-tsconfig-paths": "^1.5.0",
+    "rollup-plugin-tsconfig-paths": "^1.5.2",
     "rollup-plugin-vue": "^6.0.0",
     "typescript": "~4.8.4",
     "vite": "^4.1.4",
-    "vite-plugin-dts": "^2.1.0",
     "vitest": "^0.29.1",
     "vue-tsc": "^1.2.0"
   },
@@ -66,7 +64,7 @@
     "@codemirror/state": "^6.2.1",
     "@codemirror/view": "^6.12.0",
     "@types/markdown-it": "^12.2.3",
-    "lodash": "^4.17.21",
+    "highlight.js": "^11.9.0",
     "markdown-it": "^13.0.1",
     "markdown-it-br": "^1.0.0",
     "markdown-it-deflist": "^2.1.0",
@@ -77,5 +75,18 @@
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
     "vue": "^3.2.47"
+  },
+  "exports": {
+    ".": {
+      "require": "./lib/core/index.umd.js",
+      "import": "./lib/core/index.esm.js",
+      "typings": "./lib/core/index.d.ts"
+    },
+    "./plugins": {
+      "require": "./lib/plugins/index.umd.js",
+      "import": "./lib/plugins/index.esm.js",
+      "typings": "./lib/plugins/index.d.ts"
+    },
+    "./*": "./lib/*"
   }
 }

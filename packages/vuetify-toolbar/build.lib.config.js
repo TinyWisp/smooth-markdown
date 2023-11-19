@@ -11,6 +11,7 @@ import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts'
 import json from '@rollup/plugin-json'
+import vuetify from 'vite-plugin-vuetify'
 
 const esbrowserslist = ['last 2 versions and > 2%'];
 
@@ -19,6 +20,17 @@ const projectRoot = path.resolve(__dirname, '.');
 const baseConfig = {
   plugins: {
     preVue: [
+      alias({
+        entries: [
+          {
+            find: '@',
+            replacement: `${path.resolve(projectRoot, 'src')}`,
+          },
+        ],
+        customResolver: resolve({
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
+        }),
+      }),
     ],
     replace: {
       'process.env.NODE_ENV': JSON.stringify('production'),
@@ -40,6 +52,7 @@ const baseConfig = {
     babel: {
       exclude: 'node_modules/**',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
+      plugins: ['@vue/babel-plugin-jsx'],
       babelHelpers: 'bundled',
       presets: [
         [
@@ -53,7 +66,7 @@ const baseConfig = {
     },
     resolve: {
       browser: true,
-      preferBuiltins: false,
+      preferBuiltins: false
     }
   },
 };
@@ -64,9 +77,7 @@ const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
   'vue',
-  /codemirror/,
-  /markdown-it/,
-  /highlight.js/
+  'vuetify'
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -74,114 +85,71 @@ const external = [
 const globals = {
   // Provide global variable names to replace your external imports
   // eg. jquery: '$'
-  vue: 'Vue'
+  vue: 'Vue',
+  vuetify: 'Vuetify'
 };
 
 // Customize configs for individual targets
 const builds = [];
 
-buildEditor();
-buildAllPluginsInOne();
-
 // ------ CoreEditor --------
-function buildEditor() {
-  builds.push({
-    input: 'src/entry.core.ts',
-    external,
-    output: [{
-      file: 'lib/core/index.esm.js',
-      format: 'esm',
-      exports: 'named',
-      globals
-    }, {
-      file: 'lib/core/index.umd.js',
-      format: 'umd',
-      exports: 'named',
-      name: 'MarkdownEditor',
-      globals
-    }],
-    plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      vue(baseConfig.plugins.vue),
-      ...baseConfig.plugins.postVue,
-      babel(baseConfig.plugins.babel),
-      commonjs(),
-      json(),
-      typescript(),
-      resolve(baseConfig.plugins.resolve),
-    ],
-  });
+builds.push({
+  input: 'src/entry.ts',
+  external,
+  output: {
+    file: 'lib/index.esm.js',
+    format: 'esm',
+    exports: 'named',
+    globals
+  },
+  plugins: [
+    replace(baseConfig.plugins.replace),
+    ...baseConfig.plugins.preVue,
+    vue(baseConfig.plugins.vue),
+    ...baseConfig.plugins.postVue,
+    babel(baseConfig.plugins.babel),
+    commonjs(),
+    json(),
+    typescript(),
+    resolve(baseConfig.plugins.resolve),
+    vuetify()
+  ],
+});
 
-  builds.push({
-    input: 'lib/types/entry.core.d.ts',
-    output: {
-      file: 'lib/core/index.d.ts',
-      format: 'esm'
-    },
-    plugins: [
-      dts.default()
-    ]
-  });
-}
+builds.push({
+  input: 'src/entry.ts',
+  external,
+  output: {
+    file: 'lib/index.umd.js',
+    format: 'umd',
+    exports: 'named',
+    name: 'CoreEditor',
+    globals
+  },
+  plugins: [
+    replace(baseConfig.plugins.replace),
+    ...baseConfig.plugins.preVue,
+    vue(baseConfig.plugins.vue),
+    ...baseConfig.plugins.postVue,
+    babel(baseConfig.plugins.babel),
+    commonjs(),
+    json(),
+    typescript(),
+    resolve(baseConfig.plugins.resolve),
+    vuetify()
+  ],
+});
 
-// ---- build all plugins in one ----- 
-function buildAllPluginsInOne() {
-  const input = `src/entry.plugins.ts`;
-  
-  builds.push({
-    input: input,
-    external,
-    output: [{
-      file: 'lib/plugins/index.esm.js',
-      format: 'es',
-      exports: 'named',
-    }, {
-      file: 'lib/plugins/index.umd.js',
-      format: 'umd',
-      exports: 'named',
-      name: 'MarkdownEditorPlugins'
-    }],
-    plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      vue(baseConfig.plugins.vue),
-      ...baseConfig.plugins.postVue,
-      babel(baseConfig.plugins.babel),
-      commonjs(),
-      typescript(),
-      resolve(baseConfig.plugins.resolve),
-    ],
-  });
-
-  /*
-  builds.push({
-    input: input,
-    output: {
-      file: `lib/plugins/esm/index.d.ts`,
-      format: 'es'
-    },
-    plugins: [
-      dts.default()
-    ]
-  });
-  */
-
-
-  builds.push({
-    input: `lib/types/entry.plugins.d.ts`,
-    output: {
-      file: `lib/plugins/index.d.ts`,
-      format: 'es'
-    },
-    plugins: [
-      dts.default()
-    ]
-  });
-}
-
-
-
+builds.push({
+  input: 'lib/types/entry.d.ts',
+  output: {
+    file: 'lib/index.d.ts',
+    format: 'esm'
+  },
+  plugins: [
+    dts.default()
+  ]
+});
 /*
 buildPlugin({
   input: 'src/entries/highlightPlugin.ts', 

@@ -1,0 +1,50 @@
+<template>
+  <v-btn
+    size="small"
+    variant="flat"
+    color="white"
+    class="svme-toolbar-button"
+  >
+    <v-icon small color="grey darken-1">mdi-table-plus</v-icon>
+    <v-tooltip location="bottom" activator="parent">Table</v-tooltip>
+
+    <!-- table -->
+    <v-menu
+      :offset-y="true"
+      open-on-hover
+      bottom
+      activator="parent">
+      <insert-table-board @ok="insertTable($event.row, $event.col)"/>
+    </v-menu>
+
+  </v-btn>
+</template>
+
+<script lang="ts">
+import { defineComponent, inject } from 'vue'
+import type { CoreContext } from '@smooth-vue-markdown-editor/core'
+import InsertTableBoard from './InsertTableBoard.vue'
+
+export default defineComponent({
+  setup() {
+    const getCoreContext = inject<() => CoreContext>('getCoreContext')
+    const context = (getCoreContext!)()
+    const { command, t } = context.methods
+
+    return { command, t }
+  },
+  components: {
+    InsertTableBoard
+  },
+  data: function () {
+    return {
+    }
+  },
+  methods: {
+    insertTable(row: number, col: number) {
+      this.command('table', {row, col})
+    },
+  }
+})
+
+</script>
