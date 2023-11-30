@@ -4,7 +4,7 @@ import { keymap } from '@codemirror/view'
 import { EditorSelection } from '@codemirror/state'
 import { markdown } from '@codemirror/lang-markdown'
 import { indentWithTab, undo, redo } from "@codemirror/commands"
-import type { CorePluginManager } from './CorePlugin'
+import type { CorePluginManager } from './CorePluginManager'
 import type { CmPasteEventHandlerMap } from './types'
 
 export interface CodeMirrorContext {

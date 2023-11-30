@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import BasicExample from './views/vuetify/BasicExample.vue'
-import CustomToolbarItemsExample from './views/vuetify/CustomToolbarItemsExample.vue'
+import Home from './views/Home.vue'
 </script>
 
 <template>
-  <custom-toolbar-items-example></custom-toolbar-items-example>
+  <home></home>
 </template>
 
 <style scoped>

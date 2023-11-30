@@ -1,6 +1,6 @@
 import { provide, computed } from 'vue'
 import type { Ref, VNode } from 'vue'
-import { CorePluginManager } from './CorePlugin'
+import { CorePluginManager } from './CorePluginManager'
 import type { CoreContext, CorePlugin } from './types'
 
 import { useCodeMirror } from './useCodeMirror'
@@ -10,6 +10,7 @@ import { Lang } from './lang'
 import en from '../langs/en'
 import zh_CN from '../langs/zh_CN'
 
+import { EventBus } from './EventBus'
 
 export interface CoreEditorConfig {
   doc: Ref<string>
@@ -19,7 +20,10 @@ export interface CoreEditorConfig {
 }
 
 export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
-  const pluginManager = new CorePluginManager(getCoreContext)
+  const eventBus = new EventBus()
+  const { on, off, fire } = eventBus
+
+  const pluginManager = new CorePluginManager(getCoreContext, setCoreContext)
   pluginManager.registerPlugins(coreEditorConfig.plugins)
 
   const lang = new Lang()
@@ -53,6 +57,9 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
         insertOrReplace,
         command,
         t,
+        on,
+        off,
+        fire,
         ...coreContext.methods
       },
       doms: {
@@ -61,12 +68,14 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
         ...coreContext.doms
       },
       props: {
-        hookProps: coreEditorConfig,
+        coreEditorConfig,
         ...coreContext.props
       },
       instances: {
         editorView: codeMirror.editorView,
         markdownIt: markdownIt.instance,
+        lang,
+        eventBus,
         ...coreContext.instances
       },
       others: {

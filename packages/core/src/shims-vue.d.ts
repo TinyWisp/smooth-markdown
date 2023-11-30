@@ -12,6 +12,7 @@ declare module 'markdown-it/lib/common/utils'
 declare module 'lodash/get'
 declare module 'lodash/merge'
 declare module 'vue-affix'
+declare module '@hoc-element/affix'
 declare module '*.vue' {
   import { defineComponent } from 'vue'
   const component: ReturnType<typeof defineComponent>

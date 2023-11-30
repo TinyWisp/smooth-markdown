@@ -7,8 +7,8 @@
   </markdown-editor>
 </template>
 
-<script lang="tsx" setup>
-import { ref, type Ref } from 'vue'
+<script lang="jsx" setup>
+import { ref } from 'vue'
 import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
 import VuetifyToolbar from '@smooth-vue-markdown-editor/vuetify-toolbar'
 

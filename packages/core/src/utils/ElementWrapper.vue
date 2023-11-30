@@ -1,28 +1,23 @@
+<template>
+  <component v-if="wrapperList.length > 0" :is="wrapperList[0][0]" v-bind="wrapperList[0][1]">
+    <element-wrapper :wrapper-list="wrapperList.slice(1)">
+      <slot></slot>
+    </element-wrapper>
+  </component>
+  <slot v-else></slot>
+</template>
+
 <script lang="ts">
-import { defineComponent, h, type VNode, type Component, type PropType } from 'vue';
+import { defineComponent, h, type PropType } from 'vue';
+import type { Wrapper } from '../core/types';
 
 export default defineComponent({
-  setup(props, { slots }) {
-    return () => {
-      const wrapperList: (Component | VNode)[] = []
-
-      if (wrapperList.length === 0) {
-        return slots.default?.()
-      }
-
-      let vnode: any = (slots.default!)()
-      for (let i=wrapperList.length-1; i>=0; i--) {
-        const wrapper = wrapperList[i]
-        vnode = h(wrapper, vnode)
-      }
-      return vnode
-    }
-  },
+  name: 'element-wrapper',
   props: {
     wrapperList: {
-      type: Object as PropType<(Component | VNode)[]>,
+      type: Object as PropType<Wrapper[]>,
       required: true
     }
-  },
+  }
 })
 </script>

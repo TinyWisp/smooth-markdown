@@ -10,6 +10,7 @@ import markdownItPlugin from "./plugins/MarkdownItPluginPlugin"
 import showLineNumbers from "./plugins/ShowLineNumbersPlugin"
 import syncScrollbar from "./plugins/SyncScrollbarPlugin"
 import toolbarWrapper from "./plugins/ToolbarWrapperPlugin"
+import affixToolbar from "./plugins/AffixToolbarPlugin"
 
 export {
   highlightCodeBlockInEditableArea,
@@ -23,5 +24,6 @@ export {
   markdownItPlugin,
   showLineNumbers,
   syncScrollbar,
-  toolbarWrapper
+  toolbarWrapper,
+  affixToolbar
 }

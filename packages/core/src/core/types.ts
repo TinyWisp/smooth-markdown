@@ -62,7 +62,11 @@ export interface CommandMap {
  */
 export interface CorePlugin {
   name: string
-  getCoreContext?: () => CoreContext
+  getCoreContext?: FnGetCoreContext
+  setCoreContext?: FnSetCoreContext
+
+  // event handler list
+  coreEventHandlerList?: CoreEventHandler[]
 
   // markdown-it
   mditInitOptions?: MditInitOptions
@@ -83,7 +87,7 @@ export interface CorePlugin {
   cmWrapper?: Wrapper
 
   // toolbar
-  toolbarWrapper?: VNode | Component
+  toolbarWrapper?: Wrapper
 
   // lifecycle
   mounted?: () => void
@@ -95,7 +99,7 @@ export interface CorePlugin {
   messageMap?: MessageMap
 }
 
-// ------------------------------------------------------------------
+// ----------------------------CoreContext----------------------------
 
 export interface CoreContext {
   methods: {
@@ -117,8 +121,15 @@ export interface CoreContext {
 
 export type FnGetCoreContext = () => CoreContext
 
-export type Wrapper = Component | VNode
+export type FnSetCoreContext = (key: keyof CoreContext, subKey: string, val: any) => void
+
+// ------------------------------------------------------------------
+
+export type Wrapper = [Component, {[key: string]: any}]
 
 export type FnUpload = (file: File) => string | Promise<string>
 
 export type Mode = 'edit' | 'view' | 'both'
+
+export type CoreEventHandler = [src: string, event: string, func: Function]
+

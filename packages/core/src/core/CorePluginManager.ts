@@ -1,4 +1,18 @@
-import type { CmDomEventHandlerMap, CmPasteEventHandlerMap, CmDocChanged, CmScrollHandler, MditCodeRendererMap, MditRendererRuleMap, CommandMap, MditLoadPlugin, MditInitOptions, CorePlugin, CoreContext, Wrapper } from "./types"
+import type { 
+  CmDomEventHandlerMap,
+  CmPasteEventHandlerMap, 
+  CmDocChanged, 
+  CmScrollHandler, 
+  MditCodeRendererMap, 
+  MditRendererRuleMap, 
+  CommandMap, MditLoadPlugin, 
+  MditInitOptions, 
+  CorePlugin, 
+  CoreContext, 
+  Wrapper,
+  FnGetCoreContext,
+  FnSetCoreContext
+} from "./types"
 import type { Extension as CmExtension } from '@codemirror/state'
 import type { VNode, Component } from 'vue'
 import type { MessageMap } from './lang'
@@ -7,11 +21,13 @@ import { merge } from 'lodash/merge'
 
 export class CorePluginManager {
   plugins: CorePlugin[]
-  getCoreContext: () => CoreContext
+  getCoreContext: FnGetCoreContext
+  setCoreContext: FnSetCoreContext
 
-  constructor(getCoreContext: () => CoreContext) {
+  constructor(getCoreContext: FnGetCoreContext, setCoreContext: FnSetCoreContext) {
     this.plugins = []
     this.getCoreContext = getCoreContext
+    this.setCoreContext = setCoreContext
   }
 
   /**
@@ -35,6 +51,7 @@ export class CorePluginManager {
     }
 
     plugin.getCoreContext = this.getCoreContext
+    plugin.setCoreContext = this.setCoreContext
     this.plugins.push(plugin)
   }
 

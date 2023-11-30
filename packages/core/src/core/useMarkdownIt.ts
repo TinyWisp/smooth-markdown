@@ -9,7 +9,7 @@ import br  from 'markdown-it-br'
 import mark from 'markdown-it-mark'
 import deflist from 'markdown-it-deflist'
 // import emoji from 'markdown-it-emoji/bare.js'
-import type { CorePluginManager } from './CorePlugin'
+import type { CorePluginManager } from './CorePluginManager'
 import type { MditCodeRendererMap, MditInitOptions, MditLoadPlugin } from './types'
 
 export interface MarkdownItContext {
