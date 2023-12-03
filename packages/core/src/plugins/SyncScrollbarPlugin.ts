@@ -1,18 +1,18 @@
-import type { CoreContext, CorePlugin } from '../core/types'
+import type { Context, Plugin } from '../core/types'
 
-class SyncScrollbarPlugin implements CorePlugin {
+class SyncScrollbarPlugin implements Plugin {
   readonly name = 'core-plugin-sync-scrollbar'
   viewDom: HTMLElement | null = null
-  getCoreContext?: (() => CoreContext) | undefined
+  getContext?: (() => Context) | undefined
 
   cmScrollHandler(scrollHeight: number, scrollTop: number, scrollOffset: number) {
-    if (!this.getCoreContext) {
+    if (!this.getContext) {
       return
     }
 
     if (!this.viewDom) {
-      const coreContext = this.getCoreContext()
-      this.viewDom = coreContext.doms.view
+      const context = this.getContext()
+      this.viewDom = context.doms.view
     }
 
     if (!this.viewDom) {

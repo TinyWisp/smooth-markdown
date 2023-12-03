@@ -1,9 +1,9 @@
-import type { CorePlugin, MditLoadPlugin } from '../core/types'
+import type { Plugin, MditLoadPlugin } from '../core/types'
 
 /**
  * load a markdown-it plugin.
  */
-class MarkdownItPluginPlugin implements CorePlugin {
+class MarkdownItPluginPlugin implements Plugin {
   name: string = 'core-plugin-markdownit-plugin'
   mditLoadPlugins: MditLoadPlugin[]
 

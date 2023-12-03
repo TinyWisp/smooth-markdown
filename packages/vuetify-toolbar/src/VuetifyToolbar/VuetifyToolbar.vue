@@ -37,7 +37,7 @@
 import type { ToolbarItemMap, ToolbarItem } from './types'
 import type { VNode, Component } from 'vue'
 import { computed, inject, isVNode } from 'vue'
-import { VNodeRenderer, type CoreContext } from '@smooth-vue-markdown-editor/core'
+import { VNodeRenderer, type Context } from '@smooth-vue-markdown-editor/core'
 import ImageBtn from './ImageBtn'
 import LinkBtn from './LinkBtn'
 import TableBtn from './TableBtn'
@@ -57,8 +57,8 @@ const props = withDefaults(defineProps<VuetifyToolbarProps>(), {
   ],
 })
 
-const getCoreContext = inject<() => CoreContext>('getCoreContext')
-const coreContext: CoreContext = (getCoreContext!)()
+const getContext = inject<() => Context>('getContext')
+const coreContext: Context = (getContext!)()
 const { t, command, getMode, setMode } = coreContext.methods
 
 const toolbarItemMap: ToolbarItemMap = {

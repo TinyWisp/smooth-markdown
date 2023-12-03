@@ -22,13 +22,13 @@
 </template>
 
 <script lang="ts">
-import type { CoreContext } from '@smooth-vue-markdown-editor/core'
+import type { Context } from '@smooth-vue-markdown-editor/core'
 import { defineComponent, inject } from 'vue'
 
 export default defineComponent({
   setup() {
-    const getCoreContext = inject<() => CoreContext>('getCoreContext')
-    const context = (getCoreContext!)()
+    const getContext = inject<() => Context>('getContext')
+    const context = (getContext!)()
     const { t } = context.methods
 
     return { t }

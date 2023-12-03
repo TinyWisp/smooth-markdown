@@ -41,13 +41,13 @@
 import { defineComponent, inject } from 'vue'
 import type { PropType } from 'vue'
 import type { FnUpload } from './types'
-import type { CoreContext } from '@smooth-vue-markdown-editor/core'
+import type { Context } from '@smooth-vue-markdown-editor/core'
 import InsertNetworkImageDialog from './InsertNetworkImageDialog.vue'
 
 export default defineComponent({
   setup() {
-    const getCoreContext = inject<() => CoreContext>('getCoreContext')
-    const context = (getCoreContext!)()
+    const getContext = inject<() => Context>('getContext')
+    const context = (getContext!)()
     const { command, t } = context.methods
 
     return { command, t }

@@ -1,4 +1,4 @@
-import type { CorePlugin, MditRendererRuleMap } from '../core/types'
+import type { Plugin, MditRendererRuleMap } from '../core/types'
 import { uniqId, escapeHtml } from '../utils/util'
 
 export interface ImageData {
@@ -13,7 +13,7 @@ export type ImageClickEventHandler = (images: ImageData[], idx: number, event: E
 /**
  * execute an user defined function, when the user clicks an image in the view.
  */
-class HandleImageClickPlugin implements CorePlugin {
+class HandleImageClickPlugin implements Plugin {
   name: string = 'core-plugin-handle-image-click'
   images: ImageData[]
   mditRendererRuleMap: MditRendererRuleMap

@@ -1,10 +1,10 @@
-import type { CorePlugin } from '../core/types'
+import type { Plugin } from '../core/types'
 import type { Extension as CmExtension } from "@codemirror/state"
 
 /**
  * load a codemirror extension.
  */
-class CodeMirrorExtensionPlugin implements CorePlugin {
+class CodeMirrorExtensionPlugin implements Plugin {
   name: string = 'core-plugin-codemirror-extension'
   cmExtensions : CmExtension[]
 

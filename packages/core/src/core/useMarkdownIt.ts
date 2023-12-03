@@ -9,7 +9,7 @@ import br  from 'markdown-it-br'
 import mark from 'markdown-it-mark'
 import deflist from 'markdown-it-deflist'
 // import emoji from 'markdown-it-emoji/bare.js'
-import type { CorePluginManager } from './CorePluginManager'
+import type { PluginManager } from './PluginManager'
 import type { MditCodeRendererMap, MditInitOptions, MditLoadPlugin } from './types'
 
 export interface MarkdownItContext {
@@ -17,7 +17,7 @@ export interface MarkdownItContext {
   html: Ref<string>
 }
 
-export function useMarkdownIt(doc: Ref<string>, elem: Ref<HTMLElement | null>, pluginManager: CorePluginManager): MarkdownItContext {
+export function useMarkdownIt(doc: Ref<string>, elem: Ref<HTMLElement | null>, pluginManager: PluginManager): MarkdownItContext {
   const html: Ref<string> = ref('')
 
   const initOptions: MditInitOptions = {

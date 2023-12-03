@@ -1,11 +1,11 @@
-import type { CorePlugin, MditLoadPlugin, MditTokenAttrMap, MditTokenAttrs, MditTokenAttr } from '../core/types'
+import type { Plugin, MditLoadPlugin, MditTokenAttrMap, MditTokenAttrs, MditTokenAttr } from '../core/types'
 
 export type FnCustomLinkAttrs = (oldAttrMap: MditTokenAttrMap) => MditTokenAttrMap
 
 /**
  * customize a link's attributes, like src, title, referer and so on.
  */
-class CustomLinkAttrsPlugin implements CorePlugin {
+class CustomLinkAttrsPlugin implements Plugin {
   name: string = 'core-plugin-custom-link-attrs'
   mditLoadPlugins: MditLoadPlugin[]
 

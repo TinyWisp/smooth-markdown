@@ -1,12 +1,12 @@
-import type { CorePlugin, CoreContext, CmPasteEventHandlerMap, FnUpload } from '../core/types'
+import type { Plugin, Context, CmPasteEventHandlerMap, FnUpload } from '../core/types'
 
 /**
  * upload the image from clipboard and insert it into the editor
  */
-class PasteImagePlugin implements CorePlugin {
+class PasteImagePlugin implements Plugin {
   name: string = 'core-plugin-paste-image'
   cmPasteEventHandlerMap: CmPasteEventHandlerMap
-  getCoreContext?: () => CoreContext
+  getContext?: () => Context
 
   /**
    * @param fnUpload : the upload function
@@ -29,12 +29,12 @@ class PasteImagePlugin implements CorePlugin {
    * @returns 
    */
   private insertImage (url: string): void {
-    const getCoreContext = this?.getCoreContext
-    if (!getCoreContext) {
-      console.error('PasteImagePlugin Error: cannot access the getCoreContext() method')
+    const getContext = this?.getContext
+    if (!getContext) {
+      console.error('PasteImagePlugin Error: cannot access the getContext() method')
       return
     }
-    const context = getCoreContext()
+    const context = getContext()
     context.methods.command('image', {
       url,
       title: '',

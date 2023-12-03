@@ -1,7 +1,7 @@
 import { languages } from "@codemirror/language-data"
-import type { CorePlugin } from '../core/types'
+import type { Plugin } from '../core/types'
 
-class HighlightCodeBlockInEditableAreaPlugin implements CorePlugin {
+class HighlightCodeBlockInEditableAreaPlugin implements Plugin {
   name: string = 'core-plugin-highlight-code-block-in-editable-area'
   cmMarkdownConfig: object
 

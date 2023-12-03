@@ -36,7 +36,7 @@ import ClassicEditorLayout from './ClassicEditorLayout.vue'
 import { useCoreEditor } from '../core/useCoreEditor'
 import VNodeRenderer from '../utils/VNodeRenderer.vue'
 import ElementWrapper from '../utils/ElementWrapper.vue'
-import type { Mode, CorePlugin } from '../core/types'
+import type { Mode, Plugin } from '../core/types'
 
 export interface CoreEditorProps {
   modelValue: string
@@ -44,7 +44,7 @@ export interface CoreEditorProps {
   height?: string
   showToolbar?: boolean
   toolbarItems?: string[]
-  plugins?: CorePlugin[]
+  plugins?: Plugin[]
 }
 
 const props = withDefaults(defineProps<CoreEditorProps>(), {
@@ -64,10 +64,11 @@ const props = withDefaults(defineProps<CoreEditorProps>(), {
 const edit: Ref<HTMLElement | null> = ref(null)
 const view: Ref<HTMLElement | null> = ref(null)
 const doc: Ref<string> = ref(props.modelValue)
+const mode: Ref<string> = ref(props.mode)
 
 const emit = defineEmits(['update:modelValue', 'update:mode'])
 
-const { getCoreContext, setCoreContext, command, insertOrReplace, extraVnodes, toolbarWrapperList } = useCoreEditor({
+const { getContext, setContext, command, insertOrReplace, extraVnodes, toolbarWrapperList } = useCoreEditor({
   doc,
   editElem: edit,
   viewElem: view,
@@ -78,18 +79,30 @@ watch(doc, () => {
   emit('update:modelValue', doc.value)
 })
 
-function setMode(mode: Mode) {
-  emit('update:mode', mode)
+watch(props, () => {
+  if (props.mode !== mode.value) {
+    mode.value = props.mode
+  }
+
+  if (props.modelValue !== doc.value) {
+    doc.value = props.modelValue
+  }
+})
+
+function setMode(targetMode: Mode) {
+  mode.value = targetMode
+  emit('update:mode', mode.value)
 }
 
 function getMode() {
-  return props.mode
+  return mode.value
 }
 
-setCoreContext('methods', 'setMode', setMode)
-setCoreContext('methods', 'getMode', getMode)
+setContext('methods', 'setMode', setMode)
+setContext('methods', 'getMode', getMode)
+setContext('props', 'editorProps', props)
 
-defineExpose({command, insertOrReplace, getCoreContext, setCoreContext})
+defineExpose({command, insertOrReplace, getContext, setContext})
 </script>
 
 <style>
@@ -269,4 +282,4 @@ defineExpose({command, insertOrReplace, getCoreContext, setCoreContext})
 .svme-view .nothing {
   display: none;
 }
-</style>./CorePlugin
+</style>./Plugin

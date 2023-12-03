@@ -1,4 +1,4 @@
-import type { MditCodeRendererMap, CorePlugin } from '../core/types'
+import type { MditCodeRendererMap, Plugin } from '../core/types'
 import type { Component, UnwrapNestedRefs, VNode } from 'vue'
 import { uniqId } from '../utils/util'
 import { nextTick, reactive, Teleport, h } from 'vue'
@@ -16,7 +16,7 @@ export interface CodeBlock {
 /**
  * render a code block using a user defined component
  */
-class CustomCodeBlockRendererPlugin implements CorePlugin {
+class CustomCodeBlockRendererPlugin implements Plugin {
   name: string = 'core-plugin-custom-code-block-renderer'
   mditCodeRendererMap: MditCodeRendererMap
   langComponentMap: LangComponentMap
@@ -78,7 +78,7 @@ class CustomCodeBlockRendererPlugin implements CorePlugin {
   }
 }
 
-function customCodeBlockRenderer(langComponentMap: LangComponentMap): CorePlugin {
+function customCodeBlockRenderer(langComponentMap: LangComponentMap): Plugin {
   return new CustomCodeBlockRendererPlugin(langComponentMap)
 }
 

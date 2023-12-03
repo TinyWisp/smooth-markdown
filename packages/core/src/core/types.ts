@@ -54,19 +54,19 @@ export interface CommandMap {
   [key: string]: Command
 }
 
-// ---------------------- CorePlugin -------------------
+// ---------------------- Plugin -------------------
 
 /**
  * prefix 'mdit' indicates that the function/property is related to markdown-it
  * prefix 'cm' indicates that the function/property is related to codemirror
  */
-export interface CorePlugin {
+export interface Plugin {
   name: string
-  getCoreContext?: FnGetCoreContext
-  setCoreContext?: FnSetCoreContext
+  getContext?: FnGetContext
+  setContext?: FnSetContext
 
-  // event handler list
-  coreEventHandlerList?: CoreEventHandler[]
+  // init
+  init?: () => void
 
   // markdown-it
   mditInitOptions?: MditInitOptions
@@ -89,19 +89,15 @@ export interface CorePlugin {
   // toolbar
   toolbarWrapper?: Wrapper
 
-  // lifecycle
-  mounted?: () => void
-  beforeDestroy?: () => void
-
   // others
   commandMap?: CommandMap
   extraVnodes?: VNode[]
   messageMap?: MessageMap
 }
 
-// ----------------------------CoreContext----------------------------
+// ----------------------------Context----------------------------
 
-export interface CoreContext {
+export interface Context {
   methods: {
     [key: string]: Function
   },
@@ -119,9 +115,9 @@ export interface CoreContext {
   }
 }
 
-export type FnGetCoreContext = () => CoreContext
+export type FnGetContext = () => Context
 
-export type FnSetCoreContext = (key: keyof CoreContext, subKey: string, val: any) => void
+export type FnSetContext = (key: keyof Context, subKey: string, val: any) => void
 
 // ------------------------------------------------------------------
 

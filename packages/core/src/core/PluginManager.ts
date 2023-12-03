@@ -7,11 +7,11 @@ import type {
   MditRendererRuleMap, 
   CommandMap, MditLoadPlugin, 
   MditInitOptions, 
-  CorePlugin, 
-  CoreContext, 
+  Plugin, 
+  Context, 
   Wrapper,
-  FnGetCoreContext,
-  FnSetCoreContext
+  FnGetContext,
+  FnSetContext
 } from "./types"
 import type { Extension as CmExtension } from '@codemirror/state'
 import type { VNode, Component } from 'vue'
@@ -19,22 +19,22 @@ import type { MessageMap } from './lang'
 import { reactive } from 'vue'
 import { merge } from 'lodash/merge'
 
-export class CorePluginManager {
-  plugins: CorePlugin[]
-  getCoreContext: FnGetCoreContext
-  setCoreContext: FnSetCoreContext
+export class PluginManager {
+  plugins: Plugin[]
+  getContext: FnGetContext
+  setContext: FnSetContext
 
-  constructor(getCoreContext: FnGetCoreContext, setCoreContext: FnSetCoreContext) {
+  constructor(getContext: FnGetContext, setContext: FnSetContext) {
     this.plugins = []
-    this.getCoreContext = getCoreContext
-    this.setCoreContext = setCoreContext
+    this.getContext = getContext
+    this.setContext = setContext
   }
 
   /**
    * register plugins
    * @param plugins 
    */
-  registerPlugins(plugins: CorePlugin[]) {
+  registerPlugins(plugins: Plugin[]) {
     plugins.forEach((plugin) => {
       this.registerPlugin(plugin)
     })
@@ -44,14 +44,14 @@ export class CorePluginManager {
    * register a plugin
    * @param plugin 
    */
-  registerPlugin(plugin: CorePlugin): void {
+  registerPlugin(plugin: Plugin): void {
     if (plugin.name.indexOf('core-plugin-') !== 0) {
       console.error('a valid plugin has a name that begins with "core-plugin-"')
       return
     }
 
-    plugin.getCoreContext = this.getCoreContext
-    plugin.setCoreContext = this.setCoreContext
+    plugin.getContext = this.getContext
+    plugin.setContext = this.setContext
     this.plugins.push(plugin)
   }
 
@@ -65,11 +65,20 @@ export class CorePluginManager {
   }
 
   /**
+   * execute every plugin's init method
+   */
+  init() {
+     this.plugins.forEach((plugin) => {
+      plugin.init && plugin.init()
+    })
+  }
+
+  /**
    * execute every plugin's midtBeforeRender method
    */
   mditBeforeRender(): void {
     this.plugins.forEach((plugin) => {
-      plugin.mditBeforeRender && plugin.mditBeforeRender.apply(plugin)
+      plugin.mditBeforeRender && plugin.mditBeforeRender()
     })
   }
 
@@ -78,7 +87,7 @@ export class CorePluginManager {
    */
   mditAfterRender(): void {
     this.plugins.forEach((plugin) => {
-      plugin.mditAfterRender && plugin.mditAfterRender.apply(plugin)
+      plugin.mditAfterRender && plugin.mditAfterRender()
     })
   }
 

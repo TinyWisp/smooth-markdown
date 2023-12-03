@@ -1,6 +1,6 @@
-import type { CorePlugin, Wrapper } from '../core/types'
+import type { Plugin, Wrapper } from '../core/types'
 
-class ToolbarWrapperPlugin implements CorePlugin {
+class ToolbarWrapperPlugin implements Plugin {
   name: string = 'core-plugin-toolbar-wrapper'
   toolbarWrapper: Wrapper
 

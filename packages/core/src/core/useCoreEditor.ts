@@ -1,7 +1,7 @@
 import { provide, computed } from 'vue'
 import type { Ref, VNode } from 'vue'
-import { CorePluginManager } from './CorePluginManager'
-import type { CoreContext, CorePlugin } from './types'
+import { PluginManager } from './PluginManager'
+import type { Context, Plugin } from './types'
 
 import { useCodeMirror } from './useCodeMirror'
 import { useMarkdownIt } from './useMarkdownIt'
@@ -16,15 +16,16 @@ export interface CoreEditorConfig {
   doc: Ref<string>
   editElem: Ref<HTMLElement | null>
   viewElem: Ref<HTMLElement | null>
-  plugins: CorePlugin[]
+  plugins: Plugin[]
 }
 
 export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
   const eventBus = new EventBus()
   const { on, off, fire } = eventBus
 
-  const pluginManager = new CorePluginManager(getCoreContext, setCoreContext)
+  const pluginManager = new PluginManager(getContext, setContext)
   pluginManager.registerPlugins(coreEditorConfig.plugins)
+  pluginManager.init()
 
   const lang = new Lang()
   const t = lang.t.bind(lang)
@@ -40,19 +41,19 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
   const markdownIt = useMarkdownIt(coreEditorConfig.doc, coreEditorConfig.viewElem, pluginManager)
   const { insertOrReplace, command } = codeMirror
 
-  // -------------------- getCoreContext, setCoreContext --------------------
-  const coreContext: CoreContext = {
+  // -------------------- getContext, setContext --------------------
+  const context: Context = {
     methods: {},
     doms: {},
     props: {},
     instances: {},
     others: {}
   }
-  function setCoreContext(key: keyof CoreContext, subKey: string, val: any) {
-    coreContext[key][subKey] = val
+  function setContext(key: keyof Context, subKey: string, val: any) {
+    context[key][subKey] = val
   }
-  function getCoreContext(): CoreContext {
-    const context: CoreContext = {
+  function getContext(): Context {
+    const fullContext: Context = {
       methods: {
         insertOrReplace,
         command,
@@ -60,35 +61,35 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
         on,
         off,
         fire,
-        ...coreContext.methods
+        ...context.methods
       },
       doms: {
         edit: coreEditorConfig.editElem.value,
         view: coreEditorConfig.viewElem.value,
-        ...coreContext.doms
+        ...context.doms
       },
       props: {
-        coreEditorConfig,
-        ...coreContext.props
+        coreProps: coreEditorConfig,
+        ...context.props
       },
       instances: {
-        editorView: codeMirror.editorView,
+        codemirror: codeMirror.editorView,
         markdownIt: markdownIt.instance,
         lang,
         eventBus,
-        ...coreContext.instances
+        ...context.instances
       },
       others: {
         doc: coreEditorConfig.doc.value,
         html: markdownIt.html,
         pluginManager,
-        ...coreContext.others
+        ...context.others
       }
     }
-    return context
+    return fullContext
   }
-  provide('getCoreContext', getCoreContext)
-  provide('setCoreContext', getCoreContext)
+  provide('getContext', getContext)
+  provide('setContext', getContext)
 
   return {
     codeMirror,
@@ -96,8 +97,8 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
     command,
     insertOrReplace,
     extraVnodes,
-    getCoreContext,
-    setCoreContext,
+    getContext,
+    setContext,
     toolbarWrapperList,
     pluginManager
   }

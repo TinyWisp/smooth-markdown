@@ -54,6 +54,10 @@ const menuTree = [
       {
         title: 'affix toolbar',
         path: '/plugins/affix-toolbar'
+      },
+      {
+        title: 'custom code block renderer',
+        path: '/plugins/custom-code-block-renderer'
       }
     ]
   }
