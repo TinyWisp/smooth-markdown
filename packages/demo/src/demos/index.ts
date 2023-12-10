@@ -5,7 +5,7 @@ const demoMap = {
     height: '500px',
     codeTabs: [
       {
-        title: 'Main.vue',
+        title: 'index.vue',
         code: () => import('./plugins/CustomCodeBlockRendererExample/index.vue?raw')
       },
       {
@@ -17,7 +17,52 @@ const demoMap = {
         code: () => import('./plugins/CustomCodeBlockRendererExample/ArtText.jsx?raw')
       }
     ]
-  }
+  },
+
+  '/plugins/affix-toolbar': {
+    comp: () => import('./plugins/AffixToolbarExample.vue'),
+    height: '500px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./plugins/AffixToolbarExample.vue?raw')
+      }
+    ]
+  },
+
+  '/plugins/perfect-scrollbar': {
+    comp: () => import('./plugins/PerfectScrollbarExample/index.vue'),
+    height: '500px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./plugins/PerfectScrollbarExample/index.vue?raw')
+      }
+    ]
+  },
+
+  '/plugins/overlay-scrollbars': {
+    comp: () => import('./plugins/OverlayScrollbarsExample/index.vue'),
+    height: '500px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./plugins/OverlayScrollbarsExample/index.vue?raw')
+      }
+    ]
+  },
+
+  '/plugins/auto-height': {
+    comp: () => import('./plugins/AutoHeightExample/index.vue'),
+    height: 'auto',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./plugins/AutoHeightExample/index.vue?raw')
+      }
+    ]
+  },
+
 }
 
 export default demoMap

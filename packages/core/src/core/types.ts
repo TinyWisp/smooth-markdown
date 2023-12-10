@@ -75,7 +75,6 @@ export interface Plugin {
   mditRendererRuleMap?: MditRendererRuleMap
   mditBeforeRender?: () => void
   mditAfterRender?: () => void
-  mditWrapper?: Wrapper
 
   // codemirror
   cmDomEventHandlerMap?: CmDomEventHandlerMap
@@ -84,10 +83,12 @@ export interface Plugin {
   cmDocChanged?: CmDocChanged
   cmMarkdownConfig?: object
   cmScrollHandler?: CmScrollHandler
-  cmWrapper?: Wrapper
 
-  // toolbar
+  // elements
   toolbarWrapper?: Wrapper
+  editWrapper?: Wrapper
+  viewWrapper?: Wrapper
+  css?: String
 
   // others
   commandMap?: CommandMap
@@ -121,7 +122,7 @@ export type FnSetContext = (key: keyof Context, subKey: string, val: any) => voi
 
 // ------------------------------------------------------------------
 
-export type Wrapper = [Component, {[key: string]: any}]
+export type Wrapper = [Component] | [Component, {[key: string]: any}] | [Component, {[key: string]: any}, string]
 
 export type FnUpload = (file: File) => string | Promise<string>
 

@@ -262,8 +262,7 @@ const calcToolbarItems = computed<ToolbarItem[]>(() => {
 
     items.push(val as ToolbarItem)
   })
-    console.log('++++++++++')
-    console.log(items)
+
   return items
 })
 

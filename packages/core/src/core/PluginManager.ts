@@ -251,4 +251,37 @@ export class PluginManager {
 
     return wrapperList
   }
+
+  getEditWrapperList(): Wrapper[] {
+    const wrapperList: Wrapper[] = []
+    this.plugins.forEach((plugin) => {
+      if (plugin?.editWrapper) {
+        wrapperList.push(plugin.editWrapper)
+      }
+    })
+
+    return wrapperList
+  }
+
+  getViewWrapperList(): Wrapper[] {
+    const wrapperList: Wrapper[] = []
+    this.plugins.forEach((plugin) => {
+      if (plugin?.viewWrapper) {
+        wrapperList.push(plugin.viewWrapper)
+      }
+    })
+
+    return wrapperList
+  }
+
+  getCss(): string {
+    let css = ''
+    this.plugins.forEach((plugin) => {
+      if (plugin?.css) {
+        css = css + '\n' + plugin.css
+      }
+    })
+
+    return css
+  }
 }

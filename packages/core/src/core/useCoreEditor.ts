@@ -36,6 +36,9 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
     return pluginManager.getExtraVnodes()
   })
   const toolbarWrapperList = pluginManager.getToolbarWrapperList()
+  const editWrapperList = pluginManager.getEditWrapperList()
+  const viewWrapperList = pluginManager.getViewWrapperList()
+  const css = pluginManager.getCss()
 
   const codeMirror = useCodeMirror(coreEditorConfig.doc, coreEditorConfig.editElem, pluginManager)
   const markdownIt = useMarkdownIt(coreEditorConfig.doc, coreEditorConfig.viewElem, pluginManager)
@@ -89,7 +92,7 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
     return fullContext
   }
   provide('getContext', getContext)
-  provide('setContext', getContext)
+  provide('setContext', setContext)
 
   return {
     codeMirror,
@@ -100,6 +103,9 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
     getContext,
     setContext,
     toolbarWrapperList,
+    editWrapperList,
+    viewWrapperList,
+    css,
     pluginManager
   }
 }

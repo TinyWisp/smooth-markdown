@@ -8,8 +8,12 @@
       <slot name="classic-editor-toolbar" v-if="showToolbar"></slot>
     </div>
     <div class="classic-editor-body">
-      <slot name="classic-editor-body-edit" v-if="showEdit"></slot>
-      <slot name="classic-editor-body-view" v-if="showView"></slot>
+      <div class="classic-editor-body-edit-wrapper" v-if="showEdit">
+        <slot name="classic-editor-body-edit"></slot>
+      </div>
+      <div class="classic-editor-body-view-wrapper" v-if="showView">
+        <slot name="classic-editor-body-view"></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -86,9 +90,18 @@ export default defineComponent({
   justify-content: flex-start;
   align-items: stretch;
 }
-.classic-editor .classic-editor-body > :deep(div) {
+.classic-editor .classic-editor-body .classic-editor-body-edit-wrapper,
+.classic-editor .classic-editor-body .classic-editor-body-view-wrapper
+{
   flex-basis: 50%;
   flex-shrink: 0;
   flex-grow: 1;
+  height: 100%;
+  overflow: auto;
+}
+
+
+.classic-editor .classic-editor-body .classic-editor-body-edit-wrapper {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 </style>

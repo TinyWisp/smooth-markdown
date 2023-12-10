@@ -10,9 +10,8 @@ import { customCodeBlockRenderer } from '@smooth-vue-markdown-editor/core/plugin
 import Echarts from './Echarts.vue'
 import ArtText from './ArtText.jsx'
 
-const doc = ref(`
-\`\`\`art-text
-hello, world
+const doc = ref(`\`\`\`art-text
+GRAPH
 \`\`\`
 
 \`\`\`echarts

@@ -10,15 +10,10 @@
 <script setup>
 import { ref } from 'vue'
 import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
-import { affixToolbar } from '@smooth-vue-markdown-editor/core/plugins'
+import { autoHeight } from '@smooth-vue-markdown-editor/core/plugins'
 import VuetifyToolbar from '@smooth-vue-markdown-editor/vuetify-toolbar'
+import cnt from './jane eyre.txt?raw'
 
-const editor = ref(null)
-const doc = ref('')
-const plugins = [affixToolbar({
-  relativeElementSelector: '#app',
-  style: {
-    width: '100%'
-  }
-})]
+const doc = ref(cnt)
+const plugins = [autoHeight()]
 </script>

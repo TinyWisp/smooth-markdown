@@ -11,6 +11,10 @@ import showLineNumbers from "./plugins/ShowLineNumbersPlugin"
 import syncScrollbar from "./plugins/SyncScrollbarPlugin"
 import toolbarWrapper from "./plugins/ToolbarWrapperPlugin"
 import affixToolbar from "./plugins/AffixToolbarPlugin"
+import perfectScrollbar from "./plugins/PefrectScrollbarPlugin"
+import overlayScrollbars from "./plugins/OverlayScrollbarsPlugin"
+import injectCss from "./plugins/InjectCssPlugin"
+import autoHeight from "./plugins/AutoHeightPlugin"
 
 export {
   highlightCodeBlockInEditableArea,
@@ -25,5 +29,9 @@ export {
   showLineNumbers,
   syncScrollbar,
   toolbarWrapper,
-  affixToolbar
+  affixToolbar,
+  perfectScrollbar,
+  overlayScrollbars,
+  injectCss,
+  autoHeight
 }

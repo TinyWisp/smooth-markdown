@@ -1,5 +1,5 @@
 <template>
-  <component v-if="wrapperList.length > 0" :is="wrapperList[0][0]" v-bind="wrapperList[0][1]">
+  <component v-if="wrapperList.length > 0" :is="wrapperList[0][0]" v-bind="wrapperList[0][1]" ref="wrapper">
     <element-wrapper :wrapper-list="wrapperList.slice(1)">
       <slot></slot>
     </element-wrapper>
@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, h, type PropType } from 'vue';
-import type { Wrapper } from '../core/types';
+import { defineComponent, inject, type PropType } from 'vue';
+import type { Wrapper, FnSetContext } from '../core/types';
 
 export default defineComponent({
   name: 'element-wrapper',
@@ -17,6 +17,15 @@ export default defineComponent({
     wrapperList: {
       type: Object as PropType<Wrapper[]>,
       required: true
+    }
+  },
+  mounted() {
+    if (this.wrapperList.length > 0 && this.wrapperList[0].length === 3) {
+      const refName = this.wrapperList[0][2]
+      if (refName) {
+        const setContext: FnSetContext = inject('setContext')!
+        setContext('instances', refName, this.$refs.wrapper)
+      }
     }
   }
 })

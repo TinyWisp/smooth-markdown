@@ -1,74 +1,75 @@
 <template>
-  <classic-editor-layout
-    :class="[`svme-mode-${mode}`, 'svme-container']"
-    :show-toolbar="true"
-    :show-edit="mode === 'both' || mode === 'edit'"
-    :show-view="mode === 'both' || mode === 'view'"
-  >
-    <template v-slot:classic-editor-extra>
+  <div :class="['svme-container', `svme-mode-${mode}`]" v-bind="scopedCss" ref="container">
+    <div class="svme-extra">
       <v-node-renderer :vnodes="extraVnodes"></v-node-renderer>
-    </template>
-    <template v-slot:classic-editor-toolbar>
+    </div>
+    <div class="svme-toolbar">
       <element-wrapper :wrapper-list="toolbarWrapperList">
         <slot name="toolbar"></slot>
       </element-wrapper>
-    </template>
-    <template v-slot:classic-editor-body-edit>
-      <div
-        class="svme-edit"
-        ref="edit"
-        v-if="mode === 'edit' || mode === 'both'"
-      ></div>
-    </template>
-    <template v-slot:classic-editor-body-view>
-      <div
-        class="svme-view"
-        ref="view"
-        v-if="mode === 'view' || mode === 'both'"
-      ></div>
-    </template>
-  </classic-editor-layout>
+    </div>
+    <div class="svme-body">
+      <div class="svme-body-edit-wrapper" v-if="mode === 'both' || mode === 'edit'">
+        <element-wrapper :wrapper-list="editWrapperList">
+          <div
+            class="svme-edit"
+            ref="edit"
+          ></div>
+        </element-wrapper>
+      </div>
+      <div class="svme-body-view-wrapper" v-if="mode === 'both' || mode === 'view'">
+        <element-wrapper :wrapper-list="viewWrapperList">
+          <div
+            class="svme-view"
+            ref="view"
+          ></div>
+        </element-wrapper>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, type Ref } from 'vue'
-import ClassicEditorLayout from './ClassicEditorLayout.vue'
 import { useCoreEditor } from '../core/useCoreEditor'
 import VNodeRenderer from '../utils/VNodeRenderer.vue'
 import ElementWrapper from '../utils/ElementWrapper.vue'
 import type { Mode, Plugin } from '../core/types'
+import { useCss } from '../utils/useCss'
 
 export interface CoreEditorProps {
   modelValue: string
   mode: Mode
   height?: string
   showToolbar?: boolean
-  toolbarItems?: string[]
   plugins?: Plugin[]
 }
 
 const props = withDefaults(defineProps<CoreEditorProps>(), {
   modelValue: '',
   mode: 'both',
-  height: '30em',
-  showToolbar: true,
-  toolbarItems: () => ['undo', 'redo', 'divider', 
-    'bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'mark', 'heading1', 'heading2', 'heading3', 'divider',
-    'bulletedList', 'numberedList', 'quote', 'codeBlock', 'link', 'image', 'horizontalRule', 'table',
-    'spacer',
-    'preview'
-  ],
   plugins: () => [],
 })
 
 const edit: Ref<HTMLElement | null> = ref(null)
 const view: Ref<HTMLElement | null> = ref(null)
+const container: Ref<HTMLElement | null> = ref(null)
 const doc: Ref<string> = ref(props.modelValue)
 const mode: Ref<string> = ref(props.mode)
 
 const emit = defineEmits(['update:modelValue', 'update:mode'])
 
-const { getContext, setContext, command, insertOrReplace, extraVnodes, toolbarWrapperList } = useCoreEditor({
+const { 
+  getContext,
+  setContext,
+  command,
+  insertOrReplace,
+  extraVnodes,
+  toolbarWrapperList,
+  editWrapperList,
+  viewWrapperList,
+  css
+} = useCoreEditor({
   doc,
   editElem: edit,
   viewElem: view,
@@ -98,23 +99,93 @@ function getMode() {
   return mode.value
 }
 
+const scopedCss = useCss(css)
+
 setContext('methods', 'setMode', setMode)
 setContext('methods', 'getMode', getMode)
 setContext('props', 'editorProps', props)
+setContext('doms', 'container', container)
 
 defineExpose({command, insertOrReplace, getContext, setContext})
 </script>
 
-<style>
+<style scoped>
+.svme-container {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  border: 0;
+  overflow: hidden;
+}
+
+.svme-extra {
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.svme-container .svme-toolbar {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: auto;
+}
+.svme-container .svme-body {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 30em;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+.svme-container .svme-body .svme-body-edit-wrapper,
+.svme-container .svme-body .svme-body-view-wrapper
+{
+  flex-basis: 50%;
+  flex-shrink: 0;
+  flex-grow: 1;
+  height: 100%;
+  overflow: auto;
+}
+
+
+.svme-container .svme-body .svme-body-edit-wrapper {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 .svme-edit, .svme-view {
   overflow-y: auto;
   box-sizing: border-box;
   scrollbar-width: thin;
   height: 100%;
+  width: 100%;
+  height: auto;
+  border: 0;
 }
 
 .svme-edit {
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
   padding: 0;
 }
 
@@ -122,22 +193,21 @@ defineExpose({command, insertOrReplace, getContext, setContext})
   padding: 1em;
 }
 
-.svme-mode-both .svme-edit {
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
-  flex-basis: 50%;
-  width: 50%;
+.svme-mode-both .svme-edit,
+.svme-mode-both .svme-view {
+  width: 100%;
+  border: 0;
 }
 
-.svme-mode-both .svme-view {
-  flex-basis: 50%;
-  width: 50%;
-}
 .cm-editor {
   height: 100%;
 }
+</style>
 
+<style>
 .svme-view {
-  padding: 1em;
+  text-wrap: wrap;
+  white-space: normal;
 }
 
 .svme-view table {
@@ -282,4 +352,4 @@ defineExpose({command, insertOrReplace, getContext, setContext})
 .svme-view .nothing {
   display: none;
 }
-</style>./Plugin
+</style>
