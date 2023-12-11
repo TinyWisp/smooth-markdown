@@ -7,13 +7,14 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
-import { customCodeBlockRenderer } from '@smooth-vue-markdown-editor/core/plugins'
+import { customCodeBlockRenderer, autoHeight } from '@smooth-vue-markdown-editor/core/plugins'
 import Demo from '../components/Demo.vue'
 import md from '../docs/en.md?raw'
 import demoMap from '../demos'
 
 const doc = ref(md)
 const plugins = [
+  autoHeight(),
   customCodeBlockRenderer({demo: [Demo, {demoMap}]})
 ]
 
@@ -22,7 +23,6 @@ const plugins = [
 <style scoped>
 .doc-container {
   width: 100%;
-  height: 100vh;
-  overflow: auto;
+  height: auto;
 }
 </style>

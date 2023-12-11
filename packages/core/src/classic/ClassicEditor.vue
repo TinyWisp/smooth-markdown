@@ -1,15 +1,15 @@
 <template>
-  <div :class="['svme-container', `svme-mode-${mode}`]" v-bind="scopedCss" ref="container">
+  <div :class="['svme-root', `svme-mode-${mode}`]" v-bind="scopedCss" ref="root">
     <div class="svme-extra">
       <v-node-renderer :vnodes="extraVnodes"></v-node-renderer>
     </div>
-    <div class="svme-toolbar">
+    <div class="svme-header" ref="header">
       <element-wrapper :wrapper-list="toolbarWrapperList">
         <slot name="toolbar"></slot>
       </element-wrapper>
     </div>
-    <div class="svme-body">
-      <div class="svme-body-edit-wrapper" v-if="mode === 'both' || mode === 'edit'">
+    <div class="svme-body" ref="body">
+      <div class="svme-edit-container" ref="editContainer" v-if="mode === 'both' || mode === 'edit'">
         <element-wrapper :wrapper-list="editWrapperList">
           <div
             class="svme-edit"
@@ -17,7 +17,7 @@
           ></div>
         </element-wrapper>
       </div>
-      <div class="svme-body-view-wrapper" v-if="mode === 'both' || mode === 'view'">
+      <div class="svme-view-container" ref="viewContainer" v-if="mode === 'both' || mode === 'view'">
         <element-wrapper :wrapper-list="viewWrapperList">
           <div
             class="svme-view"
@@ -53,7 +53,11 @@ const props = withDefaults(defineProps<CoreEditorProps>(), {
 
 const edit: Ref<HTMLElement | null> = ref(null)
 const view: Ref<HTMLElement | null> = ref(null)
-const container: Ref<HTMLElement | null> = ref(null)
+const root: Ref<HTMLElement | null> = ref(null)
+const header: Ref<HTMLElement | null> = ref(null)
+const body: Ref<HTMLElement | null> = ref(null)
+const editContainer: Ref<HTMLElement | null> = ref(null)
+const viewContainer: Ref<HTMLElement | null> = ref(null)
 const doc: Ref<string> = ref(props.modelValue)
 const mode: Ref<string> = ref(props.mode)
 
@@ -104,13 +108,15 @@ const scopedCss = useCss(css)
 setContext('methods', 'setMode', setMode)
 setContext('methods', 'getMode', getMode)
 setContext('props', 'editorProps', props)
-setContext('doms', 'container', container)
+setContext('doms', 'root', root)
+setContext('doms', 'editContainer', editContainer)
+setContext('doms', 'viewContainer', viewContainer)
 
 defineExpose({command, insertOrReplace, getContext, setContext})
 </script>
 
 <style scoped>
-.svme-container {
+.svme-root {
   width: 100%;
   height: 100%;
   padding: 0;
@@ -136,7 +142,7 @@ defineExpose({command, insertOrReplace, getContext, setContext})
   flex-grow: 0;
 }
 
-.svme-container .svme-toolbar {
+.svme-root > .svme-header {
   flex-grow: 0;
   flex-shrink: 0;
   width: 100%;
@@ -146,7 +152,7 @@ defineExpose({command, insertOrReplace, getContext, setContext})
   border: 0;
   overflow: auto;
 }
-.svme-container .svme-body {
+.svme-root > .svme-body {
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 30em;
@@ -160,26 +166,23 @@ defineExpose({command, insertOrReplace, getContext, setContext})
   justify-content: flex-start;
   align-items: stretch;
 }
-.svme-container .svme-body .svme-body-edit-wrapper,
-.svme-container .svme-body .svme-body-view-wrapper
-{
-  flex-basis: 50%;
-  flex-shrink: 0;
-  flex-grow: 1;
-  height: 100%;
-  overflow: auto;
-}
 
-
-.svme-container .svme-body .svme-body-edit-wrapper {
+.svme-root > .svme-body > .svme-edit-container {
   border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 
+.svme-root > .svme-body > .svme-edit-container,
+.svme-root > .svme-body > .svme-view-container {
+  height: 100%;
+  flex-shrink: 1;
+  flex-grow: 1;
+  overflow: auto;
+}
+
 .svme-edit, .svme-view {
-  overflow-y: auto;
+  overflow: visible;
   box-sizing: border-box;
   scrollbar-width: thin;
-  height: 100%;
   width: 100%;
   height: auto;
   border: 0;

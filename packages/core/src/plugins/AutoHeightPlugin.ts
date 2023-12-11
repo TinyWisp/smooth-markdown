@@ -6,17 +6,16 @@ class AutoHeightPlugin implements Plugin {
 
   constructor() {
     this.css = `
-      &.svme-container {
+      &.svme-root {
         height: auto;
         align-items: flex-start;
       }
-      & .svme-body {
+      & > .svme-body {
         height: auto;
-        overflow: visible;
-        align-items: flex-start;
+        overflow: visible !important;
       }
-      & .svme-body-edit-wrapper,
-      & .svme-body-view-wrapper {
+      & > .svme-body > .svme-edit-container,
+      & > .svme-body > .svme-view-container {
         height: auto !important;
         overflow: visible !important;
       }
