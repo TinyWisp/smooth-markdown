@@ -21,10 +21,6 @@ class AutoHeightPlugin implements Plugin {
       }
     `
   }
-
-  init() {
-
-  }
 }
 
 function autoHeight() {

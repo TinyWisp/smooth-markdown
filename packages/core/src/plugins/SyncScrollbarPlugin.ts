@@ -12,7 +12,7 @@ class SyncScrollbarPlugin implements Plugin {
 
     if (!this.viewDom) {
       const context = this.getContext()
-      this.viewDom = context.doms.view
+      this.viewDom = context.doms.view.value
     }
 
     if (!this.viewDom) {

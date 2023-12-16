@@ -1,5 +1,9 @@
 <template>
-  <div :class="['svme-root', `svme-mode-${mode}`]" v-bind="scopedCss" ref="root">
+  <div 
+    :class="['svme-root', `svme-mode-${mode}`]"
+    :data-uniq-id="rootUniqId"
+    ref="root"
+  >
     <div class="svme-extra">
       <v-node-renderer :vnodes="extraVnodes"></v-node-renderer>
     </div>
@@ -30,12 +34,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, type Ref } from 'vue'
+import { ref, watch, onUnmounted, type Ref } from 'vue'
 import { useCoreEditor } from '../core/useCoreEditor'
 import VNodeRenderer from '../utils/VNodeRenderer.vue'
 import ElementWrapper from '../utils/ElementWrapper.vue'
 import type { Mode, Plugin } from '../core/types'
-import { useCss } from '../utils/useCss'
+import scopeCss from 'css-scoped'
+import insertCss from 'insert-css'
+import { uniqId } from '../utils/util'
 
 export interface CoreEditorProps {
   modelValue: string
@@ -51,6 +57,8 @@ const props = withDefaults(defineProps<CoreEditorProps>(), {
   plugins: () => [],
 })
 
+const rootUniqId = uniqId()
+const rootSelector = `[data-uniq-id=${rootUniqId}]`
 const edit: Ref<HTMLElement | null> = ref(null)
 const view: Ref<HTMLElement | null> = ref(null)
 const root: Ref<HTMLElement | null> = ref(null)
@@ -103,14 +111,24 @@ function getMode() {
   return mode.value
 }
 
-const scopedCss = useCss(css)
+function injectCss(css: string) {
+  const transformedCss = scopeCss(css, 'ROOT-SELECTOR').replaceAll('.ROOT-SELECTOR &', rootSelector)
+  const styleElement = insertCss(transformedCss)
+  onUnmounted(() => {
+    styleElement.remove()
+  })
+}
+injectCss(css)
 
 setContext('methods', 'setMode', setMode)
 setContext('methods', 'getMode', getMode)
+setContext('methods', 'injectCss', injectCss)
 setContext('props', 'editorProps', props)
 setContext('doms', 'root', root)
 setContext('doms', 'editContainer', editContainer)
 setContext('doms', 'viewContainer', viewContainer)
+setContext('doms', 'header', header)
+setContext('doms', 'body', body)
 
 defineExpose({command, insertOrReplace, getContext, setContext})
 </script>
@@ -176,16 +194,27 @@ defineExpose({command, insertOrReplace, getContext, setContext})
   height: 100%;
   flex-shrink: 1;
   flex-grow: 1;
+  flex-basis: 50%;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 .svme-edit, .svme-view {
   overflow: visible;
   box-sizing: border-box;
   scrollbar-width: thin;
-  width: 100%;
   height: auto;
   border: 0;
+  flex-basis: 100%;
+  flex-grow: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 .svme-edit {
@@ -194,6 +223,12 @@ defineExpose({command, insertOrReplace, getContext, setContext})
 
 .svme-view {
   padding: 1em;
+}
+
+.svme-edit > :deep(div) {
+  flex-shrink: 0;
+  flex-grow: 1;
+  flex-basis: 100%;
 }
 
 .svme-mode-both .svme-edit,
@@ -205,6 +240,11 @@ defineExpose({command, insertOrReplace, getContext, setContext})
 .cm-editor {
   height: 100%;
 }
+
+:deep(.cm-focused) {
+  outline: 0 !important;
+}
+
 </style>
 
 <style>

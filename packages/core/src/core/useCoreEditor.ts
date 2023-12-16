@@ -67,8 +67,8 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
         ...context.methods
       },
       doms: {
-        edit: coreEditorConfig.editElem.value,
-        view: coreEditorConfig.viewElem.value,
+        edit: coreEditorConfig.editElem,
+        view: coreEditorConfig.viewElem,
         ...context.doms
       },
       props: {

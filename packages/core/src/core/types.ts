@@ -103,7 +103,7 @@ export interface Context {
     [key: string]: Function
   },
   doms: {
-    [key: string]: HTMLElement | null
+    [key: string]: Ref<HTMLElement | null>
   },
   props: {
     [key: string]: any

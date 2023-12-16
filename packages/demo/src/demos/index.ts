@@ -63,6 +63,22 @@ const demoMap = {
     ]
   },
 
+
+  '/plugins/highlight-code-block-in-editable-area': {
+    comp: () => import('./plugins/HighlightCodeBlockInEditableAreaExample/index.vue'),
+    height: 'auto',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./plugins/HighlightCodeBlockInEditableAreaExample/index.vue?raw')
+      },
+      {
+        title: 'cnt.md',
+        code: () => import('./plugins/HighlightCodeBlockInEditableAreaExample/cnt.md?raw')
+      }
+    ]
+  },
+
 }
 
 export default demoMap

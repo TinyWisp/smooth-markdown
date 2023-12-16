@@ -1,3 +1,5 @@
+import scopeCss from 'css-scoped'
+
 /**
  * generate an unique id
  */
@@ -18,4 +20,11 @@ function escapeHtml(str: string) {
             .replace(/"/g, "&quot;");
 }
 
-export { uniqId, escapeHtml }
+/**
+ * add parent selector to all the css rules
+ */
+function addParentSelector(css: string, parentSelector: string) {
+  return scopeCss(css, 'PARENT-SELECTOR').replaceAll('.PARENT-SELECTOR', parentSelector)
+}
+
+export { uniqId, escapeHtml, addParentSelector }

@@ -27,3 +27,8 @@
 ```demo
 /plugins/auto-height
 ```
+## highlight code blocks in editable area
+
+```demo
+/plugins/highlight-code-block-in-editable-area
+```
