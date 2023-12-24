@@ -3,10 +3,17 @@ import scopeCss from 'css-scoped'
 /**
  * generate an unique id
  */
-let counter = Date.now()
+declare global {
+  interface Window {
+    svmeCounter: number
+  }
+}
+if (!window.svmeCounter) {
+  window.svmeCounter = Date.now()
+}
 function uniqId(): string {
-  counter++
-  return `svme_core_uniq_${counter}`
+  window.svmeCounter++
+  return `svme_core_uniq_${window.svmeCounter}`
 }
 
 /**
@@ -17,7 +24,7 @@ function escapeHtml(str: string) {
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
             .replace(/'/g, "&#39;")
-            .replace(/"/g, "&quot;");
+            .replace(/"/g, "&quot;")
 }
 
 /**

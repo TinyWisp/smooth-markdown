@@ -48,7 +48,7 @@ class CustomCodeBlockRendererPlugin implements Plugin {
       id,
     })
 
-    return `<pre id="${id}"></pre>`
+    return `<div id="${id}"></div>`
   }
 
   mditAfterRender() {
@@ -65,11 +65,11 @@ class CustomCodeBlockRendererPlugin implements Plugin {
   }
 
   renderCodeBlockComponent(codeblock: CodeBlock) {
-    const [component, config] = this.langComponentMap[codeblock.lang] ?? this.langComponentMap.default
+    const [component, props] = this.langComponentMap[codeblock.lang] ?? this.langComponentMap.default
     const renderCompoent = h(component, {
       lang: codeblock.lang,
       code: codeblock.code,
-      config,
+      ...props,
       key: codeblock.id
     })
     return h(Teleport, {

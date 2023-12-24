@@ -11,7 +11,7 @@ class PerfectScrollbarPlugin implements Plugin {
   constructor(props: {[key: string]: any}) {
     this.editWrapper = [PerfectScrollbar, props, 'editPerfectScrollbar']
     this.viewWrapper = [PerfectScrollbar, props, 'viewPerfectScrollbar']
-    this.css = '& .ps {height:  100%}'
+    this.css = '&root .ps {height:  100%}'
   }
 }
 

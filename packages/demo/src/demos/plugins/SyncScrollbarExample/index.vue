@@ -10,18 +10,10 @@
 <script setup>
 import { ref } from 'vue'
 import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
-import { affixToolbar } from '@smooth-vue-markdown-editor/core/plugins'
+import { syncScrollbar } from '@smooth-vue-markdown-editor/core/plugins'
 import VuetifyToolbar from '@smooth-vue-markdown-editor/vuetify-toolbar'
+import cnt from './cnt.txt?raw'
 
-const editor = ref(null)
-const doc = ref('')
-const plugins = [affixToolbar({
-  offset: {
-    top: 0,
-    bottom: 0
-  },
-  style: {
-    width: '100%'
-  }
-})]
+const doc = ref(cnt)
+const plugins = [syncScrollbar({})]
 </script>

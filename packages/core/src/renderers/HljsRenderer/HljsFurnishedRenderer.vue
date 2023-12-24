@@ -1,28 +1,30 @@
 <template>
-  <div class="svme-codeblock">
+  <div class="svme-codeblock" ref="container">
     <div class="svme-codeblock-lang" v-show="!copied">{{ lang }}</div>
     <div class="svme-codeblock-copy" @click="copy" v-show="!copied"></div>
     <div class="svme-codeblock-copied" v-show="copied">
-      {{ config.tip?.copied }}
+      {{ t('svme.codeBlock.copied') }}
     </div>
-    <code ref="codeBlockEl" :class="'hljs language-' + lang">{{ code }}</code>
+    <div class="hljs-wrapper" ref="hljsWrapper">
+      <hljs-renderer
+        :lang="lang"
+        :code="code"
+        :fnGetLangDef="fnGetLangDef"
+      ></hljs-renderer>
+    </div>
   </div>
-
 </template>
 
-<script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
-import type { Ref, PropType } from 'vue'
+<script lang="ts" setup>
+import HljsRenderer from './HljsRenderer.vue'
+import { inject, onMounted, ref, reactive, watch } from 'vue'
+import type { Ref } from 'vue'
+import type { FnGetContext } from '../../core/types'
 import copyToClipboard from 'copy-to-clipboard'
-import hljs from 'highlight.js/lib/common'
-import { getLangDef } from './hljs'
-import 'highlight.js/styles/vs2015.css'
-
-export interface HighlightCodeBlockWithHljsConfig {
-  tip?: {
-    copied: string
-  }
-}
+import { useOverlayScrollbars } from "overlayscrollbars-vue"
+import type { ScrollbarsAutoHideBehavior } from "overlayscrollbars"
+import { ClickScrollPlugin, OverlayScrollbars, ScrollbarsHidingPlugin } from "overlayscrollbars"
+import 'overlayscrollbars/overlayscrollbars.css'
 
 const props = defineProps({
   lang: {
@@ -33,20 +35,16 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  config: {
-    type: Object as PropType<HighlightCodeBlockWithHljsConfig>,
-    required: false,
-    default: () => {
-      return {
-        tip: {
-          copied: 'Copied'
-        }
-      }
-    }
+  fnGetLangDef: {
+    type: Function,
+    required: true
   }
 })
 
-const codeBlockEl: Ref<HTMLElement | null> = ref(null)
+const getContext: FnGetContext = inject('getContext')!
+const context = getContext()
+const { t } = context.methods
+
 const copied: Ref<boolean> = ref(false)
 const stayCopiedTime = 5000
 
@@ -58,30 +56,43 @@ function copy() {
   }, stayCopiedTime)
 }
 
+OverlayScrollbars.plugin(ClickScrollPlugin)
+OverlayScrollbars.plugin(ScrollbarsHidingPlugin)
+const container = ref(null)
+const hljsWrapper = ref(null)
+const params = {
+  options: {
+    scrollbars: {
+      clickScroll: true,
+      autoHide: 'leave' as ScrollbarsAutoHideBehavior
+    }
+  },
+  events: {},
+  defer: true
+}
+const [initialize] = useOverlayScrollbars(params);
 onMounted(() => {
-  const langDef = getLangDef(props.lang)
-  if (langDef) {
-    (async() => {
-      if (!hljs.getLanguage(props.lang)) {
-        const langDefModule = await langDef()
-        hljs.registerLanguage(props.lang, langDefModule.default)
-      }
-      codeBlockEl.value && hljs.highlightElement(codeBlockEl.value)
-    })()
-  }
+  initialize({
+    target: container.value!,
+    elements: {
+      viewport: hljsWrapper.value!
+    }
+  })
 })
+
 </script>
 
 <style scoped>
 .svme-codeblock {
   position: relative;
   font-family: 'Droid Sans Mono', 'monospace', monospace;
-  padding: 1em 1.5em;
+  padding: 0;
   overflow: auto;
   line-height: 1.45em;
-  background-color: #1e1e1e;
   border-radius: 0.45em;
-  color: #e9e9e9;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .svme-codeblock .svme-codeblock-lang {
@@ -156,4 +167,13 @@ onMounted(() => {
   font-size: 0.8em;
 }
 
+:deep(.ps) {
+  height: 300px;
+}
+
+:deep(.code-block) {
+  width: fit-content;
+  height: auto;
+  overflow: visible !important;
+}
 </style>

@@ -19,6 +19,9 @@ export class Lang {
     this.messageMap = {}
     this.lang = 'en'
     this.fallback = 'en'
+    this.merge = this.merge.bind(this)
+    this.t = this.t.bind(this)
+    this.print = this.print.bind(this)
   }
 
   merge(messageMap: MessageMap) {

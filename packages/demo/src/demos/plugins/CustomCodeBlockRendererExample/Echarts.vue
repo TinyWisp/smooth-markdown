@@ -1,7 +1,6 @@
 <template>
   <div class="echarts-wrapper" ref="chartEl">
   </div>
-
 </template>
 
 <script setup>

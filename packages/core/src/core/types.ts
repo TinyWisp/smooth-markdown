@@ -1,6 +1,6 @@
 import type { Ref, Component, VNode } from 'vue'
 import type { PluginSimple as MditPluginSimple, PluginWithOptions as MditPluginWithOptions, PluginWithParams as MditPluginWithParams} from 'markdown-it'
-import type { MessageMap } from './lang'
+import type { MessageMap } from './Lang'
 import type { Extension as CmExtension } from '@codemirror/state'
 
 // ---------------- types related to markdown-it  -------------------
@@ -62,11 +62,9 @@ export interface CommandMap {
  */
 export interface Plugin {
   name: string
-  getContext?: FnGetContext
-  setContext?: FnSetContext
 
   // init
-  init?: () => void
+  init?: (getContext: FnGetContext, setContext: FnSetContext) => void
 
   // markdown-it
   mditInitOptions?: MditInitOptions
@@ -88,6 +86,8 @@ export interface Plugin {
   toolbarWrapper?: Wrapper
   editWrapper?: Wrapper
   viewWrapper?: Wrapper
+  editScrollElm?: Ref<HTMLElement | null>
+  viewScrollElm?: Ref<HTMLElement | null>
   css?: String
 
   // others
@@ -105,7 +105,10 @@ export interface Context {
   doms: {
     [key: string]: Ref<HTMLElement | null>
   },
-  props: {
+  selectors: {
+    [key: string]: string
+  },
+  data: {
     [key: string]: any
   },
   instances: {
@@ -129,4 +132,3 @@ export type FnUpload = (file: File) => string | Promise<string>
 export type Mode = 'edit' | 'view' | 'both'
 
 export type CoreEventHandler = [src: string, event: string, func: Function]
-

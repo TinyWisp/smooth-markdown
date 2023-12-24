@@ -14,9 +14,6 @@ import { perfectScrollbar } from '@smooth-vue-markdown-editor/core/plugins'
 import VuetifyToolbar from '@smooth-vue-markdown-editor/vuetify-toolbar'
 import cnt from './jane eyre.txt?raw'
 
-console.log('++++++++++')
-console.log(typeof cnt)
-
 const doc = ref(cnt)
 const plugins = [perfectScrollbar({})]
 </script>

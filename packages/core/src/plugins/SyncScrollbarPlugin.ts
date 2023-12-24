@@ -1,32 +1,39 @@
-import type { Context, Plugin } from '../core/types'
+import { onMounted, watch } from 'vue'
+import type { FnGetContext, Plugin } from '../core/types'
 
 class SyncScrollbarPlugin implements Plugin {
   readonly name = 'core-plugin-sync-scrollbar'
-  viewDom: HTMLElement | null = null
-  getContext?: (() => Context) | undefined
 
-  cmScrollHandler(scrollHeight: number, scrollTop: number, scrollOffset: number) {
-    if (!this.getContext) {
-      return
-    }
+  init(getContext: FnGetContext) {
+    onMounted(() => {
+      const context = getContext()
+      const editScrollElm = context.doms.editScroll
+      const viewScrollElm = context.doms.viewScroll
 
-    if (!this.viewDom) {
-      const context = this.getContext()
-      this.viewDom = context.doms.view.value
-    }
+      let editPrevScrollTop = 0
+      watch(editScrollElm, () => {
+        if (editScrollElm.value) {
+          editScrollElm.value.addEventListener('scroll', () => {
+            if (!editScrollElm.value) {
+              return
+            }
 
-    if (!this.viewDom) {
-      return
-    }
+            const editCurScrollTop = editScrollElm.value.scrollTop
+            const editScrollHeight = editScrollElm.value.scrollHeight
+            const editClientHeight = editScrollElm.value.clientHeight
+            const editScrollOffsetPercent = (editCurScrollTop - editPrevScrollTop) / (editScrollHeight - editClientHeight)
+            editPrevScrollTop = editCurScrollTop
 
-    if (this.viewDom.scrollHeight === this.viewDom.clientHeight) {
-      return
-    }
-
-    const percent = scrollOffset / scrollHeight
-    const newViewDomScrollTop = this.viewDom.scrollTop + (this.viewDom.scrollHeight * percent)
-    this.viewDom.scrollTop = newViewDomScrollTop
-  } 
+            if (viewScrollElm.value) {
+              const viewScrollHeight = viewScrollElm.value.scrollHeight
+              const viewClientHeight = viewScrollElm.value.clientHeight
+              viewScrollElm.value.scrollTop = viewScrollElm.value.scrollTop + editScrollOffsetPercent * (viewScrollHeight - viewClientHeight)
+            }
+          })
+        }
+      }, { immediate: true})
+    })
+  }
 }
 
 

@@ -1,7 +1,7 @@
 import { ref, watch, type Ref } from 'vue'
-import { EditorView, minimalSetup } from 'codemirror'
-import { keymap } from '@codemirror/view'
-import { EditorSelection } from '@codemirror/state'
+import { minimalSetup } from 'codemirror'
+import { EditorView, keymap } from '@codemirror/view'
+import { EditorSelection, EditorState } from '@codemirror/state'
 import { markdown } from '@codemirror/lang-markdown'
 import { indentWithTab, undo, redo } from "@codemirror/commands"
 import type { PluginManager } from './PluginManager'
@@ -15,20 +15,6 @@ export interface CodeMirrorContext {
 
 export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, pluginManager: PluginManager): CodeMirrorContext {
   const editorView: Ref<EditorView | null> = ref(null)
-
-  /**
-   * scroll
-   */
-  let prevScrollTop = 0
-  function scrollHandler() {
-    setTimeout(() => {
-      const scrollHeight = editorView.value!.scrollDOM.scrollHeight
-      const curScrollTop    = editorView.value!.scrollDOM.scrollTop
-      const scrollOffset = curScrollTop - prevScrollTop
-      pluginManager.cmScrollHandler(scrollHeight, curScrollTop, scrollOffset)
-      prevScrollTop = curScrollTop
-    }, 0)
-  }
 
   /**
    * paste
@@ -58,6 +44,7 @@ export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
   function createEditorView() {
     editorView.value = new EditorView({
       doc: doc.value,
+      parent: elem.value!,
       extensions: [
         ...pluginManager.getCmExtensions(),
         minimalSetup,
@@ -71,12 +58,10 @@ export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
           }
         }),
         EditorView.domEventHandlers({
-          scroll: scrollHandler,
           paste: pasteHandler,
           ...pluginManager.getCmDomEventHandlerMap(),
         }),
-      ],
-      parent: elem.value!
+      ]
     })
   }
 

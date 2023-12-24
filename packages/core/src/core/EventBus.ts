@@ -11,6 +11,11 @@ export class EventBus {
   constructor() {
     this.eventMap = {}
     this.logEvent = false
+    this.fire = this.fire.bind(this)
+    this.on = this.on.bind(this)
+    this.off = this.off.bind(this)
+    this.beginDebug = this.beginDebug.bind(this)
+    this.endDebug = this.endDebug.bind(this)
   }
 
   fire(src: string, event: string, detail: any) {
@@ -51,11 +56,11 @@ export class EventBus {
     }
   }
 
-  beginLogEvent() {
+  beginDebug() {
     this.logEvent = true
   }
 
-  endLogEvent() {
+  endDebug() {
     this.logEvent = false
   }
 }

@@ -1,22 +1,19 @@
 import type { 
   CmDomEventHandlerMap,
   CmPasteEventHandlerMap, 
-  CmDocChanged, 
-  CmScrollHandler, 
   MditCodeRendererMap, 
   MditRendererRuleMap, 
   CommandMap, MditLoadPlugin, 
   MditInitOptions, 
   Plugin, 
-  Context, 
   Wrapper,
   FnGetContext,
-  FnSetContext
+  FnSetContext,
 } from "./types"
 import type { Extension as CmExtension } from '@codemirror/state'
-import type { VNode, Component } from 'vue'
-import type { MessageMap } from './lang'
-import { reactive } from 'vue'
+import type { VNode, Component, Ref } from 'vue'
+import type { MessageMap } from './Lang'
+import { reactive, ref } from 'vue'
 import { merge } from 'lodash/merge'
 
 export class PluginManager {
@@ -50,8 +47,6 @@ export class PluginManager {
       return
     }
 
-    plugin.getContext = this.getContext
-    plugin.setContext = this.setContext
     this.plugins.push(plugin)
   }
 
@@ -69,7 +64,7 @@ export class PluginManager {
    */
   init() {
      this.plugins.forEach((plugin) => {
-      plugin.init && plugin.init()
+      plugin.init && plugin.init(this.getContext, this.setContext)
     })
   }
 
@@ -284,4 +279,27 @@ export class PluginManager {
 
     return css
   }
+
+  getEditScrollElm(): Ref<HTMLElement | null> | null {
+    let editScrollElm = null
+    this.plugins.forEach((plugin) => {
+      if (plugin.editScrollElm) {
+        editScrollElm = plugin.editScrollElm
+      }
+    })
+
+    return editScrollElm
+  }
+
+  getViewScrollElm(): Ref<HTMLElement | null> | null {
+    let viewScrollElm = null 
+    this.plugins.forEach((plugin) => {
+      if (plugin.viewScrollElm) {
+        viewScrollElm = plugin.viewScrollElm
+      }
+    })
+
+    return viewScrollElm
+  }
+
 }

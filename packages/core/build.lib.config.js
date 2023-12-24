@@ -66,7 +66,8 @@ const external = [
   'vue',
   /codemirror/,
   /markdown-it/,
-  /highlight.js/
+  /highlight.js/,
+  /@lezer/
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -82,6 +83,7 @@ const builds = [];
 
 buildEditor();
 buildAllPluginsInOne();
+buildAllRenderersInOne();
 
 // ------ CoreEditor --------
 function buildEditor() {
@@ -180,7 +182,60 @@ function buildAllPluginsInOne() {
   });
 }
 
+// build all renderers in one
+function buildAllRenderersInOne() {
+  const input = `src/entry.renderers.ts`;
+  
+  builds.push({
+    input: input,
+    external,
+    output: [{
+      file: 'lib/renderers/index.esm.js',
+      format: 'es',
+      exports: 'named',
+    }, {
+      file: 'lib/renderers/index.umd.js',
+      format: 'umd',
+      exports: 'named',
+      name: 'MarkdownEditorRenderers'
+    }],
+    plugins: [
+      replace(baseConfig.plugins.replace),
+      ...baseConfig.plugins.preVue,
+      vue(baseConfig.plugins.vue),
+      ...baseConfig.plugins.postVue,
+      babel(baseConfig.plugins.babel),
+      commonjs(),
+      typescript(),
+      resolve(baseConfig.plugins.resolve),
+    ],
+  });
 
+  /*
+  builds.push({
+    input: input,
+    output: {
+      file: `lib/plugins/esm/index.d.ts`,
+      format: 'es'
+    },
+    plugins: [
+      dts.default()
+    ]
+  });
+  */
+
+
+  builds.push({
+    input: `lib/types/entry.renderers.d.ts`,
+    output: {
+      file: `lib/renderers/index.d.ts`,
+      format: 'es'
+    },
+    plugins: [
+      dts.default()
+    ]
+  });
+}
 
 /*
 buildPlugin({

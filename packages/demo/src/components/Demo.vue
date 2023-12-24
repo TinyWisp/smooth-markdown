@@ -54,13 +54,14 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  config: {
+  demoMap: {
     type: Object,
     required: true
   }
 })
 
-const demoMap = props.config.demoMap
+// eslint-disable-next-line vue/no-setup-props-destructure
+const demoMap = props.demoMap
 const demoName = props.code.trim()
 const demo = demoMap[demoName]
 

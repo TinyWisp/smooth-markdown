@@ -45,5 +45,8 @@ export default {
       closePreview: 'Close Preview',
       horizontalRule: 'Horizontal Rule',
     },
+    codeBlock: {
+      copied: 'Copied'
+    }
   }
 }

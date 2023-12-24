@@ -19,6 +19,23 @@ const demoMap = {
     ]
   },
 
+  '/plugins/custom-code-block-renderer/hljs': {
+    comp: () => import('./plugins/CustomCodeBlockRendererExample/hljs/index.vue'),
+    height: '500px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./plugins/CustomCodeBlockRendererExample/hljs/index.vue?raw')
+      },
+      {
+        title: 'cnt.md',
+        code: () => import('./plugins/CustomCodeBlockRendererExample/hljs/cnt.md?raw')
+      }
+    ],
+  },
+
+
+
   '/plugins/affix-toolbar': {
     comp: () => import('./plugins/AffixToolbarExample.vue'),
     height: '500px',
@@ -79,6 +96,35 @@ const demoMap = {
     ]
   },
 
+  '/plugins/sync-scrollbar': {
+    comp: () => import('./plugins/SyncScrollbarExample/index.vue'),
+    height: 'auto',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./plugins/SyncScrollbarExample/index.vue?raw')
+      },
+      {
+        title: 'cnt.txt',
+        code: () => import('./plugins/SyncScrollbarExample/cnt.txt?raw')
+      }
+    ]
+  },
+
+  '/cases/codemirror-theme': {
+    comp: () => import('./cases/CodeMirrorTheme/index.vue'),
+    height: '500px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./cases/CodeMirrorTheme/index.vue?raw')
+      },
+      {
+        title: 'cnt.md',
+        code: () => import('./cases/CodeMirrorTheme/cnt.md?raw')
+      }
+    ]
+  }
 }
 
 export default demoMap

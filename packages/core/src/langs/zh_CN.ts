@@ -47,5 +47,8 @@ export default {
       closePreview: '关闭预览',
       horizontalRule: '插入水平线',
     },
+    codeBlock: {
+      copied: '已复制'
+    }
   }
 }
