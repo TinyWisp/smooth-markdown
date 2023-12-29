@@ -76,12 +76,18 @@
 ## CodeMirror主题
 
 ```demo
-/cases/codemirror-theme
+/examples/codemirror-theme
 ```
 
 ##### 需要更多的主题，可查看下面的网址
 https://uiwjs.github.io/react-codemirror/#/theme/home
 https://github.com/craftzdog/cm6-themes
+
+## markdown渲染主题
+
+```demo
+/examples/view-theme
+```
 
 # API
 

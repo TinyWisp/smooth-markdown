@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import Case from './demos/cases/CodeMirrorTheme/index.vue'
 import router from './router'
 
 import 'vuetify/styles'
@@ -25,9 +24,7 @@ const vuetify = createVuetify({
   },
 })
 
-const app = createApp(Case)
-
+const app = createApp(App)
 app.use(vuetify)
 app.use(router)
-
 app.mount('#app')

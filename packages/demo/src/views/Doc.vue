@@ -6,14 +6,16 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
-import { customCodeBlockRenderer, autoHeight } from '@smooth-vue-markdown-editor/core/plugins'
+import { MarkdownEditor, addParentSelector } from '@smooth-vue-markdown-editor/core'
+import { customCodeBlockRenderer, autoHeight, injectCss } from '@smooth-vue-markdown-editor/core/plugins'
 import Demo from '../components/Demo.vue'
 import md from '../docs/zh.md?raw'
+import css from './theme.css?raw'
 import demoMap from '../demos'
 
 const doc = ref(md)
 const plugins = [
+  injectCss(addParentSelector(css, '&view')),
   autoHeight(),
   customCodeBlockRenderer({demo: [Demo, {demoMap}]})
 ]

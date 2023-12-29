@@ -17,7 +17,6 @@ class AutoHeightPlugin implements Plugin {
       &edit-container,
       &view-container {
         height: auto !important;
-        overflow: visible !important;
       }
     `
   }

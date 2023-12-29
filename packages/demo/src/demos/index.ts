@@ -111,17 +111,36 @@ const demoMap = {
     ]
   },
 
-  '/cases/codemirror-theme': {
-    comp: () => import('./cases/CodeMirrorTheme/index.vue'),
+  '/examples/codemirror-theme': {
+    comp: () => import('./examples/CodeMirrorTheme/index.vue'),
     height: '500px',
     codeTabs: [
       {
         title: 'index.vue',
-        code: () => import('./cases/CodeMirrorTheme/index.vue?raw')
+        code: () => import('./examples/CodeMirrorTheme/index.vue?raw')
       },
       {
         title: 'cnt.md',
-        code: () => import('./cases/CodeMirrorTheme/cnt.md?raw')
+        code: () => import('./examples/CodeMirrorTheme/cnt.md?raw')
+      }
+    ]
+  },
+
+  '/examples/view-theme': {
+    comp: () => import('./examples/ViewTheme/index.vue'),
+    height: '500px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./examples/ViewTheme/index.vue?raw')
+      },
+      {
+        title: 'cnt.md',
+        code: () => import('./examples/ViewTheme/cnt.md?raw')
+      },
+      {
+        title: 'theme.css',
+        code: () => import('./examples/ViewTheme/theme.css?raw')
       }
     ]
   }

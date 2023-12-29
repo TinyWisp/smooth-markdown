@@ -29,7 +29,7 @@ class AffixToolbarPlugin implements Plugin {
         const headerElWidth = headerEl?.clientWidth
         const headerElHeight = headerEl?.clientHeight
         injectCss(`
-          &header .vue-affix { width: ${headerElWidth}px !important; height: ${headerElHeight}px !important;}
+          &header .affix { width: ${headerElWidth}px !important; height: ${headerElHeight}px !important;}
           &header { height: ${headerElHeight}px !important;}
         `)
       }

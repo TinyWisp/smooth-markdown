@@ -9,7 +9,7 @@
  * forked from 'https://github.com/eddiemf/vue-affix'
  * author: Mauricio Farias Dziedzinski
  * 
- * what I modified:
+ * what I changed:
  *  beforeDestroy -> beforeUnmount
  */
 export default {
