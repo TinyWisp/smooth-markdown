@@ -3,7 +3,7 @@
     size="small"
     variant="flat"
     color="white"
-    class="svme-toolbar-button"
+    class="sm-toolbar-button"
   >
     <v-icon small color="grey darken-1">mdi-table-plus</v-icon>
     <v-tooltip location="bottom" activator="parent">Table</v-tooltip>
@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
-import type { Context } from '@smooth-vue-markdown-editor/core'
+import type { Context } from '@smooth-markdown/core'
 import InsertTableBoard from './InsertTableBoard.vue'
 
 export default defineComponent({

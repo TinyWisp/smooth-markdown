@@ -1,5 +1,5 @@
 import type { Ref, Component, VNode } from 'vue'
-import type { PluginSimple as MditPluginSimple, PluginWithOptions as MditPluginWithOptions, PluginWithParams as MditPluginWithParams} from 'markdown-it'
+import type { PluginSimple as MditPluginSimple, PluginWithOptions as MditPluginWithOptions, PluginWithParams as MditPluginWithParams, Token as MditToken} from 'markdown-it'
 import type { MessageMap } from './Lang'
 import type { Extension as CmExtension } from '@codemirror/state'
 
@@ -80,14 +80,18 @@ export interface Plugin {
   cmExtensions?: CmExtension[]
   cmDocChanged?: CmDocChanged
   cmMarkdownConfig?: object
-  cmScrollHandler?: CmScrollHandler
+
+  // toc
+  tocUasOptions?: Object
 
   // elements
   toolbarWrapper?: Wrapper
-  editWrapper?: Wrapper
-  viewWrapper?: Wrapper
-  editScrollElm?: Ref<HTMLElement | null>
-  viewScrollElm?: Ref<HTMLElement | null>
+  editorWrapper?: Wrapper
+  viewerWrapper?: Wrapper
+  tocWrapper?: Wrapper
+  editorScrollEl?: Ref<HTMLElement | null>
+  viewerScrollEl?: Ref<HTMLElement | null>
+  tocScrollEl?: Ref<HTMLElement | null>
   css?: String
 
   // others
@@ -129,6 +133,17 @@ export type Wrapper = [Component] | [Component, {[key: string]: any}] | [Compone
 
 export type FnUpload = (file: File) => string | Promise<string>
 
-export type Mode = 'edit' | 'view' | 'both'
-
 export type CoreEventHandler = [src: string, event: string, func: Function]
+
+export type Heading = {
+  level: number
+  text: string
+  id: string
+  lineNum: number
+}
+
+export type TocSpy = {
+  headingList: Ref<Heading[]>
+  activeIndex: Ref<number>
+  setActive: (idx: number) => void
+}

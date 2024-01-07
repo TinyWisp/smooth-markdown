@@ -1,17 +1,17 @@
 <template>
-  <markdown-editor v-model="doc" mode="both" :plugins="plugins">
+  <smooth-markdown v-model="doc" :plugins="plugins">
     <template v-slot:toolbar>
       <vuetify-toolbar color="white"></vuetify-toolbar>
       <v-divider></v-divider>
     </template>
-  </markdown-editor>
+  </smooth-markdown>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
-import { affixToolbar } from '@smooth-vue-markdown-editor/core/plugins'
-import VuetifyToolbar from '@smooth-vue-markdown-editor/vuetify-toolbar'
+import { SmoothMarkdown } from '@smooth-markdown/core'
+import { affixToolbar } from '@smooth-markdown/core/plugins'
+import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
 
 const editor = ref(null)
 const doc = ref('')

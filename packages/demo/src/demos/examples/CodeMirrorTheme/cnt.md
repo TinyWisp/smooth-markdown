@@ -48,8 +48,8 @@ _________________
 Unordered Lists
 
 - George Washington
-* John Adams
-+ Thomas Jefferson
+- John Adams
+- Thomas Jefferson
 
 
 Ordered Lists
@@ -74,9 +74,9 @@ Fenced Code Blocks
 
 ```javascript
 import { ref } from 'vue'
-import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
-import { affixToolbar } from '@smooth-vue-markdown-editor/core/plugins'
-import VuetifyToolbar from '@smooth-vue-markdown-editor/vuetify-toolbar'
+import { SmoothMarkdown } from '@smooth-markdown/core'
+import { affixToolbar } from '@smooth-markdown/core/plugins'
+import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
 
 const editor = ref(null)
 const doc = ref('')

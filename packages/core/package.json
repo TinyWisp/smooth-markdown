@@ -1,5 +1,5 @@
 {
-  "name": "@smooth-vue-markdown-editor/core",
+  "name": "@smooth-markdown/core",
   "version": "1.0.0",
   "private": false,
   "author": "TinyWisp",
@@ -83,7 +83,8 @@
     "markdown-it-mark": "^3.0.1",
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
-    "vue": "^3.2.47"
+    "vue": "^3.2.47",
+    "vue-use-active-scroll": "^1.1.1"
   },
   "exports": {
     ".": {

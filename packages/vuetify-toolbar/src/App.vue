@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { showLineNumbers, highlightCodeBlockWithHljs, syncScrollbar, toolbarWrapper } from '@smooth-vue-markdown-editor/core/plugins'
-import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
+import { showLineNumbers, highlightCodeBlockWithHljs, syncScrollbar, toolbarWrapper } from '@smooth-markdown/core/plugins'
+import { SmoothMarkdown } from '@smooth-markdown/core'
 import VuetifyToolbar from './VuetifyToolbar';
 import { ref, h } from 'vue'
 
-const doc = ref<string>('hello world')
-const mode = ref<'edit' | 'view' | 'both'>('both')
+const doc = ref('hello world')
+const mode = ref('editor|viewer')
 
 function upload(file: File) {
   console.log('--upload---')
@@ -18,7 +18,7 @@ function upload(file: File) {
 
 <template>
   <div style="width: 1200px; height:500px; border: 1px solid gray; position: relative; left: 100px; top: 100px;">
-    <markdown-editor
+    <smooth-markdown
       v-model="doc"
       v-model:mode="mode"
       height="100%"
@@ -27,7 +27,7 @@ function upload(file: File) {
         <vuetify-toolbar color="white"></vuetify-toolbar>
         <v-divider></v-divider>
       </template>
-    </markdown-editor>
+    </smooth-markdown>
   </div>
 </template>
 

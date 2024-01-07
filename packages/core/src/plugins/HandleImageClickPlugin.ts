@@ -58,7 +58,7 @@ class HandleImageClickPlugin implements Plugin {
       })
     }, 0)
 
-    return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" title="${escapeHtml(title)}" id="${id}" class="svme-plugin-handle-image-click">`
+    return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" title="${escapeHtml(title)}" id="${id}" class="sm-plugin-handle-image-click">`
   }
 }
 

@@ -1,7 +1,7 @@
 import VNodeRenderer from './utils/VNodeRenderer.vue'
-import MarkdownEditor from './classic/ClassicEditor.vue'
+import SmoothMarkdown from './core/SmoothMarkdown.vue'
 
-export { VNodeRenderer, MarkdownEditor }
+export { VNodeRenderer, SmoothMarkdown }
 
 export * from './core/useCodeMirror'
 export * from './core/useMarkdownIt'

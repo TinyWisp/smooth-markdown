@@ -1,12 +1,12 @@
 <template>
-  <markdown-editor v-model="doc" mode="both" :plugins="plugins">
-  </markdown-editor>
+  <smooth-markdown v-model="doc" :plugins="plugins">
+  </smooth-markdown>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
-import { codemirrorExt } from '@smooth-vue-markdown-editor/core/plugins'
+import { SmoothMarkdown } from '@smooth-markdown/core'
+import { codemirrorExt } from '@smooth-markdown/core/plugins'
 import { vscodeDark} from '@uiw/codemirror-theme-vscode'
 import cnt from './cnt.md?raw'
 

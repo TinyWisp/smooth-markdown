@@ -1,16 +1,16 @@
 <template>
-  <markdown-editor v-model="doc" mode="both" ref="editor">
+  <smooth-markdown v-model="doc" ref="editor">
     <template v-slot:toolbar>
       <vuetify-toolbar color="white" :items="toolbarItems"></vuetify-toolbar>
       <v-divider></v-divider>
     </template>
-  </markdown-editor>
+  </smooth-markdown>
 </template>
 
 <script lang="jsx" setup>
 import { ref } from 'vue'
-import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
-import VuetifyToolbar from '@smooth-vue-markdown-editor/vuetify-toolbar'
+import { SmoothMarkdown } from '@smooth-markdown/core'
+import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
 
 const doc = ref('')
 const editor = ref(null)

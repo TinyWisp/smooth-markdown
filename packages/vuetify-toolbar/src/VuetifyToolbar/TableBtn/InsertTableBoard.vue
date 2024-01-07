@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import type { Context } from '@smooth-vue-markdown-editor/core'
+import type { Context } from '@smooth-markdown/core'
 import { defineComponent, inject } from 'vue'
 
 export default defineComponent({

@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar density="compact" class="svme-toolbar">
+  <v-toolbar density="compact" class="sm-toolbar">
     <template v-for="(item, idx) of calcToolbarItems" :key="item.name + idx">
       <!-- divider -->
       <v-divider
@@ -21,7 +21,7 @@
         size="small"
         variant="flat"
         color="white"
-        class="svme-toolbar-button"
+        class="sm-toolbar-button"
         :key="(item.name ?? '') + idx"
         @click="clickToolbarButton(item)"
         v-else>
@@ -37,7 +37,7 @@
 import type { ToolbarItemMap, ToolbarItem } from './types'
 import type { VNode, Component } from 'vue'
 import { computed, inject, isVNode } from 'vue'
-import { VNodeRenderer, type Context } from '@smooth-vue-markdown-editor/core'
+import { VNodeRenderer, type Context } from '@smooth-markdown/core'
 import ImageBtn from './ImageBtn'
 import LinkBtn from './LinkBtn'
 import TableBtn from './TableBtn'
@@ -205,15 +205,15 @@ const toolbarItemMap: ToolbarItemMap = {
   preview: {
     name: 'preview',
     icon: () => {
-      return getMode() === 'both'
+      return getMode() === 'editor|viewer'
               ? 'mdi-eye-off-outline'
               : 'mdi-eye-outline'
     },
     exec: () => {
-      setMode(getMode() === 'both' ? 'edit' : 'both')
+      setMode(getMode() === 'editor|viewer' ? 'editor' : 'editor|viewer')
     },
     tip: () => {
-      return getMode() === 'both'
+      return getMode() === 'editor|viewer'
              ? t('svme.toolbar.closePreview')
              : t('svme.toolbar.openPreview')
     }

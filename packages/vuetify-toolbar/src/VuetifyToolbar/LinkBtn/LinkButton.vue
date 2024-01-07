@@ -3,7 +3,7 @@
     size="small"
     variant="flat"
     color="white"
-    class="svme-toolbar-button"
+    class="sm-toolbar-button"
     @click="showLinkDialog"
   >
     <v-icon small color="grey darken-1">mdi-link-variant</v-icon>
@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
-import type { Context } from '@smooth-vue-markdown-editor/core'
+import type { Context } from '@smooth-markdown/core'
 import InsertLinkDialog from './InsertLinkDialog.vue'
 
 export default defineComponent({

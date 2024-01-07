@@ -1,12 +1,12 @@
 <template>
-  <markdown-editor v-model="doc" mode="both" :plugins="plugins">
-  </markdown-editor>
+  <smooth-markdown v-model="doc" :plugins="plugins">
+  </smooth-markdown>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
-import { customCodeBlockRenderer } from '@smooth-vue-markdown-editor/core/plugins'
+import { SmoothMarkdown } from '@smooth-markdown/core'
+import { customCodeBlockRenderer } from '@smooth-markdown/core/plugins'
 import Echarts from './Echarts.vue'
 import ArtText from './ArtText.jsx'
 import cnt from './cnt.md?raw'

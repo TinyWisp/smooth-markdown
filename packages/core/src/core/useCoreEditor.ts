@@ -1,7 +1,8 @@
-import { provide, computed, onMounted, watch } from 'vue'
+import { provide, computed } from 'vue'
 import type { Ref, VNode } from 'vue'
 import { PluginManager } from './PluginManager'
-import type { Context, FnGetContext, FnSetContext, Plugin } from './types'
+import { TocSpy } from './TocSpy'
+import type { FnGetContext, FnSetContext, Plugin } from './types'
 
 import { useCodeMirror } from './useCodeMirror'
 import { useMarkdownIt } from './useMarkdownIt'
@@ -14,10 +15,12 @@ import { EventBus } from './EventBus'
 
 export interface CoreEditorConfig {
   doc: Ref<string>
-  editElem: Ref<HTMLElement | null>
-  viewElem: Ref<HTMLElement | null>
-  editScrollElm: Ref<HTMLElement | null>
-  viewScrollElm: Ref<HTMLElement | null>
+  editorEl: Ref<HTMLElement | null>
+  viewerEl: Ref<HTMLElement | null>
+  tocEl: Ref<HTMLElement | null>
+  editorScrollEl: Ref<HTMLElement | null>
+  viewerScrollEl: Ref<HTMLElement | null>
+  tocScrollEl: Ref<HTMLElement | null>
   plugins: Plugin[]
   getContext: FnGetContext
   setContext: FnSetContext
@@ -54,42 +57,32 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
   })
 
   const toolbarWrapperList = pluginManager.getToolbarWrapperList()
-  const editWrapperList = pluginManager.getEditWrapperList()
-  const viewWrapperList = pluginManager.getViewWrapperList()
+  const editorWrapperList = pluginManager.getEditorWrapperList()
+  const viewerWrapperList = pluginManager.getViewerWrapperList()
+  const tocWrapperList = pluginManager.getTocWrapperList()
 
-  const codeMirror = useCodeMirror(coreEditorConfig.doc, coreEditorConfig.editElem, pluginManager)
-  const markdownIt = useMarkdownIt(coreEditorConfig.doc, coreEditorConfig.viewElem, pluginManager)
-  const { insertOrReplace, command } = codeMirror
+  const codeMirror = useCodeMirror(coreEditorConfig.doc, coreEditorConfig.editorEl, pluginManager)
+  const markdownIt = useMarkdownIt(coreEditorConfig.doc, coreEditorConfig.viewerEl, pluginManager)
+  const { insertOrReplace, command, scrollToLine } = codeMirror
+  const { html, headingList } = markdownIt
 
   setContext('instances', 'markdownIt', markdownIt.instance)
   setContext('instances', 'codeMirror', codeMirror.editorView)
   setContext('methods', 'insertOrReplace', insertOrReplace)
   setContext('methods', 'command', command)
-  setContext('data', 'html', markdownIt.html)
+  setContext('methods', 'scrollToLine', scrollToLine)
+  setContext('data', 'html', html)
+  setContext('data', 'headingList', headingList)
 
-  const editScrollElm = pluginManager.getEditScrollElm() ?? coreEditorConfig.editScrollElm
-  const viewScrollElm = pluginManager.getViewScrollElm() ?? coreEditorConfig.viewScrollElm
-  setContext('doms', 'editScroll', editScrollElm)
-  setContext('doms', 'viewScroll', viewScrollElm)
+  const editorScrollEl = pluginManager.getEditorScrollEl() ?? coreEditorConfig.editorScrollEl
+  const viewerScrollEl = pluginManager.getViewerScrollEl() ?? coreEditorConfig.viewerScrollEl
+  const tocScrollEl = pluginManager.getTocScrollEl() ?? coreEditorConfig.tocScrollEl
+  setContext('doms', 'editScroll', editorScrollEl)
+  setContext('doms', 'viewScroll', viewerScrollEl)
+  setContext('doms', 'tocScroll', tocScrollEl)
 
-  onMounted(() => {
-    watch([editScrollElm, viewScrollElm], () => {
-      if (editScrollElm.value && viewScrollElm.value) {
-        editScrollElm.value.addEventListener('scroll', (event: Event) => {
-          fire('edit', 'scroll', event)
-        })
-        editScrollElm.value.addEventListener('scrollend', (event: Event) => {
-          fire('edit', 'scrollend', event)
-        })
-        viewScrollElm.value.addEventListener('scroll', (event: Event) => {
-          fire('view', 'scroll', event)
-        })
-        viewScrollElm.value.addEventListener('scrollend', (event: Event) => {
-          fire('view', 'scrollend', event)
-        })
-      }
-    })
-  })
+  const tocSpy = new TocSpy(headingList, viewerScrollEl, {}, getContext())
+  setContext('instances', 'tocSpy', tocSpy)
 
   return {
     codeMirror,
@@ -99,9 +92,11 @@ export function useCoreEditor(coreEditorConfig: CoreEditorConfig) {
     extraVnodes,
     css,
     toolbarWrapperList,
-    editWrapperList,
-    viewWrapperList,
-    pluginManager
+    editorWrapperList,
+    viewerWrapperList,
+    tocWrapperList,
+    pluginManager,
+    tocSpy
   }
 }
 

@@ -3,7 +3,7 @@
     size="small"
     variant="flat"
     color="white"
-    class="svme-toolbar-button"
+    class="sm-toolbar-button"
   >
     <v-icon small color="grey darken-1">mdi-image</v-icon>
 
@@ -41,7 +41,7 @@
 import { defineComponent, inject } from 'vue'
 import type { PropType } from 'vue'
 import type { FnUpload } from './types'
-import type { Context } from '@smooth-vue-markdown-editor/core'
+import type { Context } from '@smooth-markdown/core'
 import InsertNetworkImageDialog from './InsertNetworkImageDialog.vue'
 
 export default defineComponent({

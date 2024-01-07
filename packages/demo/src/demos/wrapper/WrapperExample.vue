@@ -1,17 +1,17 @@
 <template>
-  <markdown-editor v-model="doc" mode="both" :plugins="plugins">
+  <smooth-markdown v-model="doc" :plugins="plugins">
     <template v-slot:toolbar>
       <vuetify-toolbar color="white"></vuetify-toolbar>
       <v-divider></v-divider>
     </template>
-  </markdown-editor>
+  </smooth-markdown>
 </template>
 
 <script lang="jsx" setup>
 import { ref } from 'vue'
-import { MarkdownEditor } from '@smooth-vue-markdown-editor/core'
-import { toolbarWrapper } from '@smooth-vue-markdown-editor/core/plugins'
-import VuetifyToolbar from '@smooth-vue-markdown-editor/vuetify-toolbar'
+import { SmoothMarkdown } from '@smooth-markdown/core'
+import { toolbarWrapper } from '@smooth-markdown/core/plugins'
+import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
 import { watch } from 'vue'
 import TestWrapper from './TestWrapper.vue';
 

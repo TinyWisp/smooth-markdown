@@ -1,9 +1,11 @@
 <template>
-  <markdown-editor></markdown-editor>
+  <smooth-markdown v-model="doc" mode="editor|viewer|toc"></smooth-markdown>
 </template>
 
 <script setup lang="ts">
-import MarkdownEditor from './classic/ClassicEditor.vue';
+import { ref } from 'vue'
+import SmoothMarkdown from './core/SmoothMarkdown.vue'
+const doc = ref('')
 </script>
 
 <style scoped>

@@ -7,27 +7,27 @@ class SyncScrollbarPlugin implements Plugin {
   init(getContext: FnGetContext) {
     onMounted(() => {
       const context = getContext()
-      const editScrollElm = context.doms.editScroll
-      const viewScrollElm = context.doms.viewScroll
+      const editorScrollEl = context.doms.editScroll
+      const viewerScrollEl = context.doms.viewScroll
 
       let editPrevScrollTop = 0
-      watch(editScrollElm, () => {
-        if (editScrollElm.value) {
-          editScrollElm.value.addEventListener('scroll', () => {
-            if (!editScrollElm.value) {
+      watch(editorScrollEl, () => {
+        if (editorScrollEl.value) {
+          editorScrollEl.value.addEventListener('scroll', () => {
+            if (!editorScrollEl.value) {
               return
             }
 
-            const editCurScrollTop = editScrollElm.value.scrollTop
-            const editScrollHeight = editScrollElm.value.scrollHeight
-            const editClientHeight = editScrollElm.value.clientHeight
+            const editCurScrollTop = editorScrollEl.value.scrollTop
+            const editScrollHeight = editorScrollEl.value.scrollHeight
+            const editClientHeight = editorScrollEl.value.clientHeight
             const editScrollOffsetPercent = (editCurScrollTop - editPrevScrollTop) / (editScrollHeight - editClientHeight)
             editPrevScrollTop = editCurScrollTop
 
-            if (viewScrollElm.value) {
-              const viewScrollHeight = viewScrollElm.value.scrollHeight
-              const viewClientHeight = viewScrollElm.value.clientHeight
-              viewScrollElm.value.scrollTop = viewScrollElm.value.scrollTop + editScrollOffsetPercent * (viewScrollHeight - viewClientHeight)
+            if (viewerScrollEl.value) {
+              const viewScrollHeight = viewerScrollEl.value.scrollHeight
+              const viewClientHeight = viewerScrollEl.value.clientHeight
+              viewerScrollEl.value.scrollTop = viewerScrollEl.value.scrollTop + editScrollOffsetPercent * (viewScrollHeight - viewClientHeight)
             }
           })
         }

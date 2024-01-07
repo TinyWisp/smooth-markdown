@@ -4,13 +4,13 @@ import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 
 class PerfectScrollbarPlugin implements Plugin {
   name: string = 'core-plugin-perfect-scrollbar'
-  editWrapper: Wrapper
-  viewWrapper: Wrapper
+  editorWrapper: Wrapper
+  viewerWrapper: Wrapper
   css: String
 
   constructor(props: {[key: string]: any}) {
-    this.editWrapper = [PerfectScrollbar, props, 'editPerfectScrollbar']
-    this.viewWrapper = [PerfectScrollbar, props, 'viewPerfectScrollbar']
+    this.editorWrapper = [PerfectScrollbar, props, 'editPerfectScrollbar']
+    this.viewerWrapper = [PerfectScrollbar, props, 'viewPerfectScrollbar']
     this.css = '&root .ps {height:  100%}'
   }
 }

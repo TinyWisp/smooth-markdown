@@ -1,8 +1,8 @@
 <template>
-  <div class="svme-codeblock" ref="container">
-    <div class="svme-codeblock-lang" v-show="!copied">{{ lang }}</div>
-    <div class="svme-codeblock-copy" @click="copy" v-show="!copied"></div>
-    <div class="svme-codeblock-copied" v-show="copied">
+  <div class="sm-codeblock" ref="container">
+    <div class="sm-codeblock-lang" v-show="!copied">{{ lang }}</div>
+    <div class="sm-codeblock-copy" @click="copy" v-show="!copied"></div>
+    <div class="sm-codeblock-copied" v-show="copied">
       {{ t('svme.codeBlock.copied') }}
     </div>
     <div class="hljs-wrapper" ref="hljsWrapper">
@@ -83,7 +83,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.svme-codeblock {
+.sm-codeblock {
   position: relative;
   font-family: 'Droid Sans Mono', 'monospace', monospace;
   padding: 0;
@@ -95,7 +95,7 @@ onMounted(() => {
   margin-right: auto;
 }
 
-.svme-codeblock .svme-codeblock-lang {
+.sm-codeblock .sm-codeblock-lang {
   position: absolute;
   right: 0;
   top: 0;
@@ -109,7 +109,7 @@ onMounted(() => {
   font-size: 0.8em;
 }
 
-.svme-codeblock .svme-codeblock-copy {
+.sm-codeblock .sm-codeblock-copy {
   position: absolute;
   right: 0;
   top: 0;
@@ -127,7 +127,7 @@ onMounted(() => {
   border-radius: 0.3em;
 }
 
-.svme-codeblock .svme-codeblock-copy::before {
+.sm-codeblock .sm-codeblock-copy::before {
   display: block;
   content: ' ';
   position: absolute;
@@ -140,20 +140,20 @@ onMounted(() => {
   background-color: grey;
 }
 
-.svme-codeblock:hover .svme-codeblock-lang {
+.sm-codeblock:hover .sm-codeblock-lang {
   opacity: 0;
 }
 
-.svme-codeblock:hover .svme-codeblock-copy {
+.sm-codeblock:hover .sm-codeblock-copy {
   opacity: 1;
   display: flex;
 }
 
-.svme-codeblock .svme-codeblock-copy:hover {
+.sm-codeblock .sm-codeblock-copy:hover {
   background-color: #292d3e;
 }
 
-.svme-codeblock .svme-codeblock-copied {
+.sm-codeblock .sm-codeblock-copied {
   position: absolute;
   right: 0;
   top: 0;

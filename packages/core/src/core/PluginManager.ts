@@ -11,9 +11,9 @@ import type {
   FnSetContext,
 } from "./types"
 import type { Extension as CmExtension } from '@codemirror/state'
-import type { VNode, Component, Ref } from 'vue'
+import type { VNode, Ref } from 'vue'
 import type { MessageMap } from './Lang'
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import { merge } from 'lodash/merge'
 
 export class PluginManager {
@@ -189,18 +189,6 @@ export class PluginManager {
     return config
   }
 
-  cmDocChanged(doc: string): void {
-    this.plugins.forEach((plugin) => {
-      plugin?.cmDocChanged?.(doc)
-    })
-  }
-
-  cmScrollHandler(scrollHeight: number, scrollTop: number, scrollOffset: number) {
-    this.plugins.forEach((plugin) => {
-      plugin?.cmScrollHandler?.(scrollHeight, scrollTop, scrollOffset)
-    })
-  }
-
   getCommandMap(): CommandMap {
     const commandMap: CommandMap = {}
     this.plugins.forEach((plugin) => {
@@ -247,22 +235,33 @@ export class PluginManager {
     return wrapperList
   }
 
-  getEditWrapperList(): Wrapper[] {
+  getEditorWrapperList(): Wrapper[] {
     const wrapperList: Wrapper[] = []
     this.plugins.forEach((plugin) => {
-      if (plugin?.editWrapper) {
-        wrapperList.push(plugin.editWrapper)
+      if (plugin?.editorWrapper) {
+        wrapperList.push(plugin.editorWrapper)
       }
     })
 
     return wrapperList
   }
 
-  getViewWrapperList(): Wrapper[] {
+  getViewerWrapperList(): Wrapper[] {
     const wrapperList: Wrapper[] = []
     this.plugins.forEach((plugin) => {
-      if (plugin?.viewWrapper) {
-        wrapperList.push(plugin.viewWrapper)
+      if (plugin?.viewerWrapper) {
+        wrapperList.push(plugin.viewerWrapper)
+      }
+    })
+
+    return wrapperList
+  }
+
+  getTocWrapperList(): Wrapper[] {
+    const wrapperList: Wrapper[] = []
+    this.plugins.forEach((plugin) => {
+      if (plugin?.tocWrapper) {
+        wrapperList.push(plugin.tocWrapper)
       }
     })
 
@@ -280,26 +279,36 @@ export class PluginManager {
     return css
   }
 
-  getEditScrollElm(): Ref<HTMLElement | null> | null {
-    let editScrollElm = null
+  getEditorScrollEl(): Ref<HTMLElement | null> | null {
+    let editorScrollEl = null
     this.plugins.forEach((plugin) => {
-      if (plugin.editScrollElm) {
-        editScrollElm = plugin.editScrollElm
+      if (plugin.editorScrollEl) {
+        editorScrollEl = plugin.editorScrollEl
       }
     })
 
-    return editScrollElm
+    return editorScrollEl
   }
 
-  getViewScrollElm(): Ref<HTMLElement | null> | null {
-    let viewScrollElm = null 
+  getViewerScrollEl(): Ref<HTMLElement | null> | null {
+    let viewerScrollEl = null 
     this.plugins.forEach((plugin) => {
-      if (plugin.viewScrollElm) {
-        viewScrollElm = plugin.viewScrollElm
+      if (plugin.viewerScrollEl) {
+        viewerScrollEl = plugin.viewerScrollEl
       }
     })
 
-    return viewScrollElm
+    return viewerScrollEl
   }
 
+  getTocScrollEl(): Ref<HTMLElement | null> | null {
+    let tocScrollEl = null 
+    this.plugins.forEach((plugin) => {
+      if (plugin.tocScrollEl) {
+        tocScrollEl = plugin.tocScrollEl
+      }
+    })
+
+    return tocScrollEl
+  }
 }

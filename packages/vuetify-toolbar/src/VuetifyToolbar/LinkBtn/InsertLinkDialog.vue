@@ -45,7 +45,7 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
 import { mdiClose } from '@mdi/js'
-import type { Context } from '@smooth-vue-markdown-editor/core'
+import type { Context } from '@smooth-markdown/core'
 
 export default defineComponent({
   setup() {

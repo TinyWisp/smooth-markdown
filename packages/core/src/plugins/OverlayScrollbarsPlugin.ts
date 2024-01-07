@@ -10,15 +10,15 @@ OverlayScrollbars.plugin(ScrollbarsHidingPlugin)
 
 class OverlayScrollbarsPlugin implements Plugin {
   name: string = 'core-plugin-overlay-scrollbars'
-  editWrapper: Wrapper
-  viewWrapper: Wrapper
-  editScrollElm: Ref<HTMLElement | null>
-  viewScrollElm: Ref<HTMLElement | null>
+  editorWrapper: Wrapper
+  viewerWrapper: Wrapper
+  editorScrollEl: Ref<HTMLElement | null>
+  viewerScrollEl: Ref<HTMLElement | null>
   css: string
 
-  constructor(editProps: {[key: string]: any}, viewProps: {[key: string]: any}) {
-    this.editScrollElm = ref(null)
-    this.viewScrollElm = ref(null)
+  constructor(editorProps: {[key: string]: any}, viewerProps: {[key: string]: any}) {
+    this.editorScrollEl = ref(null)
+    this.viewerScrollEl = ref(null)
 
     const defaultEditProps = {
       options: {
@@ -29,7 +29,7 @@ class OverlayScrollbarsPlugin implements Plugin {
       },
       onOsInitialized: (instance: any) => {
         const elems = instance.elements()
-        this.editScrollElm.value = elems.viewport
+        this.editorScrollEl.value = elems.viewport
       },
       defer: true
     }
@@ -43,24 +43,24 @@ class OverlayScrollbarsPlugin implements Plugin {
       },
       onOsInitialized: (instance: any) => {
         const elems = instance.elements()
-        this.viewScrollElm.value = elems.viewport
+        this.viewerScrollEl.value = elems.viewport
       },
       defer: true
     }
 
-    const clonedEditProps = Object.assign({}, editProps)
+    const clonedEditProps = Object.assign({}, editorProps)
     const mergedEditProps = merge(clonedEditProps, defaultEditProps)
-    const clonedViewProps = Object.assign({}, viewProps)
+    const clonedViewProps = Object.assign({}, viewerProps)
     const mergedViewProps = merge(clonedViewProps, defaultViewProps)
 
-    this.editWrapper = [OverlayScrollbarsComponent, mergedEditProps, 'editOverlayScrollbars']
-    this.viewWrapper = [OverlayScrollbarsComponent, mergedViewProps, 'viewOverlayScrollbars']
+    this.editorWrapper = [OverlayScrollbarsComponent, mergedEditProps, 'editOverlayScrollbars']
+    this.viewerWrapper = [OverlayScrollbarsComponent, mergedViewProps, 'viewOverlayScrollbars']
     this.css = '&root [data-overlayscrollbars-initialize] { height: 100%;}'
   }
 }
 
-function overlayScrollbars(editProps: {[key: string]: any} = {}, viewProps: {[key: string]: any} = {}) {
-  return new OverlayScrollbarsPlugin(editProps, viewProps)
+function overlayScrollbars(editorProps: {[key: string]: any} = {}, viewerProps: {[key: string]: any} = {}) {
+  return new OverlayScrollbarsPlugin(editorProps, viewerProps)
 }
 
 export default overlayScrollbars

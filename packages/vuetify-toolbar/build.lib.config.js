@@ -78,7 +78,7 @@ const external = [
   // eg. 'jquery'
   'vue',
   'vuetify',
-  '@smooth-vue-markdown-editor/core'
+  /smooth-markdown/
 ];
 
 // UMD/IIFE shared settings: output.globals

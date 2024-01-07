@@ -11,6 +11,7 @@ export interface CodeMirrorContext {
   editorView: Ref<EditorView | null>
   insertOrReplace: (text: string, forceNewLine?: boolean) => void
   command: (cmd: string, params?: object) => void
+  scrollToLine: (lineNum: number) => void 
 }
 
 export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, pluginManager: PluginManager): CodeMirrorContext {
@@ -54,7 +55,6 @@ export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
         EditorView.updateListener.of((viewUpdate) => {
           if (viewUpdate.docChanged) {
             doc.value = viewUpdate.state.doc.toString()
-            pluginManager.cmDocChanged(doc.value)
           }
         }),
         EditorView.domEventHandlers({
@@ -207,9 +207,22 @@ export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
     commandMap[cmd](params)
   }
 
+  /**
+   * scroll to line 
+   */
+  function scrollToLine(lineNum: number) {
+    const lineNodes = editorView.value!.contentDOM.childNodes
+    if (lineNum > lineNodes.length - 1) {
+      return
+    }
+
+    (lineNodes[lineNum] as Element).scrollIntoView()
+  }
+
   return {
     editorView,
     insertOrReplace,
-    command
+    command,
+    scrollToLine
   }
 }

@@ -88,11 +88,17 @@ blockquote {
   margin: 2em 0;
   padding-left: 20px;
   border-left: 4px solid teal;
+  white-space: nowrap;
 }
 
 ul {
   margin: 0.5em 0;
-  padding-left: 2em;
+  padding-left: 1.25em;
+  list-style: disc;
+}
+
+ol {
+  padding-left: 1.25em;
 }
 
 h1 {
@@ -140,4 +146,13 @@ hr {
 
 .nothing {
   display: none;
+}
+
+p, ul, ol, summary {
+  margin-bottom: 1.2em;
+}
+
+blockquote > p {
+  text-wrap: wrap;
+  margin-bottom: 0;
 }
