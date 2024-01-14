@@ -1,7 +1,9 @@
 import type { Ref, Component, VNode } from 'vue'
 import type { PluginSimple as MditPluginSimple, PluginWithOptions as MditPluginWithOptions, PluginWithParams as MditPluginWithParams, Token as MditToken} from 'markdown-it'
-import type { MessageMap } from './Lang'
+import type { Lang, MessageMap } from './Lang'
 import type { Extension as CmExtension } from '@codemirror/state'
+import type { EventBus } from './EventBus'
+import type { PluginManager } from './PluginManager'
 
 // ---------------- types related to markdown-it  -------------------
 
@@ -72,6 +74,7 @@ export interface Plugin {
   mditCodeRendererMap?: MditCodeRendererMap
   mditRendererRuleMap?: MditRendererRuleMap
   mditBeforeRender?: () => void
+  mditTransformTokens?: (tokens: MditToken[]) => void
   mditAfterRender?: () => void
 
   // codemirror
@@ -89,6 +92,7 @@ export interface Plugin {
   editorWrapper?: Wrapper
   viewerWrapper?: Wrapper
   tocWrapper?: Wrapper
+  codeBlockWrapper?: Wrapper
   editorScrollEl?: Ref<HTMLElement | null>
   viewerScrollEl?: Ref<HTMLElement | null>
   tocScrollEl?: Ref<HTMLElement | null>
@@ -101,26 +105,29 @@ export interface Plugin {
 }
 
 // ----------------------------Context----------------------------
+export type PanelContext = {
+  el?: Ref<HTMLElement | null>
+  selector?: string
+  containerEl?: Ref<HTMLElement | null>
+  containerSelector?: string
+  scrollEl?: Ref<HTMLElement | null>
+  [key: string]: any
+}
 
-export interface Context {
-  methods: {
-    [key: string]: Function
-  },
-  doms: {
-    [key: string]: Ref<HTMLElement | null>
-  },
-  selectors: {
-    [key: string]: string
-  },
-  data: {
-    [key: string]: any
-  },
-  instances: {
-    [key: string]: any
-  },
+export type Context = {
+  lang?: Lang
+  eventBus?: EventBus
+  pluginManager?: PluginManager
+  viewer: PanelContext,
+  editor: PanelContext,
+  toc: PanelContext,
+  root: PanelContext 
+  header: PanelContext 
+  body: PanelContext
   others: {
     [key: string]: any
-  }
+  } 
+  [key: string]: any
 }
 
 export type FnGetContext = () => Context
@@ -140,10 +147,4 @@ export type Heading = {
   text: string
   id: string
   lineNum: number
-}
-
-export type TocSpy = {
-  headingList: Ref<Heading[]>
-  activeIndex: Ref<number>
-  setActive: (idx: number) => void
 }

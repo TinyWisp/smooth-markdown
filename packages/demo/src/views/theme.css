@@ -156,3 +156,7 @@ blockquote > p {
   text-wrap: wrap;
   margin-bottom: 0;
 }
+
+pre.sm-custom-code-block-renderer {
+  width: 100%;
+}

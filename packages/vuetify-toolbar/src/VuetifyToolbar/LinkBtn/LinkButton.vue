@@ -27,7 +27,8 @@ export default defineComponent({
   setup() {
     const getContext = inject<() => Context>('getContext')
     const context = (getContext!)()
-    const { command, t } = context.methods
+    const { t } = context.lang
+    const { command } = context.editor
 
     return { command, t }
   },

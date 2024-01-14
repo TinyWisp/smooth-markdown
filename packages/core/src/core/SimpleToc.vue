@@ -10,17 +10,17 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue'
-import type { TocSpy } from './types'
+import { inject } from 'vue'
+import type { FnGetContext } from './types'
 
-const props = defineProps({
-  tocSpy: {
-    type: Object as PropType<TocSpy>,
-    required: true
-  }
-})
+const getContext: FnGetContext = inject('getContext')!
+const context = getContext()
+const { headingList, activeIndex } = context.toc
 
-const { headingList, activeIndex, setActive } = props.tocSpy
+function setActive(idx: number) {
+  context.toc.setActive(idx)
+}
+
 </script>
 
 <style scoped>

@@ -58,8 +58,10 @@ const props = withDefaults(defineProps<VuetifyToolbarProps>(), {
 })
 
 const getContext = inject<() => Context>('getContext')
-const coreContext: Context = (getContext!)()
-const { t, command, getMode, setMode } = coreContext.methods
+const context: Context = (getContext!)()
+const { t } = context.lang
+const { command } = context.editor
+const { getMode, setMode } = context
 
 const toolbarItemMap: ToolbarItemMap = {
   divider: {

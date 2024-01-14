@@ -29,7 +29,7 @@ export default defineComponent({
   setup() {
     const getContext = inject<() => Context>('getContext')
     const context = (getContext!)()
-    const { t } = context.methods
+    const { t } = context.lang
 
     return { t }
   },

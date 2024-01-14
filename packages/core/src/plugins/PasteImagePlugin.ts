@@ -34,7 +34,7 @@ class PasteImagePlugin implements Plugin {
    */
   private insertImage (url: string): void {
     const context = (this.getContext!)()
-    context.methods.command('image', {
+    context.editor.command('image', {
       url,
       title: '',
     })

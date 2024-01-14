@@ -13,6 +13,7 @@ import type {
 import type { Extension as CmExtension } from '@codemirror/state'
 import type { VNode, Ref } from 'vue'
 import type { MessageMap } from './Lang'
+import type { Token as MditToken } from 'markdown-it'
 import { reactive } from 'vue'
 import { merge } from 'lodash/merge'
 
@@ -74,6 +75,12 @@ export class PluginManager {
   mditBeforeRender(): void {
     this.plugins.forEach((plugin) => {
       plugin.mditBeforeRender && plugin.mditBeforeRender()
+    })
+  }
+
+  mditTransformTokens(tokens: MditToken[]) {
+    this.plugins.forEach((plugin) => {
+      plugin.mditTransformTokens && plugin.mditTransformTokens(tokens)
     })
   }
 

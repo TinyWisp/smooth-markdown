@@ -67,7 +67,8 @@ const external = [
   /codemirror/,
   /markdown-it/,
   /highlight.js/,
-  /@lezer/
+  /@lezer/,
+  /mermaid/
 ];
 
 // UMD/IIFE shared settings: output.globals

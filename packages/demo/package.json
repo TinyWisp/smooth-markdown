@@ -22,6 +22,8 @@
     "@smooth-markdown/core": "^1.0.0",
     "@smooth-markdown/vuetify-toolbar": "^1.0.0",
     "@tinywisp/vue-tree": "^3.2.0",
+    "@uiw/codemirror-theme-basic": "^4.21.21",
+    "@uiw/codemirror-theme-bbedit": "^4.21.21",
     "@uiw/codemirror-theme-copilot": "^4.21.21",
     "@uiw/codemirror-theme-vscode": "^4.21.21",
     "cm6-theme-solarized-dark": "^0.2.0",

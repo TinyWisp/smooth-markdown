@@ -48,7 +48,7 @@ class CustomCodeBlockRendererPlugin implements Plugin {
       id,
     })
 
-    return `<div id="${id}"></div>`
+    return `<pre class="sm-custom-code-block-renderer"><div id="${id}"></div></pre>`
   }
 
   mditAfterRender() {

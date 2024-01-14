@@ -15,15 +15,15 @@ class AffixToolbarPlugin implements Plugin {
     const props = this.props
     const context = getContext()
 
-    if (!props.relativeElementSelector && context.selectors.root) {
-      props.relativeElementSelector = context.selectors.root
+    if (!props.relativeElementSelector && context.root.selector) {
+      props.relativeElementSelector = context.root.selector
     }
 
     this.toolbarWrapper = [VueAffix, props, 'vueAffix']
 
     onMounted(() => {
-      const injectCss = context.methods.injectCss
-      const headerEl = context.doms.header.value
+      const injectCss = context.injectCss
+      const headerEl = context.header.el!.value
 
       if (headerEl) {
         const headerElWidth = headerEl?.clientWidth

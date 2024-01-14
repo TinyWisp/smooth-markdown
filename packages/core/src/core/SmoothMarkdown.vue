@@ -2,6 +2,7 @@
   <div 
     :class="['sm-root', `sm-mode-${mode}`]"
     :data-uniq-id="rootUniqId"
+    :style="rootStyle"
     ref="root"
   >
     <div class="sm-extra">
@@ -12,7 +13,7 @@
         <slot name="toolbar"></slot>
       </element-wrapper>
     </div>
-    <div class="sm-body" :style="bodyStyle" ref="body">
+    <div class="sm-body" ref="body">
         <div v-if="containerMap.editor" class="sm-editor-container" ref="editorContainer">
           <element-wrapper :wrapper-list="editorWrapperList">
             <div
@@ -26,7 +27,7 @@
           <element-wrapper :wrapper-list="viewerWrapperList">
             <div
               :data-uniq-id="viewerUniqId"
-              class="sm-view"
+              class="sm-viewer"
               ref="viewer"
             ></div>
           </element-wrapper>
@@ -38,9 +39,7 @@
               class="sm-toc"
               ref="toc"
             >
-              <simple-toc
-                :toc-spy="tocSpy"
-              ></simple-toc>
+              <simple-toc></simple-toc>
             </div>
           </element-wrapper>
         </div>
@@ -49,8 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onUnmounted, computed, type Ref } from 'vue'
-import { useCoreEditor } from '../core/useCoreEditor'
+import { ref, watch, onUnmounted, computed, type Ref, type VNode, shallowRef, reactive, provide } from 'vue'
 import VNodeRenderer from '../utils/VNodeRenderer.vue'
 import ElementWrapper from '../utils/ElementWrapper.vue'
 import type { Plugin } from '../core/types'
@@ -58,10 +56,17 @@ import insertCss from 'insert-css'
 import { uniqId } from '../utils/util'
 import { useContext } from '../core/useContext'
 import SimpleToc from '../core/SimpleToc.vue'
+import { useEditor } from './useEditor'
+import { useViewer } from './useViewer'
+import { PluginManager } from './PluginManager'
+import { EventBus } from './EventBus'
+import { Lang } from './Lang'
+import en from '../langs/en'
+import zh_CN from '../langs/zh_CN'
 
 export interface EditorProps {
   modelValue: string
-  mode: string
+  mode?: string
   showToolbar?: boolean
   plugins?: Plugin[]
 }
@@ -72,125 +77,111 @@ const props = withDefaults(defineProps<EditorProps>(), {
   plugins: () => [],
 })
 
+// context
 const { getContext, setContext } = useContext()
+const context = getContext()
+provide('getContext', getContext)
+provide('setContext', setContext)
 
-// selectors
+// props
+setContext('props', props)
+
+// eventBus
+const eventBus = new EventBus()
+setContext('eventBus', eventBus)
+
+// pluginManager
+const pluginManager = new PluginManager(getContext, setContext)
+
+setContext('pluginManager', pluginManager)
+
+// lang
+const lang = new Lang()
+setContext('lang', lang)
+
+// root
 const rootUniqId = uniqId()
-const editorUniqId = uniqId()
-const viewerUniqId = uniqId()
-const tocUniqId  = uniqId()
 const rootSelector = `[data-uniq-id=${rootUniqId}]`
-const selectors: {[key:string]: string} = {
-  root: rootSelector,
-  editor: `[data-uniq-id=${editorUniqId}]`,
-  viewer: `[data-uniq-id=${viewerUniqId}]`,
-  toc: `[data-uniq-id=${tocUniqId}]`,
-  header: `${rootSelector} > .sm-header`,
-  body: `${rootSelector} > .sm-body`,
-  editorContainer: `${rootSelector} > .sm-body > .sm-editor-container`,
-  viewerContainer: `${rootSelector} > .sm-body > .sm-viewer-container`,
-  tocContainer: `${rootSelector} > .sm-body > .sm-toc-container`
-}
-Object.keys(selectors).forEach((key) => {
-  setContext('selectors', key, selectors[key])
-})
-
-// doms
-const editor: Ref<HTMLElement | null> = ref(null)
-const viewer: Ref<HTMLElement | null> = ref(null)
-const toc: Ref<HTMLElement | null> = ref(null)
 const root: Ref<HTMLElement | null> = ref(null)
-const header: Ref<HTMLElement | null> = ref(null)
-const body: Ref<HTMLElement | null> = ref(null)
-const editorContainer: Ref<HTMLElement | null> = ref(null)
-const viewerContainer: Ref<HTMLElement | null> = ref(null)
-const tocContainer: Ref<HTMLElement | null> = ref(null)
-setContext('doms', 'root', root)
-setContext('doms', 'header', header)
-setContext('doms', 'body', body)
-setContext('doms', 'editor', editor)
-setContext('doms', 'viewer', viewer)
-setContext('doms', 'toc', toc)
-setContext('doms', 'editorContainer', editorContainer)
-setContext('doms', 'viewerContainer', viewerContainer)
-setContext('doms', 'tocContainer', tocContainer)
-
-// data
-const doc: Ref<string> = ref(props.modelValue)
-const mode: Ref<string> = ref(props.mode)
-setContext('data', 'smProps', props)
-setContext('data', 'doc', doc)
-setContext('data', 'mode', mode)
-
-const emit = defineEmits(['update:modelValue', 'update:mode'])
-
-const { 
-  command,
-  insertOrReplace,
-  css,
-  extraVnodes,
-  toolbarWrapperList,
-  editorWrapperList,
-  viewerWrapperList,
-  tocWrapperList,
-  tocSpy
-} = useCoreEditor({
-  doc,
-  editorEl: editor,
-  viewerEl: viewer,
-  tocEl: toc,
-  plugins: props.plugins,
-  getContext,
-  setContext,
-  editorScrollEl: editorContainer,
-  viewerScrollEl: viewerContainer,
-  tocScrollEl: tocContainer
+const rootStyle: {[key: string]: string} = reactive({})
+setContext('root', {
+  el: root,
+  selector: rootSelector,
+  style: rootStyle
 })
 
+// editor
+const editorUniqId = uniqId()
+const editor: Ref<HTMLElement | null> = ref(null)
+const editorContainer: Ref<HTMLElement | null> = ref(null)
+setContext('editor', {
+  el: editor,
+  selector: `[data-uniq-id=${editorUniqId}]`,
+  containerEl: editorContainer,
+  containerSelector: `${rootSelector} > .sm-body > .sm-editor-container`,
+})
 
+// viewer
+const viewerUniqId = uniqId()
+const viewer: Ref<HTMLElement | null> = ref(null)
+const viewerContainer: Ref<HTMLElement | null> = ref(null)
+setContext('viewer', {
+  el: viewer,
+  selector: `[data-uniq-id=${viewerUniqId}]`,
+  containerEl: viewerContainer,
+  containerSelector: `${rootSelector} > .sm-body > .sm-viewer-container`,
+})
+
+// toc
+const tocUniqId  = uniqId()
+const toc: Ref<HTMLElement | null> = ref(null)
+const tocContainer: Ref<HTMLElement | null> = ref(null)
+setContext('toc', {
+  el: toc,
+  selector: `[data-uniq-id=${tocUniqId}]`,
+  containerEl: tocContainer,
+  containerSelector: `${rootSelector} > .sm-body > .sm-toc-container`,
+  headingList: shallowRef([]),
+  activeIndex: ref(0),
+  setActive: function(){}
+})
+
+// header
+const header: Ref<HTMLElement | null> = ref(null)
+setContext('header', {
+  el: header,
+  selector: `${rootSelector} > .sm-header`
+})
+
+// body
+const body: Ref<HTMLElement | null> = ref(null)
+setContext('body', {
+  el: body,
+  selector: `${rootSelector} > .sm-body`
+})
+
+// doc 
+const doc: Ref<string> = ref(props.modelValue)
+setContext('doc', doc)
 watch(doc, () => {
   emit('update:modelValue', doc.value)
 })
-
-
-const bodyStyle = computed(() => {
-  const style: {[key: string]: string} = {}
-
-  const containers = mode.value.split('|')
-  for (let i=0; i<containers.length; i++) {
-    const container = containers[i]
-    style[`--${container}-container-order`] = i.toString()
-    style[`--${container}-container-border-left-width`] = i > 0 ? '1px' : '0'
+watch(() => props.modelValue, () => {
+  if (props.modelValue !== doc.value) {
+    doc.value = props.modelValue
   }
-
-  return style
-})
- 
-const containerMap = computed(() => {
-  const map: {[key: string]: {order: number}}= {}
-
-  const containers = mode.value.split('|')
-  for (let i=0; i<containers.length; i++) {
-    const container = containers[i]
-    map[container] = {
-      order: i
-    }
-  }
-
-  return map
 })
 
+// mode
+const mode: Ref<string> = ref(props.mode)
+setContext('mode', mode)
+const emit = defineEmits(['update:modelValue', 'update:mode'])
 watch(mode, () => {
   emit('update:mode', mode.value)
 })
-
-watch(props, () => {
+watch(() => props.mode, () => {
   if (props.mode !== mode.value) {
     mode.value = props.mode
-  }
-
-  if (props.modelValue !== doc.value) {
-    doc.value = props.modelValue
   }
 })
 
@@ -202,15 +193,75 @@ function setMode(targetMode: string) {
 function getMode() {
   return mode.value
 }
-setContext('methods', 'setMode', setMode)
-setContext('methods', 'getMode', getMode)
+setContext('setMode', setMode)
+setContext('getMode', getMode)
 
+
+// root.style
+watch(() => props.mode, () => {
+  const parts = mode.value.split('|')
+  for (let i=0; i<parts.length; i++) {
+    const part = parts[i]
+    rootStyle[`--${part}-container-order`] = i.toString()
+    rootStyle[`--${part}-container-border-left-width`] = i > 0 ? '1px' : '0'
+  }
+}, {immediate: true})
+
+// panelMap
+const containerMap = computed(() => {
+  const map: {[key: string]: {order: number}}= {}
+  const panels = mode.value.split('|')
+  for (let i=0; i<panels.length; i++) {
+    const panel = panels[i]
+    map[panel] = {
+      order: i
+    }
+  }
+
+  return map
+})
+
+
+// init
+pluginManager.registerPlugins(props.plugins)
+pluginManager.init()
+
+lang.merge({en, zh_CN})
+lang.merge(pluginManager.getMessageMap())
+
+useEditor(getContext, setContext)
+useViewer(getContext, setContext)
+
+const toolbarWrapperList = pluginManager.getToolbarWrapperList()
+const editorWrapperList = pluginManager.getEditorWrapperList()
+const viewerWrapperList = pluginManager.getViewerWrapperList()
+const tocWrapperList = pluginManager.getTocWrapperList()
+const extraVnodes = computed<VNode[]>(() => {
+  return pluginManager.getExtraVnodes()
+})
+
+setContext('editor', 'scrollEl', pluginManager.getEditorScrollEl() ?? editorContainer)
+setContext('viewer', 'scrollEl', pluginManager.getViewerScrollEl() ?? viewerContainer)
+setContext('toc', 'scrollEl', pluginManager.getTocScrollEl() ?? tocContainer)
+
+// injectCss
+const selectorMap: {[key: string]: string} = {
+  root: context.root.selector!,
+  header: context.header.selector!,
+  body: context.body.selector!,
+  editor: context.editor.selector!,
+  viewer: context.viewer.selector!,
+  toc: context.toc.selector!,
+  'editor-container': context.editor.containerSelector!,
+  'viewer-container': context.viewer.containerSelector!,
+  'toc-container': context.toc.containerSelector!
+}
 function injectCss(css: string) {
   const transformedCss = css.replace(/&(root|header|body|editor|viewer|toc|editor-container|viewer-container|toc-container)([^a-zA-Z0-9_-])/g, (matched) => {
     const selector = matched.slice(1, -1)
     const tail = matched.slice(-1)
-    let realSelector = selector.replace('-container', 'Container')
-    return selectors[realSelector] + tail
+    let realSelector = selectorMap[selector]
+    return realSelector + tail
   })
   const styleElement = insertCss(transformedCss)
   onUnmounted(() => {
@@ -218,10 +269,11 @@ function injectCss(css: string) {
   })
   return styleElement
 }
+setContext('injectCss', injectCss)
+const css = pluginManager.getCss()
 injectCss(css)
-setContext('methods', 'injectCss', injectCss)
 
-defineExpose({command, insertOrReplace, getContext, setContext })
+defineExpose({getContext, setContext })
 </script>
 
 <style scoped>
@@ -317,15 +369,13 @@ defineExpose({command, insertOrReplace, getContext, setContext })
   overflow: visible;
   box-sizing: border-box;
   scrollbar-width: thin;
-  height: auto;
   border: 0;
-  flex-basis: 100%;
-  flex-grow: 1;
-  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: stretch;
+  align-items: flex-start;
+  flex-grow: 1;
+  flex-shrink: 1;
   width: 100%;
 }
 
@@ -342,11 +392,8 @@ defineExpose({command, insertOrReplace, getContext, setContext })
   flex-shrink: 0;
   flex-grow: 1;
   flex-basis: 100%;
+  min-width: 100%;
 }
-.cm-editor {
-  height: 100%;
-}
-
 :deep(.cm-focused) {
   outline: 0 !important;
 }

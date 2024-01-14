@@ -55,7 +55,9 @@ class OverlayScrollbarsPlugin implements Plugin {
 
     this.editorWrapper = [OverlayScrollbarsComponent, mergedEditProps, 'editOverlayScrollbars']
     this.viewerWrapper = [OverlayScrollbarsComponent, mergedViewProps, 'viewOverlayScrollbars']
-    this.css = '&root [data-overlayscrollbars-initialize] { height: 100%;}'
+    this.css = `&root [data-overlayscrollbars-initialize] { height: 100%;}
+    &root [data-overlayscrollbars-contents] { display: flex; }
+    `
   }
 }
 

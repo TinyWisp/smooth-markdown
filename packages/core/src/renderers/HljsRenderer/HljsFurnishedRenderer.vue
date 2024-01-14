@@ -43,7 +43,7 @@ const props = defineProps({
 
 const getContext: FnGetContext = inject('getContext')!
 const context = getContext()
-const { t } = context.methods
+const { t } = context.lang!
 
 const copied: Ref<boolean> = ref(false)
 const stayCopiedTime = 5000

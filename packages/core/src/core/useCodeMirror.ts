@@ -51,7 +51,6 @@ export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
         minimalSetup,
         keymap.of([indentWithTab]),
         markdown(pluginManager.getCmMarkdownConfig()),
-        EditorView.lineWrapping,
         EditorView.updateListener.of((viewUpdate) => {
           if (viewUpdate.docChanged) {
             doc.value = viewUpdate.state.doc.toString()

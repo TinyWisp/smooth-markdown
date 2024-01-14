@@ -24,7 +24,7 @@ export default defineComponent({
       const refName = this.wrapperList[0][2]
       if (refName) {
         const setContext: FnSetContext = inject('setContext')!
-        setContext('instances', refName, this.$refs.wrapper)
+        setContext('others', refName, this.$refs.wrapper)
       }
     }
   }

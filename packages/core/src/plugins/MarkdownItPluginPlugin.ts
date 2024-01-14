@@ -7,13 +7,13 @@ class MarkdownItPluginPlugin implements Plugin {
   name: string = 'core-plugin-markdownit-plugin'
   mditLoadPlugins: MditLoadPlugin[]
 
-  constructor(plugin: MditLoadPlugin) {
-    this.mditLoadPlugins = [plugin]
+  constructor(plugins:  MditLoadPlugin[]) {
+    this.mditLoadPlugins = [...plugins]
   }
 }
 
-function markdownItPlugin(plugin: MditLoadPlugin) {
-  return new MarkdownItPluginPlugin(plugin)
+function markdownItPlugin(plugins: MditLoadPlugin[]) {
+  return new MarkdownItPluginPlugin(plugins)
 }
 
 export default markdownItPlugin

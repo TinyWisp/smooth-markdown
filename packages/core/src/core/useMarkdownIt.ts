@@ -2,13 +2,6 @@ import { ref, watch, computed } from 'vue'
 import type { Ref, VNode } from 'vue'
 import MarkdownIt from 'markdown-it'
 import { escapeHtml } from 'markdown-it/lib/common/utils'
-import sup from 'markdown-it-sup'
-import sub from 'markdown-it-sub'
-import ins from 'markdown-it-ins'
-import br  from 'markdown-it-br'
-import mark from 'markdown-it-mark'
-import deflist from 'markdown-it-deflist'
-// import emoji from 'markdown-it-emoji/bare.js'
 import type { PluginManager } from './PluginManager'
 import type { Heading, MditCodeRendererMap, MditInitOptions, MditLoadPlugin } from './types'
 import type { Token as MditToken } from 'markdown-it'
@@ -29,12 +22,6 @@ export function useMarkdownIt(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
     ...pluginManager.getMditInitOptions()
   }
   const loadPlugins: MditLoadPlugin[] = [
-    [ sup ],
-    [ sub ],
-    [ ins ],
-    [ br ],
-    [ mark ], 
-    [ deflist ],
     ...pluginManager.getMditLoadPlugins()
   ]
 

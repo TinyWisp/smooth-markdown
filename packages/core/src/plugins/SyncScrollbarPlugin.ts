@@ -7,8 +7,8 @@ class SyncScrollbarPlugin implements Plugin {
   init(getContext: FnGetContext) {
     onMounted(() => {
       const context = getContext()
-      const editorScrollEl = context.doms.editScroll
-      const viewerScrollEl = context.doms.viewScroll
+      const editorScrollEl = context.editor.scrollEl!
+      const viewerScrollEl = context.viewer.scrollEl!
 
       let editPrevScrollTop = 0
       watch(editorScrollEl, () => {

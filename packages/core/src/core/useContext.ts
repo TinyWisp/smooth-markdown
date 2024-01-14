@@ -6,17 +6,28 @@ class ContextManager {
 
   constructor() {
     this.context = {
-      methods: {},
-      doms: {},
-      selectors: {},
-      data: {},
-      instances: {},
+      viewer: {},
+      editor: {},
+      toc: {},
+      header: {},
+      body: {},
+      root: {},
       others: {}
     }
   }
 
-  setContext(key: keyof Context, subKey: string, val: any) {
-    this.context[key][subKey] = val
+  setContext(...params: any[]) {
+    if (params.length === 2) {
+      const key = params[0] as string
+      const val = params[1]
+      this.context[key] = val
+    }
+    else if (params.length === 3) {
+      const key = params[0] as string
+      const subKey = params[1] as string
+      const val = params[2]
+      this.context[key][subKey] = val
+    }
   }
 
   getContext(): Context {
