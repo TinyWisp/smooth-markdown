@@ -1,7 +1,7 @@
-import type { MditCodeRendererMap, Plugin } from '../core/types'
-import type { Component, UnwrapNestedRefs, VNode } from 'vue'
+import type { FnGetContext, MditCodeRendererMap, Plugin, Wrapper } from '../core/types'
+import type { Component, ShallowRef, VNode } from 'vue'
 import { uniqId } from '../utils/util'
-import { nextTick, reactive, Teleport, h } from 'vue'
+import { nextTick, ref, Teleport, h } from 'vue'
 
 export interface LangComponentMap {
   [lang: string]: [Component, object?]
@@ -21,18 +21,26 @@ class CustomCodeBlockRendererPlugin implements Plugin {
   mditCodeRendererMap: MditCodeRendererMap
   langComponentMap: LangComponentMap
   codeBlocks: CodeBlock[]
-  extraVnodes: UnwrapNestedRefs<VNode[]>
+  extraVnodes: ShallowRef<VNode[]>
+  codeBlockWrapperList: Wrapper[]
 
   constructor(langComponentMap: LangComponentMap) {
     this.langComponentMap = langComponentMap
     this.codeBlocks = []
-    this.extraVnodes = reactive<VNode[]>([])
+    this.extraVnodes = ref([])
+    this.codeBlockWrapperList = []
 
     const langs = Object.keys(langComponentMap)
     this.mditCodeRendererMap = {}
     langs.forEach((lang) => {
       this.mditCodeRendererMap[lang] = this.mditCodeRenderer
     })
+  }
+
+  init(getContext: FnGetContext) {
+    const context = getContext()
+    const pluginManager = context.pluginManager!
+    this.codeBlockWrapperList = pluginManager.getCodeBlockWrapperList()
   }
 
   mditBeforeRender() {
@@ -48,7 +56,7 @@ class CustomCodeBlockRendererPlugin implements Plugin {
       id,
     })
 
-    return `<pre class="sm-custom-code-block-renderer"><div id="${id}"></div></pre>`
+    return `<pre class="sm-custom-code-block-renderer ${lang}" id="${id}"></pre>`
   }
 
   mditAfterRender() {
@@ -60,12 +68,13 @@ class CustomCodeBlockRendererPlugin implements Plugin {
       this.codeBlocks.forEach((codeBlock) => {
         vnodes.push(this.renderCodeBlockComponent(codeBlock))
       })
-      this.extraVnodes.splice(0, this.extraVnodes.length, ...vnodes)
+      this.extraVnodes.value = vnodes
     })
   }
 
   renderCodeBlockComponent(codeblock: CodeBlock) {
     const [component, props] = this.langComponentMap[codeblock.lang] ?? this.langComponentMap.default
+
     const renderCompoent = h(component, {
       lang: codeblock.lang,
       code: codeblock.code,

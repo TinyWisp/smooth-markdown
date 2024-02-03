@@ -3,9 +3,11 @@
     <div class="sm-codeblock-lang" v-show="!copied">{{ lang }}</div>
     <div class="sm-codeblock-copy" @click="copy" v-show="!copied"></div>
     <div class="sm-codeblock-copied" v-show="copied">
-      {{ t('svme.codeBlock.copied') }}
+      {{ t('codeBlock.copied') }}
     </div>
-    <code ref="codeBlockEl"></code>
+    <element-wrapper :wrapper-list="codeBlockWrapperList">
+      <code class="sm-code" ref="codeBlockEl"></code>
+    </element-wrapper>
   </div>
 </template>
 
@@ -20,6 +22,7 @@ import type { LanguageDescription } from '@codemirror/language'
 import type { Extension } from '@codemirror/state'
 import type { FnGetContext } from '../../core/types'
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import ElementWrapper from '../../utils/ElementWrapper.vue'
 
 const props = defineProps({
   lang: {
@@ -42,7 +45,7 @@ const props = defineProps({
 const getContext: FnGetContext = inject('getContext')!
 const context = getContext()
 const { t } = context.lang!
-
+const codeBlockWrapperList = context.pluginManager!.getCodeBlockWrapperList()
 
 const codeBlockEl: Ref<Element | null> = ref(null)
 const copied: Ref<boolean> = ref(false)
@@ -79,12 +82,14 @@ onMounted(async () => {
 .sm-codeblock {
   position: relative;
   font-family: 'Droid Sans Mono', 'monospace', monospace;
-  padding: 1em 1.5em;
-  overflow: auto;
+  padding: 0;
+  overflow: hidden;
   line-height: 1.45em;
   background-color: #1e1e1e;
   border-radius: 0.45em;
   color: #e9e9e9;
+  width: 100%;
+  height: auto;
 }
 
 .sm-codeblock .sm-codeblock-lang {
@@ -159,4 +164,20 @@ onMounted(async () => {
   font-size: 0.8em;
 }
 
+:deep(.cm-scroller) {
+  width: max-content;
+}
+
+:deep(.cm-editor) {
+  width: max-content;
+}
+
+.sm-code {
+  width: max-content;
+  display: block;
+}
+
+.sm-codeblock :deep(.cm-editor) {
+  padding: 10px;
+}
 </style>

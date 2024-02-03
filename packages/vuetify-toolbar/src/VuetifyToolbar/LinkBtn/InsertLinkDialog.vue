@@ -5,7 +5,7 @@
     persistent>
     <v-card>
       <v-toolbar>
-        <v-toolbar-title>{{ t('svme.insertLinkDialog.title') }}</v-toolbar-title>
+        <v-toolbar-title>{{ t('insertLinkDialog.title') }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon dense elevation="0" @click="hide()">
           <v-icon :icon="mdiClose"></v-icon>
@@ -18,7 +18,7 @@
               <v-text-field
                 :value="title"
                 @update:modelValue="$emit('update:title', $event)"
-                :placeholder="t('svme.insertLinkDialog.titleFieldPlaceHolder')"
+                :placeholder="t('insertLinkDialog.titleFieldPlaceHolder')"
                 required>
               </v-text-field>
             </v-col>
@@ -26,7 +26,7 @@
               <v-text-field
                 :value="url"
                 @update:modelValue="$emit('update:url', $event)"
-                :placeholder="t('svme.insertLinkDialog.urlFieldPlaceHolder')"
+                :placeholder="t('insertLinkDialog.urlFieldPlaceHolder')"
                 required></v-text-field>
             </v-col>
           </v-row>
@@ -34,8 +34,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="info" @click="cancel()">{{ t('svme.insertLinkDialog.cancel') }}</v-btn>
-        <v-btn color="primary" @click="ok()">{{ t('svme.insertLinkDialog.ok') }}</v-btn>
+        <v-btn color="info" @click="cancel()">{{ t('insertLinkDialog.cancel') }}</v-btn>
+        <v-btn color="primary" @click="ok()">{{ t('insertLinkDialog.ok') }}</v-btn>
       </v-card-actions>
     </v-card>
 

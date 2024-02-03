@@ -9,13 +9,13 @@ import type {
   Wrapper,
   FnGetContext,
   FnSetContext,
+  MessageMap
 } from "./types"
 import type { Extension as CmExtension } from '@codemirror/state'
-import type { VNode, Ref } from 'vue'
-import type { MessageMap } from './Lang'
+import type { VNode, Ref, ComputedRef } from 'vue'
 import type { Token as MditToken } from 'markdown-it'
-import { reactive } from 'vue'
-import { merge } from 'lodash/merge'
+import { computed } from 'vue'
+import merge from 'lodash/merge'
 
 export class PluginManager {
   plugins: Plugin[]
@@ -55,9 +55,14 @@ export class PluginManager {
    * unregister a plugin
    */
   unregisterPlugin(name: string): void {
-    this.plugins = this.plugins.filter((plugin) => {
-      return plugin.name !== name
-    })
+    const length = this.plugins.length
+    for (let idx=length-1; idx>=0; idx--) {
+      const plugin = this.plugins[idx];
+      if (plugin.name === name) {
+        plugin?.free?.()
+        this.plugins.splice(idx, 1);
+      }
+    }
   }
 
   /**
@@ -207,17 +212,18 @@ export class PluginManager {
     return commandMap
   }
 
-  getExtraVnodes(): VNode[] {
-    const vnodes: VNode[] = []
-    this.plugins.forEach((plugin) => {
-      if (plugin.extraVnodes) {
-        plugin.extraVnodes.forEach((vnode) => {
-          vnodes.push(vnode)
-        })
-      }
+  getExtraVnodes(): ComputedRef<VNode[]> {
+    return computed(() => {
+      const vnodes: VNode[] = []
+      this.plugins.forEach((plugin) => {
+        if (plugin.extraVnodes) {
+          plugin.extraVnodes.value.forEach((vnode) => {
+            vnodes.push(vnode)
+          })
+        }
+      })
+      return vnodes
     })
-
-    return reactive<VNode[]>(vnodes)
   }
 
   getMessageMap(): MessageMap {
@@ -269,6 +275,17 @@ export class PluginManager {
     this.plugins.forEach((plugin) => {
       if (plugin?.tocWrapper) {
         wrapperList.push(plugin.tocWrapper)
+      }
+    })
+
+    return wrapperList
+  }
+
+  getCodeBlockWrapperList(): Wrapper[] {
+    const wrapperList: Wrapper[] = []
+    this.plugins.forEach((plugin) => {
+      if (plugin?.codeBlockWrapper) {
+        wrapperList.push(plugin.codeBlockWrapper)
       }
     })
 

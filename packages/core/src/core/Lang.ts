@@ -1,24 +1,16 @@
 import get from 'lodash/get'
 import merge from 'lodash/merge'
-
-export interface MessageMap {
-  [key: string]: string | MessageMap
-}
-
-export interface VariableMap {
-  [key: string]: string
-}
-
+import type { MessageMap, VariableMap } from './types'
 
 export class Lang {
   messageMap: MessageMap
-  lang: string
-  fallback: string
+  locale: string
+  fallbackLocale: string
 
   constructor() {
     this.messageMap = {}
-    this.lang = 'en'
-    this.fallback = 'en'
+    this.locale = 'en'
+    this.fallbackLocale = 'en'
     this.merge = this.merge.bind(this)
     this.t = this.t.bind(this)
     this.print = this.print.bind(this)
@@ -35,14 +27,14 @@ export class Lang {
    * @returns 
    */
   t(path: string, varMap: VariableMap = {}): string {
-    let msg = get(this.messageMap, `${this.lang}.${path}`)
+    let msg = get(this.messageMap, `${this.locale}.${path}`)
 
     if (typeof msg !== 'string') {
-      msg = get(this.messageMap, `${this.fallback}.${path}`)
+      msg = get(this.messageMap, `${this.fallbackLocale}.${path}`)
     }
 
     if (typeof msg !== 'string') {
-      return ''
+      return path
     }
 
     for (const key in varMap) {
@@ -51,6 +43,14 @@ export class Lang {
     }
 
     return msg
+  }
+
+  setLocale(locale: string) {
+    this.locale = locale
+  }
+
+  setFallbackLocale(fallbackLocale: string) {
+    this.fallbackLocale = fallbackLocale
   }
 
   print() {

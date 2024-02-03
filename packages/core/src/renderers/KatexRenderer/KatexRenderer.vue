@@ -6,7 +6,6 @@
 <script setup lang="ts">
 import { ref, watch, type Ref } from 'vue'
 import katex from 'katex'
-import 'katex/dist/katex.css'
 
 const props = defineProps({
   lang: {

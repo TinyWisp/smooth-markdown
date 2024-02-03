@@ -6,7 +6,7 @@
     max-width="600px">
     <v-card>
       <v-toolbar>
-        <v-toolbar-title> {{ t('svme.insertNetworkImageDialog.title') }} </v-toolbar-title>
+        <v-toolbar-title> {{ t('insertNetworkImageDialog.title') }} </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon dense elevation="0" @click="hide()">
           <v-icon>{{mdiClose}}</v-icon>
@@ -18,7 +18,7 @@
             <v-col cols="12">
               <v-text-field
                 :modelValue="url"
-                :placeholder="t('svme.insertNetworkImageDialog.urlFieldPlaceHolder')"
+                :placeholder="t('insertNetworkImageDialog.urlFieldPlaceHolder')"
                 @update:modelValue="$emit('update:url', $event)"
                 required/>
             </v-col>
@@ -27,8 +27,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="info" @click="hide()"> {{ t('svme.insertNetworkImageDialog.cancel') }} </v-btn>
-        <v-btn color="primary" @click="ok()"> {{ t('svme.insertNetworkImageDialog.ok') }} </v-btn>
+        <v-btn color="info" @click="hide()"> {{ t('insertNetworkImageDialog.cancel') }} </v-btn>
+        <v-btn color="primary" @click="ok()"> {{ t('insertNetworkImageDialog.ok') }} </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

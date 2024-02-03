@@ -51,6 +51,7 @@ function setActive(idx: number) {
 }
 .heading-list-item.active {
   background-color: ghostwhite;
+  color: teal;
 }
 .level1 {
   text-indent: 0;

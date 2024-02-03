@@ -1,6 +1,6 @@
 <template>
   <div class="pa-2 bg-white rounded elevation-4">
-    {{curRow > 0 ? t('svme.insertTableBoard.info', {row: curRow, col: curCol}) : t('svme.insertTableBoard.title')}}
+    {{curRow > 0 ? t('insertTableBoard.info', {row: curRow, col: curCol}) : t('insertTableBoard.title')}}
     <table
       class="table"
       ref="table"

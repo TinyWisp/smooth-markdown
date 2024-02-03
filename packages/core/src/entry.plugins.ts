@@ -13,6 +13,11 @@ import perfectScrollbar from "./plugins/PefrectScrollbarPlugin"
 import overlayScrollbars from "./plugins/OverlayScrollbarsPlugin"
 import injectCss from "./plugins/InjectCssPlugin"
 import autoHeight from "./plugins/AutoHeightPlugin"
+import math from "./plugins/MathPlugin"
+import tocSpy from "./plugins/TocSpyPlugin"
+import langZhCN from "./plugins/LangZhCNPlugin"
+import langEn from "./plugins/LangEnPlugin"
+import lang from "./plugins/LangPlugin"
 
 export {
   highlightCodeBlockInEditableArea,
@@ -29,5 +34,10 @@ export {
   perfectScrollbar,
   overlayScrollbars,
   injectCss,
-  autoHeight
+  autoHeight,
+  math,
+  tocSpy,
+  langZhCN,
+  langEn,
+  lang
 }

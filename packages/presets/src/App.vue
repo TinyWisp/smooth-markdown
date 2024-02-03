@@ -1,16 +1,34 @@
+<template>
+  <div class="container">
+    <smooth-markdown v-model="doc" mode="editor|viewer|toc" :locale="locale" :plugins="plugins" ref="sm">
+      <template v-slot:toolbar>
+        <vuetify-toolbar></vuetify-toolbar>
+      </template>
+    </smooth-markdown>
+  </div>
+</template>
+
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, onMounted, type Ref } from 'vue'
 import { SmoothMarkdown } from '@smooth-markdown/core'
-import { injectCss, codemirrorExt, highlightCodeBlockInEditableArea, overlayScrollbars, customCodeBlockRenderer, syncScrollbar } from '@smooth-markdown/core/plugins'
+import { langEn, langZhCN, injectCss, codemirrorExt, highlightCodeBlockInEditableArea, overlayScrollbars, customCodeBlockRenderer, syncScrollbar, math, tocSpy } from '@smooth-markdown/core/plugins'
 import { CodeMirrorRenderer, KatexRenderer, MermaidRenderer } from '@smooth-markdown/core/renderers'
+import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
 import { EditorView } from '@codemirror/view'
 import { githubLightInit } from '@uiw/codemirror-theme-github'
 import { tags as t } from '@lezer/highlight'
 import { basicMarkdownSyntax } from './presets/basicMarkdownSyntax'
 
 const doc = ref('')
+const locale = ref('en')
+setTimeout(() => {
+  locale.value = 'zh_CN'
+}, 5000)
 const plugins = [
+  langEn(),
+  langZhCN(),
   ...basicMarkdownSyntax,
+  math(),
   syncScrollbar(),
   customCodeBlockRenderer({
     math: [KatexRenderer],
@@ -34,6 +52,7 @@ const plugins = [
   })),
   highlightCodeBlockInEditableArea(),
   overlayScrollbars(),
+  tocSpy(),
   injectCss(`&root { font-size: 14px; }`),
   injectCss(`&editor .cm-line { line-height: 1.5; } &editor .cm-editor { padding: 10px; }`),
   injectCss(`
@@ -53,6 +72,7 @@ const plugins = [
     &viewer {
       padding: 16px 23px;
       text-wrap: wrap;
+      word-break: break-word;
       font-size: 16px;
       line-height: 1.5;
     }
@@ -237,17 +257,20 @@ const plugins = [
     }
 
     &viewer pre {
+      display: block;
       width: 100%;
+      height: auto;
+      position: relative;
     }
   `)
 ]
-</script>
 
-<template>
-  <div class="container">
-    <smooth-markdown v-model="doc" :plugins="plugins"></smooth-markdown>
-  </div>
-</template>
+const smd: Ref<SmoothMarkdown | null> = ref(null)
+onMounted(() => {
+  console.log(smd.value?.getContext())
+})
+
+</script>
 
 <style scoped>
 .container {

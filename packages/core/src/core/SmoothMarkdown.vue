@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onUnmounted, computed, type Ref, type VNode, shallowRef, reactive, provide } from 'vue'
+import { ref, watch, onUnmounted, computed, type Ref, shallowRef, reactive, provide } from 'vue'
 import VNodeRenderer from '../utils/VNodeRenderer.vue'
 import ElementWrapper from '../utils/ElementWrapper.vue'
 import type { Plugin } from '../core/types'
@@ -56,17 +56,16 @@ import insertCss from 'insert-css'
 import { uniqId } from '../utils/util'
 import { useContext } from '../core/useContext'
 import SimpleToc from '../core/SimpleToc.vue'
-import { useEditor } from './useEditor'
-import { useViewer } from './useViewer'
+import { initEditor } from './initEditor'
+import { initViewer } from './initViewer'
 import { PluginManager } from './PluginManager'
 import { EventBus } from './EventBus'
 import { Lang } from './Lang'
-import en from '../langs/en'
-import zh_CN from '../langs/zh_CN'
 
 export interface EditorProps {
   modelValue: string
   mode?: string
+  locale?: string
   showToolbar?: boolean
   plugins?: Plugin[]
 }
@@ -74,6 +73,7 @@ export interface EditorProps {
 const props = withDefaults(defineProps<EditorProps>(), {
   modelValue: '',
   mode: 'editor|viewer',
+  locale: 'en',
   plugins: () => [],
 })
 
@@ -92,12 +92,16 @@ setContext('eventBus', eventBus)
 
 // pluginManager
 const pluginManager = new PluginManager(getContext, setContext)
-
 setContext('pluginManager', pluginManager)
 
 // lang
 const lang = new Lang()
+const locale = ref(props.locale)
+lang.setLocale(locale.value)
 setContext('lang', lang)
+watch(locale, () => {
+  lang.setLocale(props.locale)
+})
 
 // root
 const rootUniqId = uniqId()
@@ -119,6 +123,7 @@ setContext('editor', {
   selector: `[data-uniq-id=${editorUniqId}]`,
   containerEl: editorContainer,
   containerSelector: `${rootSelector} > .sm-body > .sm-editor-container`,
+  scrollEl: ref(null)
 })
 
 // viewer
@@ -130,6 +135,7 @@ setContext('viewer', {
   selector: `[data-uniq-id=${viewerUniqId}]`,
   containerEl: viewerContainer,
   containerSelector: `${rootSelector} > .sm-body > .sm-viewer-container`,
+  scrollEl: ref(null)
 })
 
 // toc
@@ -141,6 +147,7 @@ setContext('toc', {
   selector: `[data-uniq-id=${tocUniqId}]`,
   containerEl: tocContainer,
   containerSelector: `${rootSelector} > .sm-body > .sm-toc-container`,
+  scrollEl: ref(null),
   headingList: shallowRef([]),
   activeIndex: ref(0),
   setActive: function(){}
@@ -160,7 +167,7 @@ setContext('body', {
   selector: `${rootSelector} > .sm-body`
 })
 
-// doc 
+// props.doc 
 const doc: Ref<string> = ref(props.modelValue)
 setContext('doc', doc)
 watch(doc, () => {
@@ -172,7 +179,7 @@ watch(() => props.modelValue, () => {
   }
 })
 
-// mode
+// props.mode
 const mode: Ref<string> = ref(props.mode)
 setContext('mode', mode)
 const emit = defineEmits(['update:modelValue', 'update:mode'])
@@ -226,23 +233,35 @@ const containerMap = computed(() => {
 pluginManager.registerPlugins(props.plugins)
 pluginManager.init()
 
-lang.merge({en, zh_CN})
 lang.merge(pluginManager.getMessageMap())
 
-useEditor(getContext, setContext)
-useViewer(getContext, setContext)
+initEditor(getContext, setContext)
+initViewer(getContext, setContext)
 
 const toolbarWrapperList = pluginManager.getToolbarWrapperList()
 const editorWrapperList = pluginManager.getEditorWrapperList()
 const viewerWrapperList = pluginManager.getViewerWrapperList()
 const tocWrapperList = pluginManager.getTocWrapperList()
-const extraVnodes = computed<VNode[]>(() => {
-  return pluginManager.getExtraVnodes()
-})
+const extraVnodes = pluginManager.getExtraVnodes()
 
-setContext('editor', 'scrollEl', pluginManager.getEditorScrollEl() ?? editorContainer)
-setContext('viewer', 'scrollEl', pluginManager.getViewerScrollEl() ?? viewerContainer)
-setContext('toc', 'scrollEl', pluginManager.getTocScrollEl() ?? tocContainer)
+const editorScrollEl = pluginManager.getEditorScrollEl() ?? editorContainer
+watch(editorScrollEl, () => {
+  if (editorScrollEl.value) {
+    context.editor.scrollEl!.value = editorScrollEl.value
+  }
+}, {immediate: true})
+const viewerScrollEl = pluginManager.getViewerScrollEl() ?? viewerContainer
+watch(viewerScrollEl, () => {
+  if (viewerScrollEl.value) {
+    context.viewer.scrollEl!.value = viewerScrollEl.value
+  }
+}, {immediate: true})
+const tocScrollEl = pluginManager.getTocScrollEl() ?? tocContainer
+watch(tocScrollEl, () => {
+  if (tocScrollEl.value) {
+    context.toc.scrollEl!.value = tocScrollEl.value
+  }
+}, {immediate: true})
 
 // injectCss
 const selectorMap: {[key: string]: string} = {
@@ -399,3 +418,4 @@ defineExpose({getContext, setContext })
 }
 
 </style>
+./initEditor./initViewer

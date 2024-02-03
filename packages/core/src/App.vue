@@ -6,9 +6,10 @@
 import { ref } from 'vue'
 import tocSpy from './plugins/TocSpyPlugin'
 import overlayScrollbars  from './plugins/OverlayScrollbarsPlugin';
+import syncScrollbar from './plugins/SyncScrollbarPlugin';
 import SmoothMarkdown from './core/SmoothMarkdown.vue'
 const doc = ref('')
-const plugins = [tocSpy()]
+const plugins = [overlayScrollbars(), syncScrollbar()]
 
 </script>
 

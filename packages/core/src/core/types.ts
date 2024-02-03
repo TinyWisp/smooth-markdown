@@ -1,6 +1,6 @@
-import type { Ref, Component, VNode } from 'vue'
+import type { Ref, Component, VNode, ShallowRef } from 'vue'
 import type { PluginSimple as MditPluginSimple, PluginWithOptions as MditPluginWithOptions, PluginWithParams as MditPluginWithParams, Token as MditToken} from 'markdown-it'
-import type { Lang, MessageMap } from './Lang'
+import type { Lang } from './Lang'
 import type { Extension as CmExtension } from '@codemirror/state'
 import type { EventBus } from './EventBus'
 import type { PluginManager } from './PluginManager'
@@ -67,6 +67,7 @@ export interface Plugin {
 
   // init
   init?: (getContext: FnGetContext, setContext: FnSetContext) => void
+  free?: () => void
 
   // markdown-it
   mditInitOptions?: MditInitOptions
@@ -81,11 +82,7 @@ export interface Plugin {
   cmDomEventHandlerMap?: CmDomEventHandlerMap
   cmPasteEventHandlerMap?: CmPasteEventHandlerMap
   cmExtensions?: CmExtension[]
-  cmDocChanged?: CmDocChanged
   cmMarkdownConfig?: object
-
-  // toc
-  tocUasOptions?: Object
 
   // elements
   toolbarWrapper?: Wrapper
@@ -100,7 +97,7 @@ export interface Plugin {
 
   // others
   commandMap?: CommandMap
-  extraVnodes?: VNode[]
+  extraVnodes?: ShallowRef<VNode[]>
   messageMap?: MessageMap
 }
 
@@ -126,13 +123,24 @@ export type Context = {
   body: PanelContext
   others: {
     [key: string]: any
-  } 
+  }
   [key: string]: any
 }
 
 export type FnGetContext = () => Context
 
 export type FnSetContext = (key: keyof Context, subKey: string, val: any) => void
+
+
+// -----------------------------Lang-------------------------------------
+
+export interface MessageMap {
+  [key: string]: string | MessageMap
+}
+
+export interface VariableMap {
+  [key: string]: string
+}
 
 // ------------------------------------------------------------------
 

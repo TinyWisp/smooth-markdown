@@ -1,7 +1,7 @@
-import type { ComputedRef, Ref, ShallowRef } from 'vue'
-import { computed, onMounted, ref, watch } from 'vue'
+import type { Ref, ShallowRef } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { FnGetContext, FnSetContext, Heading, Plugin } from '../core/types'
-import { useActiveScroll } from 'vue-use-active-scroll'
+import { useActiveScroll } from '../use-active-scroll'
 import type { Token as MditToken } from 'markdown-it'
 import { uniqId } from '../utils/util'
 
@@ -36,23 +36,18 @@ class TocSpyPlugin implements Plugin {
       context.toc.headingList.value = this.headingList.value
     })
 
-    onMounted(() => {
-      const viewerScrollEl = context.viewer.scrollEl!
-      if (!viewerScrollEl.value) {
-        return
-      }
+    const viewerScrollEl = context.viewer.scrollEl!
 
-      const { activeIndex, setActive } = useActiveScroll(targets!, {
-        root: viewerScrollEl,
-        replaceHash: false,
-        ...this.uasOptions
-      })
+    const { activeIndex, setActive } = useActiveScroll(targets!, {
+      root: viewerScrollEl,
+      replaceHash: false,
+      ...this.uasOptions
+    })
 
-      this.uasSetActive = setActive
-      setContext('toc', 'setActive', this.setActive.bind(this))
-      watch(activeIndex, () => {
-        context.toc.activeIndex.value = activeIndex.value
-      })
+    this.uasSetActive = setActive
+    setContext('toc', 'setActive', this.setActive.bind(this))
+    watch(activeIndex, () => {
+      context.toc.activeIndex.value = activeIndex.value
     })
   }
 

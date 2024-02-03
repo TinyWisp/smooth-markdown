@@ -1,5 +1,7 @@
-export default {
-  svme: {
+import type { Plugin, MessageMap } from '../core/types'
+
+const messageMap: MessageMap = {
+  en: {
     insertLinkDialog: {
       title: 'link',
       cancel: 'cancel',
@@ -50,3 +52,12 @@ export default {
     }
   }
 }
+
+function langEn(): Plugin {
+  return {
+    name: 'core-plugin-lang-en',
+    messageMap
+  }
+}
+
+export default langEn

@@ -1,4 +1,21 @@
-# plugins
+# 说明
+
+smooth-markdown是一个基于vue.js 3的markdown编辑器。
+它有着强大的扩展机制，不论是markdown语法，编辑操作，还是外观上，都非常易于扩展。
+
+# 快速开始
+
+
+
+# 插件
+
+## 插件列表
+
+| 插件    | 说明 |
+| --------- | ----------- |
+| customCodeBlockRenderer | 自定义代码块渲染 |
+| affixToolbar | 固定工具栏到屏幕顶部 |
+
 
 ## 自定义代码块渲染
 
@@ -88,6 +105,8 @@ https://github.com/craftzdog/cm6-themes
 ```demo
 /examples/view-theme
 ```
+
+# 预定义
 
 # API
 

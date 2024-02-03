@@ -2,12 +2,10 @@ import { ref, watch } from 'vue'
 import type { Ref } from 'vue'
 import MarkdownIt from 'markdown-it'
 import { escapeHtml } from 'markdown-it/lib/common/utils'
-import type { FnGetContext, FnSetContext, Heading, MditCodeRendererMap, MditInitOptions, MditLoadPlugin } from './types'
-import type { Token as MditToken } from 'markdown-it'
-import { uniqId } from '../utils/util'
+import type { FnGetContext, FnSetContext, MditCodeRendererMap, MditInitOptions, MditLoadPlugin } from './types'
 
 
-export function useViewer(getContext: FnGetContext, setContext: FnSetContext) {
+export function initViewer(getContext: FnGetContext, setContext: FnSetContext) {
   const context = getContext()
   const doc = context.doc!
   const pluginManager = context.pluginManager!

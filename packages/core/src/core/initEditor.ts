@@ -1,21 +1,17 @@
-import { ref, watch, type Ref } from 'vue'
-import { minimalSetup } from 'codemirror'
+import { ref, shallowRef, watch, type Ref } from 'vue'
+import { minimalSetup, basicSetup } from 'codemirror'
 import { EditorView, keymap } from '@codemirror/view'
-import { EditorSelection, EditorState } from '@codemirror/state'
+import { EditorSelection } from '@codemirror/state'
 import { markdown } from '@codemirror/lang-markdown'
 import { indentWithTab, undo, redo } from "@codemirror/commands"
-import type { PluginManager } from './PluginManager'
-import type { CmPasteEventHandlerMap } from './types'
+import type { CmPasteEventHandlerMap, FnGetContext, FnSetContext } from './types'
 
-export interface CodeMirrorContext {
-  editorView: Ref<EditorView | null>
-  insertOrReplace: (text: string, forceNewLine?: boolean) => void
-  command: (cmd: string, params?: object) => void
-  scrollToLine: (lineNum: number) => void 
-}
-
-export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, pluginManager: PluginManager): CodeMirrorContext {
-  const editorView: Ref<EditorView | null> = ref(null)
+export function initEditor(getContext: FnGetContext, setContext: FnSetContext) {
+  const context = getContext()
+  const doc = context.doc!
+  const pluginManager = context.pluginManager!
+  const editorEl = context.editor.el!
+  const cmEditorView: Ref<EditorView | null> = shallowRef(null)
 
   /**
    * paste
@@ -43,12 +39,12 @@ export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
 
 
   function createEditorView() {
-    editorView.value = new EditorView({
+    cmEditorView.value = new EditorView({
       doc: doc.value,
-      parent: elem.value!,
+      parent: editorEl.value!,
       extensions: [
         ...pluginManager.getCmExtensions(),
-        minimalSetup,
+        basicSetup,
         keymap.of([indentWithTab]),
         markdown(pluginManager.getCmMarkdownConfig()),
         EditorView.updateListener.of((viewUpdate) => {
@@ -65,9 +61,9 @@ export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
   }
 
   watch(
-    elem,
+    editorEl,
     () => {
-      elem.value && createEditorView()
+      editorEl.value && createEditorView()
     }
   )
 
@@ -78,33 +74,33 @@ export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
    * @param {boolean} forceNewLine whether to insert a newline when the cursor is not at the beginning of a line.
    */
   function insertOrReplace(text: string, forceNewLine: boolean = false) {
-    if (!editorView.value) {
+    if (!cmEditorView.value) {
       console.log("the codemirror's instance is not created.")
       return
     }
 
     const keyword = '<-->'
-    const selectionRange = editorView.value.state.selection.ranges[0]
-    const selectedText = editorView.value.state.sliceDoc(selectionRange.from, selectionRange.to)
+    const selectionRange = cmEditorView.value.state.selection.ranges[0]
+    const selectedText = cmEditorView.value.state.sliceDoc(selectionRange.from, selectionRange.to)
     let insertText = text.replace(keyword, selectedText)
     let newCursorPos = selectionRange.from === selectionRange.to && text.indexOf(keyword) >= 0
                         ? selectionRange.from + text.indexOf(keyword)
                         : selectionRange.from + insertText.length
     const prevChar = selectionRange.from > 0
-                    ? editorView.value.state.doc.toString().charAt(selectionRange.from - 1)
+                    ? cmEditorView.value.state.doc.toString().charAt(selectionRange.from - 1)
                     : null
     if (forceNewLine && prevChar !== '\n' && prevChar !== null) {
       insertText = '\n' + insertText
       newCursorPos += 1
     }
 
-    editorView.value.focus()
-    editorView.value.dispatch({
-      changes: [{
+    cmEditorView.value.focus()
+    cmEditorView.value.dispatch({
+      changes: cmEditorView.value.state.changes([{
         from: selectionRange.from,
         to: selectionRange.to,
         insert: insertText,
-      }],
+      }]),
       selection: EditorSelection.create([
         EditorSelection.range(newCursorPos, newCursorPos),
       ]),
@@ -113,10 +109,10 @@ export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
 
   const commandMap: { [key: string]: (params: any) => void } = {
     undo: () => {
-      editorView.value && undo(editorView.value)
+      cmEditorView.value && undo(cmEditorView.value)
     },
     redo: () => {
-      editorView.value && redo(editorView.value)
+      cmEditorView.value && redo(cmEditorView.value)
     },
     bold: () => {
       insertOrReplace('**<-->**')
@@ -210,18 +206,19 @@ export function useCodeMirror(doc: Ref<string>, elem: Ref<HTMLElement | null>, p
    * scroll to line 
    */
   function scrollToLine(lineNum: number) {
-    const lineNodes = editorView.value!.contentDOM.childNodes
-    if (lineNum > lineNodes.length - 1) {
+    const line = cmEditorView.value!.state.doc.line(lineNum + 1)
+    const { node } = cmEditorView.value!.domAtPos(line.from)
+
+    if (node.firstChild) {
+      node.firstChild.parentElement?.scrollIntoView()
       return
     }
 
-    (lineNodes[lineNum] as Element).scrollIntoView()
+    node.parentElement?.scrollIntoView()
   }
 
-  return {
-    editorView,
-    insertOrReplace,
-    command,
-    scrollToLine
-  }
+  setContext('editor', 'insertOrReplace', insertOrReplace)
+  setContext('editor', 'command', command)
+  setContext('editor', 'scrollToLine', scrollToLine)
+  setContext('editor', 'cmEditorView', cmEditorView)
 }

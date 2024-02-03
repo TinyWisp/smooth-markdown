@@ -7,7 +7,7 @@
     @click="showLinkDialog"
   >
     <v-icon small color="grey darken-1">mdi-link-variant</v-icon>
-    <v-tooltip location="bottom" activator="parent">{{ t('svme.toolbar.link') }}</v-tooltip>
+    <v-tooltip location="bottom" activator="parent">{{ t('toolbar.link') }}</v-tooltip>
 
     <insert-link-dialog
       v-model="linkDialog.show"

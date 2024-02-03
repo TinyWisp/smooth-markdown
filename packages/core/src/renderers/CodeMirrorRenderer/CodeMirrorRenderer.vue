@@ -3,7 +3,7 @@
     <div class="sm-codeblock-lang" v-show="!copied">{{ lang }}</div>
     <div class="sm-codeblock-copy" @click="copy" v-show="!copied"></div>
     <div class="sm-codeblock-copied" v-show="copied">
-      {{ t('svme.codeBlock.copied') }}
+      {{ t('codeBlock.copied') }}
     </div>
     <div class="hljs-wrapper" ref="hljsWrapper">
       <code-mirror-renderer

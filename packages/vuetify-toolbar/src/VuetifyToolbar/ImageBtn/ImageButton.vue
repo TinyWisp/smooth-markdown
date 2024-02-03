@@ -27,10 +27,10 @@
     <v-menu :offset-y="true" open-on-hover bottom activator="parent">
       <v-list>
         <v-list-item @click="showNetworkImageDialog()">
-          <v-list-item-title>{{ t('svme.toolbar.insertNetworkImage') }}</v-list-item-title>
+          <v-list-item-title>{{ t('toolbar.insertNetworkImage') }}</v-list-item-title>
         </v-list-item>
         <v-list-item @click="showUploadDialog()">
-          <v-list-item-title>{{ t('svme.toolbar.uploadLocalImage') }}</v-list-item-title>
+          <v-list-item-title>{{ t('toolbar.uploadLocalImage') }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
