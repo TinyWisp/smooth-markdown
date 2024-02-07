@@ -99,7 +99,7 @@ const lang = new Lang()
 const locale = ref(props.locale)
 lang.setLocale(locale.value)
 setContext('lang', lang)
-watch(locale, () => {
+watch(() => props.locale, () => {
   lang.setLocale(props.locale)
 })
 

@@ -1,16 +1,17 @@
 import get from 'lodash/get'
 import merge from 'lodash/merge'
 import type { MessageMap, VariableMap } from './types'
+import { ref, reactive, type Ref } from 'vue'
 
 export class Lang {
   messageMap: MessageMap
-  locale: string
-  fallbackLocale: string
+  locale: Ref<string>
+  fallbackLocale: Ref<string>
 
   constructor() {
-    this.messageMap = {}
-    this.locale = 'en'
-    this.fallbackLocale = 'en'
+    this.messageMap = reactive({})
+    this.locale = ref('en')
+    this.fallbackLocale = ref('en')
     this.merge = this.merge.bind(this)
     this.t = this.t.bind(this)
     this.print = this.print.bind(this)
@@ -27,10 +28,10 @@ export class Lang {
    * @returns 
    */
   t(path: string, varMap: VariableMap = {}): string {
-    let msg = get(this.messageMap, `${this.locale}.${path}`)
+    let msg = get(this.messageMap, `${this.locale.value}.${path}`)
 
     if (typeof msg !== 'string') {
-      msg = get(this.messageMap, `${this.fallbackLocale}.${path}`)
+      msg = get(this.messageMap, `${this.fallbackLocale.value}.${path}`)
     }
 
     if (typeof msg !== 'string') {
@@ -46,11 +47,11 @@ export class Lang {
   }
 
   setLocale(locale: string) {
-    this.locale = locale
+    this.locale.value = locale
   }
 
   setFallbackLocale(fallbackLocale: string) {
-    this.fallbackLocale = fallbackLocale
+    this.fallbackLocale.value = fallbackLocale
   }
 
   print() {

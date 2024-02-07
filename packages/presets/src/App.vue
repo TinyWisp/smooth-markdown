@@ -75,6 +75,7 @@ const plugins = [
       word-break: break-word;
       font-size: 16px;
       line-height: 1.5;
+      --viewer-primary-color: teal;
     }
     &viewer table {
       border-spacing: 0;
@@ -83,15 +84,15 @@ const plugins = [
       word-break: normal;
       word-break: keep-all;
       margin: 1.75em 0;
-      border: 1px solid teal;
-      border-radius: 0.45em;
+      border: 1px solid lightgray;
+      border-radius: 3px;
       border-collapse: separate;
       overflow: hidden;
     }
 
     &viewer table th {
-      background-color: #eaf3f3;
-      color: teal;
+      background-color: #f6f8fa;
+      color: var(--viewer-primary-color);
       font-weight: bold;
       text-align: left;
     }
@@ -104,7 +105,7 @@ const plugins = [
     }
 
     &viewer tr:nth-child(2n) {
-      background-color: #0000000d;
+      background-color: #f6f8fa;
     }
 
     &viewer tr td:not(:last-child) {
@@ -133,7 +134,7 @@ const plugins = [
     }
 
     &viewer a {
-      color: teal;
+      color: var(--viewer-primary-color);
       font-weight: 600;
       text-decoration: none;
     }
@@ -171,7 +172,8 @@ const plugins = [
     &viewer blockquote {
       margin: 2em 0;
       padding-left: 20px;
-      border-left: 4px solid teal;
+      border-left: 4px solid var(--viewer-primary-color);
+      background-color: #f3f5f7;
       white-space: nowrap;
       color: #57606a;
     }

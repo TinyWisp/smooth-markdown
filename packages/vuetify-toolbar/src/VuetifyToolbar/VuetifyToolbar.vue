@@ -74,121 +74,121 @@ const toolbarItemMap: ToolbarItemMap = {
     name: 'undo',
     icon: 'mdi-undo',
     cmd: 'undo',
-    tip: t('toolbar.undo')
+    tip: () => t('toolbar.undo')
   },
   redo: {
     name: 'redo',
     icon: 'mdi-redo',
     cmd: 'redo',
-    tip: t('toolbar.redo')
+    tip: () => t('toolbar.redo')
   },
   bold: {
     name: 'bold',
     icon: 'mdi-format-bold',
     cmd: 'bold',
-    tip: t('toolbar.bold')
+    tip: () => t('toolbar.bold')
   },
   italic: {
     name: 'italic',
     icon: 'mdi-format-italic',
     cmd: 'italic',
-    tip: t('toolbar.italic')
+    tip: () => t('toolbar.italic')
   },
   strike: {
     name: 'strike',
     icon: 'mdi-format-strikethrough',
     cmd: 'strike',
-    tip: t('toolbar.strike')
+    tip: () => t('toolbar.strike')
   },
   underline: {
     name: 'underline',
     icon: 'mdi-format-underline',
     cmd: 'underline',
-    tip: t('toolbar.underline')
+    tip: () => t('toolbar.underline')
   },
   subscript: {
     name: 'subscript',
     icon: 'mdi-format-subscript',
     cmd: 'subscript',
-    tip: t('toolbar.subscript')
+    tip: () => t('toolbar.subscript')
   },
   superscript: {
     name: 'superscript',
     icon: 'mdi-format-superscript',
     cmd: 'superscript',
-    tip: t('toolbar.superscript')
+    tip: () => t('toolbar.superscript')
   },
   mark: {
     name: 'mark',
     icon: 'mdi-format-color-highlight',
     cmd: 'mark',
-    tip: t('toolbar.mark')
+    tip: () => t('toolbar.mark')
   },
   heading1: {
     name: 'heading1',
     icon: 'mdi-format-header-1',
     cmd: 'heading1',
-    tip: t('toolbar.heading1')
+    tip: () => t('toolbar.heading1')
   },
   heading2: {
     name: 'heading2',
     icon: 'mdi-format-header-2',
     cmd: 'heading2',
-    tip: t('toolbar.heading2')
+    tip: () => t('toolbar.heading2')
   },
   heading3: {
     name: 'heading3',
     icon: 'mdi-format-header-3',
     cmd: 'heading3',
-    tip: t('toolbar.heading3')
+    tip: () => t('toolbar.heading3')
   },
   heading4: {
     name: 'heading4',
     icon: 'mdi-format-header-',
     cmd: 'heading4',
-    tip: t('toolbar.heading4')
+    tip: () => t('toolbar.heading4')
   },
   heading5: {
     name: 'heading5',
     icon: 'mdi-format-header-5',
     cmd: 'heading5',
-    tip: t('toolbar.heading5')
+    tip: () => t('toolbar.heading5')
   },
   heading6: {
     name: 'heading6',
     icon: 'mdi-format-header-6',
     cmd: 'heading6',
-    tip: t('toolbar.heading6')
+    tip: () => t('toolbar.heading6')
   },
   bulletedList: {
     name: 'bulletedList',
     icon: 'mdi-format-list-bulleted',
     cmd: 'bulletedList',
-    tip: t('toolbar.bulletedList')
+    tip: () => t('toolbar.bulletedList')
   },
   numberedList: {
     name: 'numberedList',
     icon: 'mdi-format-list-numbered',
     cmd: 'numberedList',
-    tip: t('toolbar.numberedList')
+    tip: () => t('toolbar.numberedList')
   },
   quote: {
     name: 'quote',
     icon: 'mdi-format-quote-close',
     cmd: 'quote',
-    tip: t('toolbar.quote')
+    tip: () => t('toolbar.quote')
   },
   codeBlock: {
     name: 'codeBlock',
     icon: 'mdi-code-tags',
     cmd: 'codeBlock',
-    tip: t('toolbar.codeBlock')
+    tip: () => t('toolbar.codeBlock')
   },
   horizontalRule: {
     name: 'horizontalRule',
     icon: 'mdi-minus',
     cmd: 'horizontalRule',
-    tip: t('toolbar.horizontalRule')
+    tip: () => t('toolbar.horizontalRule')
   },
   image: {
     name: 'image',
