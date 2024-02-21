@@ -217,8 +217,49 @@ export function initEditor(getContext: FnGetContext, setContext: FnSetContext) {
     node.parentElement?.scrollIntoView()
   }
 
+  /**
+   * move lines to a new position
+   */
+  function moveLinesTo(lineBegin: number, lineEnd: number, lineDes: number) {
+    if (!cmEditorView.value) {
+      return
+    }
+
+    const state = cmEditorView.value.state
+
+    if (lineBegin < 0 || lineBegin + 1 > state.doc.lines) {
+      console.log(`invalid parameter: lineBegin: ${lineBegin}`)
+      return
+    }
+
+    if (lineEnd < 0 || lineEnd < lineBegin || lineEnd + 1 > state.doc.lines) {
+      console.log(`invalid parameter: lineEnd: ${lineEnd}`)
+      return
+    }
+
+    const from = state.doc.line(lineBegin + 1).from
+    const to = state.doc.line(lineEnd + 1).to
+    const text = state.doc.slice(from, to)
+
+    cmEditorView.value.focus()
+    cmEditorView.value.dispatch({
+      changes: cmEditorView.value.state.changes([
+        {
+          from,
+          to, 
+          insert: '',
+        }, {
+          from: state.doc.line(lineDes).from,
+          to: state.doc.line(lineDes).from,
+          insert: text 
+        }])
+    })
+  }
+
+
   setContext('editor', 'insertOrReplace', insertOrReplace)
   setContext('editor', 'command', command)
   setContext('editor', 'scrollToLine', scrollToLine)
+  setContext('editor', 'moveLinesTo', moveLinesTo)
   setContext('editor', 'cmEditorView', cmEditorView)
 }

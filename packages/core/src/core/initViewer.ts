@@ -15,30 +15,11 @@ export function initViewer(getContext: FnGetContext, setContext: FnSetContext) {
 
   const initOptions: MditInitOptions = {
     breaks: true,
-    highlight: renderCode,
     ...pluginManager.getMditInitOptions()
   }
   const loadPlugins: MditLoadPlugin[] = [
     ...pluginManager.getMditLoadPlugins()
   ]
-
-  const codeRendererMap: MditCodeRendererMap = {...pluginManager.getMditCodeRendererMap()}
-
-  function renderCode(code: string, lang: string): string {
-    if (lang.length === 0 && code.length === 0) {
-      return '<pre class="nothing"></pre>'
-    }
-
-    if (codeRendererMap[lang]) {
-      return codeRendererMap[lang](code, lang)
-    }
-
-    if (codeRendererMap['default']) {
-      return codeRendererMap['default'](code, lang)
-    }
-
-    return `<pre class="language-${lang}"><code>${escapeHtml(code)}</code></pre>`
-  }
 
   function renderView(): void {
     pluginManager.mditBeforeRender()

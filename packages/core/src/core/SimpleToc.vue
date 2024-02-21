@@ -1,17 +1,20 @@
 <template>
   <ul class="heading-list">
-    <li
-      v-for="(item, idx) of headingList"
-      :key="item.id"
-      :class="['heading-list-item', `level${item.level}`, {active: idx === activeIndex}]"
-      @click="setActive(idx)"
-    >{{ item.text }}</li>
+    <draggable :list="headingList" item-key="id" @change="handleChangeEvent">
+      <template #item="{ element, index }">
+        <li
+          :class="['heading-list-item', `level${element.level}`, {active: index === activeIndex}]"
+          @click="setActive(index)"
+        >{{ element.text }}</li>
+      </template>
+    </draggable>
   </ul>
 </template>
 
 <script lang="ts" setup>
 import { inject } from 'vue'
 import type { FnGetContext } from './types'
+import draggable from 'vuedraggable/src/vuedraggable'
 
 const getContext: FnGetContext = inject('getContext')!
 const context = getContext()
@@ -19,6 +22,14 @@ const { headingList, activeIndex } = context.toc
 
 function setActive(idx: number) {
   context.toc.setActive(idx)
+}
+
+function handleChangeEvent(e: any) {
+  if (!e.moved) {
+    return
+  }
+
+  const { element, oldIndex, newIndex } = e.moved
 }
 
 </script>

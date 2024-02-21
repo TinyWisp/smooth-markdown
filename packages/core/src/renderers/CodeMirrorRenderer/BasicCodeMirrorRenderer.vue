@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, inject } from 'vue'
+import { onMounted, ref, inject , watch } from 'vue'
 import type { Ref, PropType } from 'vue'
 import copyToClipboard from 'copy-to-clipboard'
 import { EditorView } from "codemirror"
@@ -70,10 +70,22 @@ onMounted(async () => {
     extensions.push(langSupport)
   }
 
-  new EditorView({
+  const editorView = new EditorView({
     doc: props.code,
     extensions,
     parent: codeBlockEl.value!
+  })
+
+  watch(() => props.code, () => {
+    editorView.dispatch({
+      changes: editorView.state.changes([
+        {
+          from: 0,
+          to: editorView.state.doc.length,
+          insert: props.code
+        }
+      ])
+    })
   })
 })
 </script>

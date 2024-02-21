@@ -7,13 +7,13 @@ import type { PluginManager } from './PluginManager'
 
 // ---------------- types related to markdown-it  -------------------
 
-export type MditCodeRenderer = (code: string, lang: string) => string
+export type MditCodeRenderer = (code: string, lang: string, langAttrs: string, lineBegin: number, lineEnd: number) => string
 
 export interface MditCodeRendererMap {
   [key: string]: MditCodeRenderer
 }
 
-export type MditRendererRule = (tokens: any[], idx: number, options?: object, env?: object, slf?: object) => string
+export type MditRendererRule = (tokens: MditToken[], idx: number, options?: object, env?: object, slf?: object) => string
 
 export interface MditRendererRuleMap {
   [key: string]: MditRendererRule
