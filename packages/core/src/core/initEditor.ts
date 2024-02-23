@@ -1,7 +1,7 @@
 import { ref, shallowRef, watch, type Ref } from 'vue'
 import { minimalSetup, basicSetup } from 'codemirror'
 import { EditorView, keymap } from '@codemirror/view'
-import { EditorSelection } from '@codemirror/state'
+import { EditorSelection, Text } from '@codemirror/state'
 import { markdown } from '@codemirror/lang-markdown'
 import { indentWithTab, undo, redo } from "@codemirror/commands"
 import type { CmPasteEventHandlerMap, FnGetContext, FnSetContext } from './types'
@@ -237,21 +237,24 @@ export function initEditor(getContext: FnGetContext, setContext: FnSetContext) {
       return
     }
 
-    const from = state.doc.line(lineBegin + 1).from
-    const to = state.doc.line(lineEnd + 1).to
-    const text = state.doc.slice(from, to)
+    const arr = state.doc.toJSON()
+    const cut = arr.slice(lineBegin, lineEnd + 1)
+
+    if (lineDes < lineEnd) {
+      arr.splice(lineBegin, cut.length)
+      arr.splice(lineDes, 0, ...cut)
+    } else {
+      arr.splice(lineDes, 0, ...cut)
+      arr.splice(lineBegin, cut.length)
+    }
 
     cmEditorView.value.focus()
     cmEditorView.value.dispatch({
       changes: cmEditorView.value.state.changes([
         {
-          from,
-          to, 
-          insert: '',
-        }, {
-          from: state.doc.line(lineDes).from,
-          to: state.doc.line(lineDes).from,
-          insert: text 
+          from: 1,
+          to: state.doc.line(state.doc.lines).to,
+          insert: Text.of(arr)
         }])
     })
   }

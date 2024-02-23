@@ -1,6 +1,6 @@
 <template>
   <ul class="heading-list">
-    <draggable :list="headingList" item-key="id" @change="handleChangeEvent">
+    <draggable :disabled="readonly" :model-value="headingList" item-key="id" @change="handleChangeEvent">
       <template #item="{ element, index }">
         <li
           :class="['heading-list-item', `level${element.level}`, {active: index === activeIndex}]"
@@ -19,6 +19,7 @@ import draggable from 'vuedraggable/src/vuedraggable'
 const getContext: FnGetContext = inject('getContext')!
 const context = getContext()
 const { headingList, activeIndex } = context.toc
+const { readonly } = context.props
 
 function setActive(idx: number) {
   context.toc.setActive(idx)
@@ -29,7 +30,20 @@ function handleChangeEvent(e: any) {
     return
   }
 
-  const { element, oldIndex, newIndex } = e.moved
+  const { oldIndex, newIndex } = e.moved
+  const editorView = context.editor.cmEditorView.value
+  const lineCount = editorView.state.doc.lines
+
+  const lineBegin = headingList.value[oldIndex].lineNum
+  const lineEnd = oldIndex === headingList.value.length - 1
+    ? lineCount - 1
+    : headingList.value[oldIndex + 1].lineNum - 1
+  let lineTo = newIndex === headingList.value.length - 1
+    ? lineCount
+    : headingList.value[newIndex].lineNum
+
+  // console.log(`count:${lineCount} begin:${lineBegin} end:${lineEnd} to:${lineTo}`)
+  context.editor.moveLinesTo(lineBegin, lineEnd, lineTo)
 }
 
 </script>
