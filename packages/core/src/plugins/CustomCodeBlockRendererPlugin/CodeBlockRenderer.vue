@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, type Ref, watch } from 'vue'
-import type { CodeBlock, CodeBlockMap, LangComponentMap } from './types.ts'
+import type { CodeBlock, CodeBlockMap, LangComponentMap } from './types'
 import DefaultRenderer from './DefaultRenderer.vue'
 import { tsNumberKeyword } from '@babel/types';
 

@@ -18,6 +18,7 @@ import tocSpy from "./plugins/TocSpyPlugin"
 import langZhCN from "./plugins/LangZhCNPlugin"
 import langEn from "./plugins/LangEnPlugin"
 import lang from "./plugins/LangPlugin"
+import classicViewerTheme from "./plugins/ClassicViewerTheme"
 
 export {
   highlightCodeBlockInEditableArea,
@@ -39,5 +40,6 @@ export {
   tocSpy,
   langZhCN,
   langEn,
-  lang
+  lang,
+  classicViewerTheme
 }

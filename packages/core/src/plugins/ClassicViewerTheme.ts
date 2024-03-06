@@ -1,74 +1,6 @@
-<template>
-  <div class="container">
-    <smooth-markdown v-model="doc" mode="editor|viewer|toc" :locale="locale" :plugins="plugins" ref="sm">
-      <template v-slot:toolbar>
-        <vuetify-toolbar></vuetify-toolbar>
-      </template>
-    </smooth-markdown>
-  </div>
-</template>
+import type { Plugin } from '../core/types'
 
-<script setup lang="ts">
-import { ref, watch, onMounted, type Ref } from 'vue'
-import { SmoothMarkdown } from '@smooth-markdown/core'
-import { langEn, langZhCN, injectCss, codemirrorExt, highlightCodeBlockInEditableArea, overlayScrollbars, customCodeBlockRenderer, syncScrollbar, math, tocSpy } from '@smooth-markdown/core/plugins'
-import { CodeMirrorRenderer, KatexRenderer, MermaidRenderer } from '@smooth-markdown/core/renderers'
-import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
-import { EditorView } from '@codemirror/view'
-import { githubLightInit } from '@uiw/codemirror-theme-github'
-import { tags as t } from '@lezer/highlight'
-import classicMarkdownSyntax from './presets/classicMarkdownSyntax'
-
-const doc = ref('')
-const locale = ref('en')
-setTimeout(() => {
-  locale.value = 'zh_CN'
-}, 5000)
-const plugins = [
-  langEn(),
-  langZhCN(),
-  ...classicMarkdownSyntax,
-  math(),
-  syncScrollbar(),
-  customCodeBlockRenderer({
-    math: [KatexRenderer],
-    mermaid: [MermaidRenderer],
-    classic: [CodeMirrorRenderer]
-  }),
-  codemirrorExt(EditorView.lineWrapping),
-  codemirrorExt(githubLightInit({
-    settings: {
-      lineHighlight: '#efefef',
-      fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace'
-    },
-    styles: [
-      {tag: t.heading, color: 'steelblue', fontWeight: 'bold'},
-      {tag: t.list, color: '#0055aa'},
-      {tag: t.meta, color: 'sienna'},
-      {tag: t.url, color: '#090'},
-      {tag: t.quote, color: '#090'},
-      {tag: t.monospace, color: 'sienna'}
-    ]
-  })),
-  highlightCodeBlockInEditableArea(),
-  overlayScrollbars(),
-  tocSpy(),
-  injectCss(`&root { font-size: 14px; }`),
-  injectCss(`&editor .cm-line { line-height: 1.5; } &editor .cm-editor { padding: 10px; }`),
-  injectCss(`
-    &root .os-scrollbar {
-      transition: width 0.2s, opacity 0.2s, visibility 0.2s;
-      --os-handle-bg: steelblue;
-      --os-handle-bg-hover: steelblue;
-      --os-handle-bg-active: steelblue;
-    }
-    &root .os-scrollbar:hover {
-      --os-size: 12px;
-      background-color: #f0f0f0;
-      opacity: 0.9;
-    }
-  `),
-  injectCss(`
+const css = `
     &viewer {
       padding: 16px 23px;
       text-wrap: wrap;
@@ -264,19 +196,12 @@ const plugins = [
       height: auto;
       position: relative;
     }
-  `)
-]
-
-const smd: Ref<SmoothMarkdown | null> = ref(null)
-onMounted(() => {
-  console.log(smd.value?.getContext())
-})
-
-</script>
-
-<style scoped>
-.container {
-  width: 1360px;
-  height: 800px;
+  `
+function classicViewerTheme(): Plugin {
+  return {
+    name: 'core-plugin-classic-viewer-theme',
+    css
+  }
 }
-</style>
+
+export default classicViewerTheme

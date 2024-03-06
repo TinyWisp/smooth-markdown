@@ -78,6 +78,11 @@ const external = [
   // eg. 'jquery'
   'vue',
   'vuetify',
+  /codemirror/,
+  /markdown-it/,
+  /highlight.js/,
+  /@lezer/,
+  /mermaid/,
   /smooth-markdown/
 ];
 

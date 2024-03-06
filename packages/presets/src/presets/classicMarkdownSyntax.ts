@@ -8,7 +8,7 @@ import deflist from 'markdown-it-deflist'
 import taskLists from 'markdown-it-task-lists'
 import footnote from 'markdown-it-footnote'
 
-const basicMarkdownSyntax = [
+const classicMarkdownSyntax = [
   markdownItPlugin([
     [ sup ],
     [ sub ],
@@ -21,4 +21,4 @@ const basicMarkdownSyntax = [
   ])
 ]
 
-export { basicMarkdownSyntax }
+export default classicMarkdownSyntax

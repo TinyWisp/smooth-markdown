@@ -67,7 +67,8 @@ const external = [
   /codemirror/,
   /markdown-it/,
   /highlight.js/,
-  /@lezer/
+  /@lezer/,
+  /smooth-markdown/
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -81,235 +82,44 @@ const globals = {
 // Customize configs for individual targets
 const builds = [];
 
-buildEditor();
-buildAllPluginsInOne();
-buildAllRenderersInOne();
-
-// ------ CoreEditor --------
-function buildEditor() {
-  builds.push({
-    input: 'src/entry.core.ts',
-    external,
-    output: [{
-      file: 'lib/core/index.esm.js',
-      format: 'esm',
-      exports: 'named',
-      globals
-    }, {
-      file: 'lib/core/index.umd.js',
-      format: 'umd',
-      exports: 'named',
-      name: 'MarkdownEditor',
-      globals
-    }],
-    plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      vue(baseConfig.plugins.vue),
-      ...baseConfig.plugins.postVue,
-      babel(baseConfig.plugins.babel),
-      commonjs(),
-      json(),
-      typescript(),
-      resolve(baseConfig.plugins.resolve),
-    ],
-  });
-
-  builds.push({
-    input: 'lib/types/entry.core.d.ts',
-    output: {
-      file: 'lib/core/index.d.ts',
-      format: 'esm'
-    },
-    plugins: [
-      dts.default()
-    ]
-  });
-}
-
-// ---- build all plugins in one ----- 
-function buildAllPluginsInOne() {
-  const input = `src/entry.plugins.ts`;
-  
-  builds.push({
-    input: input,
-    external,
-    output: [{
-      file: 'lib/plugins/index.esm.js',
-      format: 'es',
-      exports: 'named',
-    }, {
-      file: 'lib/plugins/index.umd.js',
-      format: 'umd',
-      exports: 'named',
-      name: 'MarkdownEditorPlugins'
-    }],
-    plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      vue(baseConfig.plugins.vue),
-      ...baseConfig.plugins.postVue,
-      babel(baseConfig.plugins.babel),
-      commonjs(),
-      typescript(),
-      resolve(baseConfig.plugins.resolve),
-    ],
-  });
-
-  /*
-  builds.push({
-    input: input,
-    output: {
-      file: `lib/plugins/esm/index.d.ts`,
-      format: 'es'
-    },
-    plugins: [
-      dts.default()
-    ]
-  });
-  */
-
-
-  builds.push({
-    input: `lib/types/entry.plugins.d.ts`,
-    output: {
-      file: `lib/plugins/index.d.ts`,
-      format: 'es'
-    },
-    plugins: [
-      dts.default()
-    ]
-  });
-}
-
-// build all renderers in one
-function buildAllRenderersInOne() {
-  const input = `src/entry.renderers.ts`;
-  
-  builds.push({
-    input: input,
-    external,
-    output: [{
-      file: 'lib/renderers/index.esm.js',
-      format: 'es',
-      exports: 'named',
-    }, {
-      file: 'lib/renderers/index.umd.js',
-      format: 'umd',
-      exports: 'named',
-      name: 'MarkdownEditorRenderers'
-    }],
-    plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      vue(baseConfig.plugins.vue),
-      ...baseConfig.plugins.postVue,
-      babel(baseConfig.plugins.babel),
-      commonjs(),
-      typescript(),
-      resolve(baseConfig.plugins.resolve),
-    ],
-  });
-
-  /*
-  builds.push({
-    input: input,
-    output: {
-      file: `lib/plugins/esm/index.d.ts`,
-      format: 'es'
-    },
-    plugins: [
-      dts.default()
-    ]
-  });
-  */
-
-
-  builds.push({
-    input: `lib/types/entry.renderers.d.ts`,
-    output: {
-      file: `lib/renderers/index.d.ts`,
-      format: 'es'
-    },
-    plugins: [
-      dts.default()
-    ]
-  });
-}
-
-/*
-buildPlugin({
-  input: 'src/entries/highlightPlugin.ts', 
-  outputDir: 'lib/plugins/highlight',
-  outputName: 'highlight',
+builds.push({
+  input: 'src/entry.ts',
+  external,
+  output: [{
+    file: 'lib/index.esm.js',
+    format: 'esm',
+    exports: 'named',
+    globals
+  }, {
+    file: 'lib/index.umd.js',
+    format: 'umd',
+    exports: 'named',
+    name: 'SmoothMarkdownPresets',
+    globals
+  }],
+  plugins: [
+    replace(baseConfig.plugins.replace),
+    ...baseConfig.plugins.preVue,
+    vue(baseConfig.plugins.vue),
+    ...baseConfig.plugins.postVue,
+    babel(baseConfig.plugins.babel),
+    commonjs(),
+    json(),
+    typescript({"moduleResolution": "Node"}),
+    resolve(baseConfig.plugins.resolve),
+  ],
 });
-buildPlugin({
-  input: 'src/entries/handleImageClickPlugin.ts',
-  outputDir: 'lib/plugins/handleImageClick',
-  outputName: 'handleImageClick',
-});
-buildPlugin({
-  input: 'src/entries/pasteImagePlugin.ts',
-  outputDir: 'lib/plugins/pasteImage',
-  outputName: 'pasteImage',
-});
-buildPlugin({
-  input: 'src/entries/customCodeBlockRendererPlugin.ts',
-  outputDir: 'lib/plugins/customCodeBlockRenderer',
-  outputName: 'customCodeBlockRenderer',
-});
-buildPlugin({
-  input: 'src/entries/customLinkAttrsPlugin.ts',
-  outputDir: 'lib/plugins/customLinkAttrs',
-  outputName: 'customLinkAttrs',
-});
-// ----- build a plugin ------
-function buildPlugin({input, outputDir, outputName}) {
-  builds.push({
-    input: input,
-    external,
-    output: {
-      file: `${outputDir}/index.esm.js`,
-      format: 'esm',
-      exports: 'named',
-    },
-    plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      vue(baseConfig.plugins.vue),
-      ...baseConfig.plugins.postVue,
-      babel(baseConfig.plugins.babel),
-      commonjs(),
-      typescript(),
-      resolve(baseConfig.plugins.resolve),
-    ],
-  });
 
-  builds.push({
-    input: input,
-    external,
-    output: {
-      file: `${outputDir}/index.umd.js`,
-      format: 'umd',
-      exports: 'named',
-      name: outputName,
-      globals,
-    },
-    plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      vue(baseConfig.plugins.vue),
-      ...baseConfig.plugins.postVue,
-      babel(baseConfig.plugins.babel),
-      commonjs(),
-      typescript(),
-      resolve(baseConfig.plugins.resolve)
-    ],
-  });
-}
-*/
-
-
+builds.push({
+  input: 'lib/types/entry.d.ts',
+  output: {
+    file: 'lib/index.d.ts',
+    format: 'esm'
+  },
+  plugins: [
+    dts.default()
+  ]
+});
 
 // Export config
 export default builds;
