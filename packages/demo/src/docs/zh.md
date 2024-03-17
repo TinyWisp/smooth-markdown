@@ -3,6 +3,13 @@
 smooth-markdown是一个基于vue.js 3的markdown编辑器。
 它有着强大的扩展机制，不论是markdown语法，编辑操作，还是外观上，都非常易于扩展。
 
+# 演示
+
+```demo
+/playground
+```
+
+
 # 快速开始
 
 

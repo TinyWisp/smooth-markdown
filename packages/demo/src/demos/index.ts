@@ -1,5 +1,16 @@
 
 const demoMap = {
+  '/playground': {
+    comp: () => import('./playground/index.vue'),
+    height: '800px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./playground/index.vue?raw')
+      }
+    ]
+  },
+
   '/plugins/custom-code-block-renderer': {
     comp: () => import('./plugins/CustomCodeBlockRendererExample/index.vue'),
     height: '500px',

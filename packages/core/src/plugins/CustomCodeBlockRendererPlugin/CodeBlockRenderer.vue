@@ -10,16 +10,15 @@
       :code="codeBlock.code"
       :line-begin="codeBlock.lineBegin"
       :line-end="codeBlock.lineEnd"
-      :props="codeBlock.componentProps"
+      v-bind="codeBlock.componentProps"
     />
   </teleport>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, type Ref, watch } from 'vue'
+import { ref, computed, type Ref } from 'vue'
 import type { CodeBlock, CodeBlockMap, LangComponentMap } from './types'
 import DefaultRenderer from './DefaultRenderer.vue'
-import { tsNumberKeyword } from '@babel/types';
 
 interface CodeBlockRendererProps {
   codeBlockMap: Ref<CodeBlockMap>

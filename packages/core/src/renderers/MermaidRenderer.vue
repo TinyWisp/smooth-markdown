@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { ref, watch, type Ref } from 'vue'
 import mermaid from 'mermaid'
-import { uniqId } from '../../utils/util'
+import { uniqId } from '../utils/util'
 
 const props = defineProps({
   lang: {
@@ -19,17 +19,21 @@ const props = defineProps({
   }
 })
 
-const id = uniqId()
 const container: Ref<HTMLElement | null> = ref(null)
+mermaid.initialize({ startOnLoad: false })
 
-watch(container, async () => {
+watch([container, props], async () => {
   if (!container.value) {
     return
   }
 
-  mermaid.initialize({ startOnLoad: false })
-  const { svg } = await mermaid.render(id, props.code)
-  container.value.innerHTML = svg
+  try {
+    const id = uniqId()
+    const { svg } = await mermaid.render(id, props.code)
+    container.value.innerHTML = svg
+  } catch(e) {
+    console.log(e)
+  }
 })
 </script>
 

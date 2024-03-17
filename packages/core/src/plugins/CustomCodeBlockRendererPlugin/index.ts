@@ -64,12 +64,14 @@ class CustomCodeBlockRendererPlugin implements Plugin {
       langAttrs = arr.slice(2).join('');
     }
 
-    return this.mditCodeRenderer(token.content, langName, langAttrs, lineBegin, lineEnd)
+    return this.mditCodeRenderer(token.content.slice(0, -1), langName, langAttrs, lineBegin, lineEnd)
   }
 
   mditBeforeRender() {
     const cmEditorView = this.context!.editor.cmEditorView.value
-    this.lineCount = cmEditorView.state.doc.lines
+    this.lineCount = cmEditorView
+      ? cmEditorView.state.doc.lines
+      : 0
   }
 
   mditCodeRenderer(code: string, lang: string, langAttrs: string, lineBegin: number, lineEnd: number): string {
@@ -103,7 +105,7 @@ class CustomCodeBlockRendererPlugin implements Plugin {
     }
 
     const id = this.nextCodeBlockMap[positivePos].id
-    return `<div class="sm-custom-code-block-renderer ${lang}" id="${id}"></div>`
+    return `<pre class="sm-custom-code-block-renderer ${lang}" id="${id}"></pre>`
   }
 
   mditAfterRender() {

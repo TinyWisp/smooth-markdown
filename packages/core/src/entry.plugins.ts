@@ -5,6 +5,7 @@ import handleImageClick from "./plugins/HandleImageClickPlugin"
 import pasteImage from "./plugins/PasteImagePlugin"
 import codemirrorExt from "./plugins/CodeMirrorExtensionPlugin"
 import markdownItPlugin from "./plugins/MarkdownItPluginPlugin"
+import markdownItOptions from "./plugins/MarkdownItOptionsPlugin"
 import showLineNumbers from "./plugins/ShowLineNumbersPlugin"
 import syncScrollbar from "./plugins/SyncScrollbarPlugin"
 import toolbarWrapper from "./plugins/ToolbarWrapperPlugin"
@@ -28,6 +29,7 @@ export {
   pasteImage,
   codemirrorExt,
   markdownItPlugin,
+  markdownItOptions,
   showLineNumbers,
   syncScrollbar,
   toolbarWrapper,

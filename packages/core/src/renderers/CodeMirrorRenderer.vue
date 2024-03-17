@@ -20,9 +20,9 @@ import { EditorState } from '@codemirror/state'
 import { languages } from '@codemirror/language-data'
 import type { LanguageDescription } from '@codemirror/language'
 import type { Extension } from '@codemirror/state'
-import type { FnGetContext } from '../../core/types'
+import type { FnGetContext } from '../core/types'
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
-import ElementWrapper from '../../utils/ElementWrapper.vue'
+import ElementWrapper from '../utils/ElementWrapper.vue'
 
 const props = defineProps({
   lang: {
@@ -32,6 +32,14 @@ const props = defineProps({
   code: {
     type: String,
     required: true,
+  },
+  lineBegin: {
+    type: Number,
+    required: false
+  },
+  lineEnd: {
+    type: Number,
+    required: false
   },
   extensions: {
     type: Object as PropType<Extension[]>,

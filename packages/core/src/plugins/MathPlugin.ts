@@ -30,7 +30,7 @@ class MathPlugin implements Plugin {
   }
 }
 
-function math(options: Object) {
+function math(options: Object = {}) {
   return new MathPlugin(options)
 }
 

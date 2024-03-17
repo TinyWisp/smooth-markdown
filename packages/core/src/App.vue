@@ -9,7 +9,7 @@ import overlayScrollbars  from './plugins/OverlayScrollbarsPlugin';
 import syncScrollbar from './plugins/SyncScrollbarPlugin';
 import customCodeBlockRenderer from './plugins/CustomCodeBlockRendererPlugin';
 import SmoothMarkdown from './core/SmoothMarkdown.vue'
-import CodeMirrorRenderer from './renderers/CodeMirrorRenderer/BasicCodeMirrorRenderer.vue';
+import CodeMirrorRenderer from './renderers/CodeMirrorRenderer/CodeMirrorRenderer.vue';
 const doc = ref('')
 const plugins = [overlayScrollbars(), syncScrollbar(), tocSpy(), customCodeBlockRenderer({
   default: [CodeMirrorRenderer]
@@ -18,4 +18,4 @@ const plugins = [overlayScrollbars(), syncScrollbar(), tocSpy(), customCodeBlock
 </script>
 
 <style scoped>
-</style>./plugins/CustomCodeBlockRendererPlugin/CustomCodeBlockRendererPlugin
+</style>

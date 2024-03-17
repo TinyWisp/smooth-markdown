@@ -50,5 +50,9 @@
     "markdown-it-sup": "^1.0.0",
     "markdown-it-task-lists": "^2.1.1",
     "vuetify": "^3.4.4"
+  },
+  "dependencies": {
+    "markdown-it-alert": "^0.1.5",
+    "markdown-it-github-alert": "^1.0.6"
   }
 }

@@ -33,7 +33,7 @@ const plugins = [
   customCodeBlockRenderer({
     math: [KatexRenderer],
     mermaid: [MermaidRenderer],
-    classic: [CodeMirrorRenderer]
+    javascript: [CodeMirrorRenderer]
   }),
   codemirrorExt(EditorView.lineWrapping),
   codemirrorExt(githubLightInit({
@@ -171,11 +171,46 @@ const plugins = [
 
     &viewer blockquote {
       margin: 2em 0;
-      padding-left: 20px;
+      padding: 8px 20px;
       border-left: 4px solid var(--viewer-primary-color);
       background-color: #f3f5f7;
       white-space: nowrap;
       color: #57606a;
+      width: 100%;
+    }
+
+    &viewer .alert {
+      margin: 2em 0;
+      white-space: nowrap;
+      width: 100%;
+      border: 0;
+      border-radius: 3px;
+      padding: 8px 16px;
+      min-height: 25px;
+    }
+
+    &viewer .alert-success {
+      background-color: rgb(240, 249, 235);
+      color: rgb(103, 194, 58);
+    }
+
+    &viewer .alert-info, &viewer .alert-tip {
+      background-color: rgb(244, 244, 245);
+      color: rgb(144, 147, 153);
+    }
+
+    &viewer .alert-warning {
+      background-color: rgb(253, 246, 236);
+      color: rgb(230, 162, 60);
+    }
+
+    &viewer .alert-error, &viewer .alert-danger {
+      background-color: rgb(254, 240, 240);
+      color: rgb(245, 108, 108);
+    }
+
+    &viewer .alert > p {
+      margin-bottom: 0;
     }
 
     &viewer ul {
