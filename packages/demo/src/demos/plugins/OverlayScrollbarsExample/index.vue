@@ -10,13 +10,13 @@
 <script setup>
 import { ref } from 'vue'
 import { SmoothMarkdown } from '@smooth-markdown/core'
-import { overlayScrollbars, injectCss, syncScrollbar } from '@smooth-markdown/core/plugins'
+import { overlayScrollbars, injectCss, syncScrollbars } from '@smooth-markdown/core/plugins'
 import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
 import cnt from './jane eyre.txt?raw'
 
 const doc = ref(cnt)
 const plugins = [
-  syncScrollbar(),
+  syncScrollbars(),
   overlayScrollbars({}),
   injectCss(`
     &root .os-scrollbar {

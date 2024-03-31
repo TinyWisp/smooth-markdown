@@ -1,6 +1,6 @@
 // rollup.config.js
 import path from 'path';
-import vue from 'rollup-plugin-vue';
+import vue from '@vitejs/plugin-vue'
 import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';

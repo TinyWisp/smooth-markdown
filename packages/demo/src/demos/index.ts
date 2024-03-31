@@ -1,8 +1,24 @@
+import type { Component } from 'vue'
 
-const demoMap = {
+export type CodeTab = {
+  title: string
+  code: () => Promise<any>
+}
+
+export type DemoDetail = {
+  comp: () => Promise<Component>
+  height: string
+  codeTabs: CodeTab[]
+}
+
+export type DemoMap = {
+  [key: string]: DemoDetail
+}
+
+const demoMap: DemoMap = {
   '/playground': {
     comp: () => import('./playground/index.vue'),
-    height: '800px',
+    height: '1000px',
     codeTabs: [
       {
         title: 'index.vue',
@@ -29,23 +45,6 @@ const demoMap = {
       }
     ]
   },
-
-  '/plugins/custom-code-block-renderer/hljs': {
-    comp: () => import('./plugins/CustomCodeBlockRendererExample/hljs/index.vue'),
-    height: '500px',
-    codeTabs: [
-      {
-        title: 'index.vue',
-        code: () => import('./plugins/CustomCodeBlockRendererExample/hljs/index.vue?raw')
-      },
-      {
-        title: 'cnt.md',
-        code: () => import('./plugins/CustomCodeBlockRendererExample/hljs/cnt.md?raw')
-      }
-    ],
-  },
-
-
 
   '/plugins/affix-toolbar': {
     comp: () => import('./plugins/AffixToolbarExample.vue'),
@@ -154,6 +153,21 @@ const demoMap = {
         code: () => import('./examples/ViewTheme/theme.css?raw')
       }
     ]
+  },
+
+  '/renders/hljs': {
+    comp: () => import('./renders/hljs/index.vue'),
+    height: '500px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./renders/hljs/index.vue?raw')
+      },
+      {
+        title: 'cnt.md',
+        code: () => import('./renders/hljs/cnt.md?raw')
+      }
+    ],
   }
 }
 

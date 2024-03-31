@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { showLineNumbers, highlightCodeBlockWithHljs, syncScrollbar, toolbarWrapper } from '@smooth-markdown/core/plugins'
+import { showLineNumbers, syncScrollbars, toolbarWrapper } from '@smooth-markdown/core/plugins'
 import { SmoothMarkdown } from '@smooth-markdown/core'
 import VuetifyToolbar from './VuetifyToolbar';
 import { ref, h } from 'vue'
@@ -22,7 +22,7 @@ function upload(file: File) {
       v-model="doc"
       v-model:mode="mode"
       height="100%"
-      :plugins="[showLineNumbers(), highlightCodeBlockWithHljs(), syncScrollbar()]">
+      :plugins="[showLineNumbers(), syncScrollbars()]">
       <template v-slot:toolbar>
         <vuetify-toolbar color="white"></vuetify-toolbar>
         <v-divider></v-divider>

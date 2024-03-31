@@ -43,24 +43,16 @@ import xml from 'highlight.js/lib/languages/xml'
 import css from 'highlight.js/lib/languages/css'
 import 'highlight.js/styles/github.css'
 import { watch } from 'vue'
-import type { RendererProps } from '@smooth-markdown/core'
-
-interface DemoRendererProps extends RendererProps {
-  demoMap: {
-    [key: string]: Object
-  } 
-}
+import demoMap from '../demos'
+import { useRoute } from 'vue-router'
 
 hljs.registerLanguage('javascript', javascript)
 hljs.registerLanguage('xml', xml)
 hljs.registerLanguage('css', css)
 
-const props = defineProps<DemoRendererProps>()
-
-// eslint-disable-next-line vue/no-setup-props-destructure
-const demoMap = props.demoMap
-const demoName = props.code.trim()
-const demo = demoMap[demoName]
+const route = useRoute()
+const name = route.query.name as string
+const demo = demoMap[name]
 
 const comp = defineAsyncComponent(demo.comp)
 const codeTabs = demo.codeTabs
@@ -95,7 +87,7 @@ const demoHeight = computed(() => {
 
 <style scoped>
 .demo-container {
-  width: 90%;
+  width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;

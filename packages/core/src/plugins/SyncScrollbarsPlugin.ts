@@ -3,8 +3,8 @@ import type { FnGetContext, Plugin } from '../core/types'
 
 type SyncWay = 'editor-to-viewer' | 'viewer-to-editor' | 'two-way' 
 
-class SyncScrollbarPlugin implements Plugin {
-  readonly name = 'core-plugin-sync-scrollbar'
+class SyncScrollbarsPlugin implements Plugin {
+  readonly name = 'core-plugin-sync-scrollbars'
   way: SyncWay
 
   oneWay(srcScrollEl: Ref<HTMLElement|null>, desScrollEl: Ref<HTMLElement|null>) {
@@ -118,6 +118,6 @@ class SyncScrollbarPlugin implements Plugin {
 }
 
 
-export default function syncScrollbar(way: SyncWay = 'editor-to-viewer') {
-  return new SyncScrollbarPlugin(way)
+export default function syncScrollbars(way: SyncWay = 'editor-to-viewer') {
+  return new SyncScrollbarsPlugin(way)
 }

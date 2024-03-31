@@ -156,3 +156,10 @@ export type Heading = {
   id: string
   lineNum: number
 }
+
+export interface RendererProps {
+  lang: string
+  code: string
+  lineBegin: number
+  lineEnd: number
+}

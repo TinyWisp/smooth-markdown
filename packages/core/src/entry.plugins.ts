@@ -7,7 +7,7 @@ import codemirrorExt from "./plugins/CodeMirrorExtensionPlugin"
 import markdownItPlugin from "./plugins/MarkdownItPluginPlugin"
 import markdownItOptions from "./plugins/MarkdownItOptionsPlugin"
 import showLineNumbers from "./plugins/ShowLineNumbersPlugin"
-import syncScrollbar from "./plugins/SyncScrollbarPlugin"
+import syncScrollbars from "./plugins/SyncScrollbarsPlugin"
 import toolbarWrapper from "./plugins/ToolbarWrapperPlugin"
 import affixToolbar from "./plugins/AffixToolbarPlugin"
 import perfectScrollbar from "./plugins/PefrectScrollbarPlugin"
@@ -31,7 +31,7 @@ export {
   markdownItPlugin,
   markdownItOptions,
   showLineNumbers,
-  syncScrollbar,
+  syncScrollbars,
   toolbarWrapper,
   affixToolbar,
   perfectScrollbar,

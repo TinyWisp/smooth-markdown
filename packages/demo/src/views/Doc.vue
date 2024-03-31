@@ -8,17 +8,16 @@
 import { ref } from 'vue'
 import { SmoothMarkdown, addParentSelector } from '@smooth-markdown/core'
 import { customCodeBlockRenderer, autoHeight, injectCss } from '@smooth-markdown/core/plugins'
-import Demo from '../components/Demo.vue'
+import IframeRenderer from '../components/IframeRenderer.vue'
 import md from '../docs/zh.md?raw'
 import css from './theme.css?raw'
-import demoMap from '../demos'
 
 const doc = ref(md)
 const plugins = [
   injectCss(addParentSelector(css, '&viewer')),
   injectCss(`&viewer {padding: 10px; text-wrap: wrap;}`),
   autoHeight(),
-  customCodeBlockRenderer({demo: [Demo, {demoMap}]})
+  customCodeBlockRenderer({iframe: [IframeRenderer]})
 ]
 
 </script>

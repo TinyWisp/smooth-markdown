@@ -1,6 +1,6 @@
 <template>
   <div class="pa-2 bg-white rounded elevation-4">
-    {{curRow > 0 ? t('insertTableBoard.info', {row: curRow, col: curCol}) : t('insertTableBoard.title')}}
+    {{curRow > 0 ? t('insertTableBoard.info', {row: curRow.toString(), col: curCol.toString()}) : t('insertTableBoard.title')}}
     <table
       class="table"
       ref="table"
@@ -29,7 +29,7 @@ export default defineComponent({
   setup() {
     const getContext = inject<() => Context>('getContext')
     const context = (getContext!)()
-    const { t } = context.lang
+    const { t } = context.lang!
 
     return { t }
   },

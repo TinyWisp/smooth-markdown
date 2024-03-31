@@ -7,7 +7,7 @@ class AffixToolbarPlugin implements Plugin {
   toolbarWrapper?: Wrapper
   props: {[key: string]: any}
 
-  constructor(props: {[key: string]: any}) {
+  constructor(props: {[key: string]: any} = {}) {
     this.props = JSON.parse(JSON.stringify(props))
   }
 
@@ -37,7 +37,7 @@ class AffixToolbarPlugin implements Plugin {
   }
 }
 
-function affixToolbar(props: {[key: string]: any}) {
+function affixToolbar(props: {[key: string]: any} = {}) {
   return new AffixToolbarPlugin(props)
 }
 

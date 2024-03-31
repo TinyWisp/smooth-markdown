@@ -20,33 +20,17 @@ import { EditorState } from '@codemirror/state'
 import { languages } from '@codemirror/language-data'
 import type { LanguageDescription } from '@codemirror/language'
 import type { Extension } from '@codemirror/state'
-import type { FnGetContext } from '../core/types'
+import type { FnGetContext, RendererProps } from '../core/types'
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import ElementWrapper from '../utils/ElementWrapper.vue'
 
-const props = defineProps({
-  lang: {
-    type: String,
-    required: true,
-  },
-  code: {
-    type: String,
-    required: true,
-  },
-  lineBegin: {
-    type: Number,
-    required: false
-  },
-  lineEnd: {
-    type: Number,
-    required: false
-  },
-  extensions: {
-    type: Object as PropType<Extension[]>,
-    required: false,
-    default: function() {
-      return [vscodeDark]
-    }
+interface CodeMirrorRendererProps extends RendererProps {
+  extensions?: Extension[]
+}
+
+const props = withDefaults(defineProps<CodeMirrorRendererProps>(), {
+  extensions: function() {
+    return [vscodeDark]
   }
 })
 

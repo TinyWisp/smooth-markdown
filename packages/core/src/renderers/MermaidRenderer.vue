@@ -7,17 +7,9 @@
 import { ref, watch, type Ref } from 'vue'
 import mermaid from 'mermaid'
 import { uniqId } from '../utils/util'
+import type { RendererProps } from '../core/types';
 
-const props = defineProps({
-  lang: {
-    type: String,
-    required: true,
-  },
-  code: {
-    type: String,
-    required: true,
-  }
-})
+const props = defineProps<RendererProps>()
 
 const container: Ref<HTMLElement | null> = ref(null)
 mermaid.initialize({ startOnLoad: false })

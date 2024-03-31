@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <smooth-markdown v-model="doc" mode="editor|viewer|toc" :locale="locale" :plugins="plugins" ref="sm">
-      <template v-slot:toolbar>
-        <vuetify-toolbar></vuetify-toolbar>
+      <template v-slot:toolbar="vtprops">
+        <vuetify-toolbar :set-context="vtprops.setContext" :get-context="vtprops.getContext"></vuetify-toolbar>
       </template>
     </smooth-markdown>
   </div>
@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, type Ref } from 'vue'
 import { SmoothMarkdown } from '@smooth-markdown/core'
-import { langEn, langZhCN, injectCss, codemirrorExt, highlightCodeBlockInEditableArea, overlayScrollbars, customCodeBlockRenderer, syncScrollbar, math, tocSpy } from '@smooth-markdown/core/plugins'
+import { langEn, langZhCN, injectCss, codemirrorExt, highlightCodeBlockInEditableArea, overlayScrollbars, customCodeBlockRenderer, syncScrollbars, math, tocSpy } from '@smooth-markdown/core/plugins'
 import { CodeMirrorRenderer, KatexRenderer, MermaidRenderer } from '@smooth-markdown/core/renderers'
 import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
 import { EditorView } from '@codemirror/view'
@@ -29,7 +29,7 @@ const plugins = [
   langZhCN(),
   ...classicMarkdownSyntax,
   math(),
-  syncScrollbar(),
+  syncScrollbars(),
   customCodeBlockRenderer({
     math: [KatexRenderer],
     mermaid: [MermaidRenderer],

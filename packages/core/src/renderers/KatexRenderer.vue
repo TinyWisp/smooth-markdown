@@ -11,18 +11,9 @@
 import { ref, watch, inject, type Ref } from 'vue'
 import katex from 'katex'
 import ElementWrapper from '../utils/ElementWrapper.vue'
-import type { FnGetContext } from '../core/types'
+import type { FnGetContext, RendererProps } from '../core/types'
 
-const props = defineProps({
-  lang: {
-    type: String,
-    required: true,
-  },
-  code: {
-    type: String,
-    required: true,
-  }
-})
+const props = defineProps<RendererProps>()
 
 const getContext: FnGetContext = inject('getContext')!
 const context = getContext()

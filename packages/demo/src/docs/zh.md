@@ -5,8 +5,8 @@ smooth-markdown是一个基于vue.js 3的markdown编辑器。
 
 # 演示
 
-```demo
-/playground
+```iframe
+/demo?name=/playground
 ```
 
 
@@ -45,62 +45,63 @@ smooth-markdown是一个基于vue.js 3的markdown编辑器。
 }
 ```
 
-##### demo
+##### plugins 
 
-```demo
-/plugins/custom-code-block-renderer
-```
-
-### hljs
-
-```demo
-/plugins/custom-code-block-renderer/hljs
+```iframe
+/demo?name=/plugins/custom-code-block-renderer
 ```
 
 ## affix toolbar
 
-```demo
-/plugins/affix-toolbar
+```iframe
+/demo?name=/plugins/affix-toolbar
 ```
 
 ## perfect scrollbar
 
-```demo
-/plugins/perfect-scrollbar
+```iframe
+/demo?name=/plugins/perfect-scrollbar
 ```
 
 ## overlay scrollbars
 
-```demo
-/plugins/overlay-scrollbars
+```iframe
+/demo?name=/plugins/overlay-scrollbars
 ```
 
 ## auto height
 
-```demo
-/plugins/auto-height
+```iframe
+/demo?name=/plugins/auto-height
 ```
 ## highlight code blocks in editable area
 
-```demo
-/plugins/highlight-code-block-in-editable-area
+```iframe
+/demo?name=/plugins/highlight-code-block-in-editable-area
 ```
 ## sync scrollbar
 
-```demo
-/plugins/sync-scrollbar
+```iframe
+/demo?name=/plugins/sync-scrollbar
 ```
 
 ## load a markdown-it plugin
 
 ## load a codemirror extension
 
+# renders
+
+## hljs
+
+```iframe
+/demo?name=/renders/hljs
+```
 # 案例
 
 ## CodeMirror主题
 
-```demo
-/examples/codemirror-theme
+```iframe
+/demo?name=/examples/codemirror-theme
 ```
 
 ##### 需要更多的主题，可查看下面的网址
@@ -109,8 +110,8 @@ https://github.com/craftzdog/cm6-themes
 
 ## markdown渲染主题
 
-```demo
-/examples/view-theme
+```iframe
+/demo?name=/examples/view-theme
 ```
 
 # 预定义

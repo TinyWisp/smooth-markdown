@@ -18,6 +18,7 @@
     "@uiw/codemirror-theme-vscode": "^4.21.21",
     "cm6-theme-solarized-dark": "^0.2.0",
     "echarts": "^5.4.3",
+    "iframe-resizer": "^4.3.9",
     "vue-router": "^4.1.6"
   }
 }

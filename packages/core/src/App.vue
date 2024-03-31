@@ -18,4 +18,4 @@ const plugins = [overlayScrollbars(), syncScrollbar(), tocSpy(), customCodeBlock
 </script>
 
 <style scoped>
-</style>
+</style>./plugins/SyncScrollbarsPlugin

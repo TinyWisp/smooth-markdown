@@ -11,55 +11,57 @@
 there is a 
 
 
-##### demo
+##### plugins
 
-```demo
-/plugins/custom-code-block-renderer
-```
-
-### hljs
-
-```demo
-/plugins/custom-code-block-renderer/hljs
+```iframe
+/demo?name=/plugins/custom-code-block-renderer
 ```
 
 ## affix toolbar
 
-```demo
-/plugins/affix-toolbar
+```iframe
+/demo?name=/plugins/affix-toolbar
 ```
 
 ## perfect scrollbar
 
-```demo
-/plugins/perfect-scrollbar
+```iframe
+/demo?name=/plugins/perfect-scrollbar
 ```
 
 ## overlay scrollbars
 
-```demo
-/plugins/overlay-scrollbars
+```iframe
+/demo?name=/plugins/overlay-scrollbars
 ```
 
 ## auto height
 
-```demo
-/plugins/auto-height
+```iframe
+/demo?name=/plugins/auto-height
 ```
 ## highlight code blocks in editable area
 
-```demo
-/plugins/highlight-code-block-in-editable-area
+```iframe
+/demo?name=/plugins/highlight-code-block-in-editable-area
 ```
 ## sync scrollbar
 
-```demo
-/plugins/sync-scrollbar
+```iframe
+/demo?name=/plugins/sync-scrollbar
 ```
 
 ## load a markdown-it plugin
 
 ## load a codemirror extension
+
+# renders
+
+## hljs
+
+```iframe
+/demo?name=/renders/hljs
+```
 
 # API
 

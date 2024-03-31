@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { RouterView } from 'vue-router' 
 import Doc from './views/Doc.vue'
 </script>
 
 <template>
-  <doc></doc>
+  <RouterView />
 </template>
 
 <style scoped>
