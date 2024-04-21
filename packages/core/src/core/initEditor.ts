@@ -1,7 +1,7 @@
 import { ref, shallowRef, watch, type Ref } from 'vue'
 import { minimalSetup, basicSetup } from 'codemirror'
 import { EditorView, keymap } from '@codemirror/view'
-import { EditorSelection, Text } from '@codemirror/state'
+import { EditorSelection, Text, EditorState, Compartment } from '@codemirror/state'
 import { markdown } from '@codemirror/lang-markdown'
 import { indentWithTab, undo, redo } from "@codemirror/commands"
 import type { CmPasteEventHandlerMap, FnGetContext, FnSetContext } from './types'
@@ -12,7 +12,8 @@ export function initEditor(getContext: FnGetContext, setContext: FnSetContext) {
   const pluginManager = context.pluginManager!
   const editorEl = context.editor.el!
   const cmEditorView: Ref<EditorView | null> = shallowRef(null)
-
+  const readonlyCompart = new Compartment()
+  
   /**
    * paste
    */
@@ -33,10 +34,18 @@ export function initEditor(getContext: FnGetContext, setContext: FnSetContext) {
             return
           }
         }
+
+        if (pasteEventHandlerMap['default']) {
+          pasteEventHandlerMap['default'](item)
+          return
+        }
       }
     }
   }
 
+  /**
+   * readonly
+   */
 
   function createEditorView() {
     cmEditorView.value = new EditorView({
@@ -44,6 +53,7 @@ export function initEditor(getContext: FnGetContext, setContext: FnSetContext) {
       parent: editorEl.value!,
       extensions: [
         ...pluginManager.getCmExtensions(),
+        readonlyCompart.of(EditorState.readOnly.of(false)),
         basicSetup,
         keymap.of([indentWithTab]),
         markdown(pluginManager.getCmMarkdownConfig()),
@@ -64,9 +74,21 @@ export function initEditor(getContext: FnGetContext, setContext: FnSetContext) {
     editorEl,
     () => {
       editorEl.value && createEditorView()
+      watchReadonlyProp()
     }
   )
 
+  /**
+   * readonly
+   */
+  function watchReadonlyProp() {
+    watch(() => context.props.readonly, () => {
+      const readonly = context.props.readonly
+      cmEditorView.value && cmEditorView.value.dispatch({
+        effects: readonlyCompart.reconfigure(EditorState.readOnly.of(readonly))
+      })
+    }, {immediate: true})
+  }
 
   /**
    * insert at the cursor or replace the selection.

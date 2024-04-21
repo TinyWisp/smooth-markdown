@@ -6,7 +6,7 @@
     class="sm-toolbar-button"
   >
     <v-icon small color="grey darken-1">mdi-table-plus</v-icon>
-    <v-tooltip location="bottom" activator="parent">Table</v-tooltip>
+    <v-tooltip location="bottom" activator="parent">{{ t('toolbar.table') }}</v-tooltip>
 
     <!-- table -->
     <v-menu

@@ -43,8 +43,8 @@ export class PluginManager {
    * @param plugin 
    */
   registerPlugin(plugin: Plugin): void {
-    if (plugin.name.indexOf('core-plugin-') !== 0) {
-      console.error('a valid plugin has a name that begins with "core-plugin-"')
+    if (!plugin.name) {
+      console.error('a valid plugin must has a name')
       return
     }
 

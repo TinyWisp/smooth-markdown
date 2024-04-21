@@ -18,7 +18,7 @@ export type DemoMap = {
 const demoMap: DemoMap = {
   '/playground': {
     comp: () => import('./playground/index.vue'),
-    height: '1000px',
+    height: 'auto',
     codeTabs: [
       {
         title: 'index.vue',

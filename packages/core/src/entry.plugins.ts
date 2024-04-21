@@ -4,7 +4,7 @@ import customLinkAttrs from "./plugins/CustomLinkAttrsPlugin"
 import handleImageClick from "./plugins/HandleImageClickPlugin"
 import pasteImage from "./plugins/PasteImagePlugin"
 import codemirrorExt from "./plugins/CodeMirrorExtensionPlugin"
-import markdownItPlugin from "./plugins/MarkdownItPluginPlugin"
+import markdownItPlugins from "./plugins/MarkdownItPluginsPlugin"
 import markdownItOptions from "./plugins/MarkdownItOptionsPlugin"
 import showLineNumbers from "./plugins/ShowLineNumbersPlugin"
 import syncScrollbars from "./plugins/SyncScrollbarsPlugin"
@@ -19,7 +19,8 @@ import tocSpy from "./plugins/TocSpyPlugin"
 import langZhCN from "./plugins/LangZhCNPlugin"
 import langEn from "./plugins/LangEnPlugin"
 import lang from "./plugins/LangPlugin"
-import classicViewerTheme from "./plugins/ClassicViewerTheme"
+import defaultViewerTheme from "./plugins/DefaultViewerTheme"
+import defaultEditorTheme from "./plugins/DefaultEditorTheme"
 
 export {
   highlightCodeBlockInEditableArea,
@@ -28,7 +29,7 @@ export {
   handleImageClick,
   pasteImage,
   codemirrorExt,
-  markdownItPlugin,
+  markdownItPlugins,
   markdownItOptions,
   showLineNumbers,
   syncScrollbars,
@@ -43,5 +44,6 @@ export {
   langZhCN,
   langEn,
   lang,
-  classicViewerTheme
+  defaultEditorTheme,
+  defaultViewerTheme
 }

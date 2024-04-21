@@ -39,7 +39,9 @@
               class="sm-toc"
               ref="toc"
             >
-              <simple-toc></simple-toc>
+              <slot name="toc">
+                <simple-toc></simple-toc>
+              </slot>
             </div>
           </element-wrapper>
         </div>
@@ -52,8 +54,7 @@ import { ref, watch, onUnmounted, computed, type Ref, shallowRef, reactive, prov
 import VNodeRenderer from '../utils/VNodeRenderer.vue'
 import ElementWrapper from '../utils/ElementWrapper.vue'
 import type { Plugin } from '../core/types'
-import insertCss from 'insert-css'
-import { uniqId } from '../utils/util'
+import { uniqId, insertCss } from '../utils/util'
 import { useContext } from '../core/useContext'
 import SimpleToc from '../core/SimpleToc.vue'
 import { initEditor } from './initEditor'
@@ -68,6 +69,7 @@ export interface EditorProps {
   locale?: string
   showToolbar?: boolean
   plugins?: Plugin[]
+  readonly?: boolean
 }
 
 const props = withDefaults(defineProps<EditorProps>(), {
@@ -75,6 +77,7 @@ const props = withDefaults(defineProps<EditorProps>(), {
   mode: 'editor|viewer',
   locale: 'en',
   plugins: () => [],
+  readonly: false
 })
 
 // context
@@ -377,9 +380,9 @@ defineExpose({getContext, setContext })
 }
 
 .sm-root > .sm-body > .sm-toc-container {
-  flex-shrink: 3;
-  flex-grow: 3;
-  flex-basis: 30%;
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: auto;
   order: var(--toc-container-order);
   border-left-width: var(--toc-container-border-left-width);
 }
@@ -418,4 +421,3 @@ defineExpose({getContext, setContext })
 }
 
 </style>
-./initEditor./initViewer

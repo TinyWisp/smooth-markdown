@@ -34,4 +34,17 @@ function addParentSelector(css: string, parentSelector: string) {
   return scopeCss(css, 'PARENT-SELECTOR').replaceAll('.PARENT-SELECTOR', parentSelector)
 }
 
-export { uniqId, escapeHtml, addParentSelector }
+/**
+ * insert a style element into head
+ */
+function insertCss(css: string) {
+    const styleElement = document.createElement('style')
+    styleElement.setAttribute('type', 'text/css')
+    styleElement.textContent += css
+
+    document.querySelector('head')?.appendChild(styleElement)
+
+    return styleElement
+}
+
+export { uniqId, escapeHtml, addParentSelector, insertCss }

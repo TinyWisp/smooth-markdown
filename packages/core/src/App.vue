@@ -6,7 +6,7 @@
 import { ref } from 'vue'
 import tocSpy from './plugins/TocSpyPlugin'
 import overlayScrollbars  from './plugins/OverlayScrollbarsPlugin';
-import syncScrollbar from './plugins/SyncScrollbarPlugin';
+import syncScrollbar from './plugins/SyncScrollbarsPlugin';
 import customCodeBlockRenderer from './plugins/CustomCodeBlockRendererPlugin';
 import SmoothMarkdown from './core/SmoothMarkdown.vue'
 import CodeMirrorRenderer from './renderers/CodeMirrorRenderer/CodeMirrorRenderer.vue';
@@ -18,4 +18,4 @@ const plugins = [overlayScrollbars(), syncScrollbar(), tocSpy(), customCodeBlock
 </script>
 
 <style scoped>
-</style>./plugins/SyncScrollbarsPlugin
+</style>

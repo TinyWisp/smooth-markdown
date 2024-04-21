@@ -197,11 +197,11 @@ const css = `
       position: relative;
     }
   `
-function classicViewerTheme(): Plugin {
+function defaultViewerTheme(): Plugin {
   return {
-    name: 'core-plugin-classic-viewer-theme',
+    name: 'core-plugin-default-viewer-theme',
     css
   }
 }
 
-export default classicViewerTheme
+export default defaultViewerTheme

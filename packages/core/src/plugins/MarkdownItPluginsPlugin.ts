@@ -1,15 +1,15 @@
 import type { Plugin, MditLoadPlugin } from '../core/types'
 
 /**
- * load a markdown-it plugin
+ * load markdown-it plugins
  * @param plugins 
  * @returns 
  */
-function markdownItPlugin(plugin: MditLoadPlugin): Plugin {
+function markdownItPlugins(plugins: MditLoadPlugin[]): Plugin {
   return {
     name: 'core-plugin-markdownit-plugins',
-    mditLoadPlugins: [plugin]
+    mditLoadPlugins: [...plugins]
   }
 }
 
-export default markdownItPlugin
+export default markdownItPlugins

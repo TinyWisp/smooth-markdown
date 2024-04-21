@@ -98,7 +98,7 @@ const demoHeight = computed(() => {
 }
 .demo {
   width: 100%;
-  height: 500px;
+  overflow: scroll;
 }
 .code-container {
   display: flex;

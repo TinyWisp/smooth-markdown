@@ -61,17 +61,17 @@
     ".": {
       "require": "./lib/core/index.umd.js",
       "import": "./lib/core/index.esm.js",
-      "typings": "./lib/core/index.d.ts"
+      "types": "./lib/core/index.d.ts"
     },
     "./plugins": {
       "require": "./lib/plugins/index.umd.js",
       "import": "./lib/plugins/index.esm.js",
-      "typings": "./lib/plugins/index.d.ts"
+      "types": "./lib/plugins/index.d.ts"
     },
     "./renderers": {
       "require": "./lib/renderers/index.umd.js",
       "import": "./lib/renderers/index.esm.js",
-      "typings": "./lib/renderers/index.d.ts"
+      "types": "./lib/renderers/index.d.ts"
     },
     "./*": "./lib/*"
   }

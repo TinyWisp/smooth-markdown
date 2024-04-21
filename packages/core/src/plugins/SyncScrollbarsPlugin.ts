@@ -110,7 +110,7 @@ class SyncScrollbarsPlugin implements Plugin {
     if (this.way === 'editor-to-viewer') {
       this.oneWay(editorScrollEl, viewerScrollEl)
     } else if (this.way === 'viewer-to-editor') {
-      this.oneWay(editorScrollEl, viewerScrollEl)
+      this.oneWay(viewerScrollEl, editorScrollEl)
     } else {
       this.twoWay(editorScrollEl, viewerScrollEl)
     }
