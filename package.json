@@ -24,6 +24,7 @@
   "workspaces": [
     "packages/core",
     "packages/vuetify-toolbar",
+    "packages/element-toolbar",
     "packages/demo",
     "packages/presets"
   ],

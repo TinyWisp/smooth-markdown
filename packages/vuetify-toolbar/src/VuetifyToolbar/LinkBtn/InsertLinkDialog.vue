@@ -1,50 +1,43 @@
 <template>
   <v-dialog
-    :modelValue="modelValue"
-    max-width="600px"
-    persistent>
+    v-model="isVisible"
+    persistent
+    max-width="600px">
     <v-card>
       <v-toolbar>
-        <v-toolbar-title>{{ t('insertLinkDialog.title') }}</v-toolbar-title>
+        <v-toolbar-title> {{ t('insertLinkDialog.title') }} </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon dense elevation="0" @click="hide()">
-          <v-icon :icon="mdiClose"></v-icon>
+          <v-icon icon="mdi-close"></v-icon>
         </v-btn>
       </v-toolbar>
       <v-card-text>
-        <v-container>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                :value="title"
-                @update:modelValue="$emit('update:title', $event)"
-                :placeholder="t('insertLinkDialog.titleFieldPlaceHolder')"
-                required>
-              </v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                :value="url"
-                @update:modelValue="$emit('update:url', $event)"
-                :placeholder="t('insertLinkDialog.urlFieldPlaceHolder')"
-                required></v-text-field>
-            </v-col>
-          </v-row>
-        </v-container>
+        <v-form ref="form" validate-on="blur">
+          <v-text-field
+            v-model="form.url"
+            :label="t('insertLinkDialog.urlField')"
+            :placeholder="t('insertLinkDialog.urlFieldPlaceHolder')"
+            :rules="[rules.urlRequired, rules.urlValid]"
+            required
+          />
+          <v-text-field
+            v-model="form.title"
+            :label="t('insertLinkDialog.titleField')"
+            :placeholder="t('insertLinkDialog.titleFieldPlaceHolder')"
+          />
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="info" @click="cancel()">{{ t('insertLinkDialog.cancel') }}</v-btn>
-        <v-btn color="primary" @click="ok()">{{ t('insertLinkDialog.ok') }}</v-btn>
+        <v-btn color="info" @click="hide()"> {{ t('insertLinkDialog.cancel') }} </v-btn>
+        <v-btn color="primary" @click="ok()"> {{ t('insertLinkDialog.ok') }} </v-btn>
       </v-card-actions>
     </v-card>
-
-  </v-dialog> 
+  </v-dialog>
 </template>
 
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
-import { mdiClose } from '@mdi/js'
 import type { Context } from '@smooth-markdown/core'
 
 export default defineComponent({
@@ -55,37 +48,37 @@ export default defineComponent({
 
     return { t }
   },
-
-  props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
-    title: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    url: {
-      type: String,
-      required: false,
-      default: '',
-    }
-  },
   data: function () {
     return {
-      mdiClose,
+      isVisible: false,
+      form: {
+        url: '',
+        title: ''
+      },
+      rules: {
+        urlRequired: (value: string) => !!value || this.t('insertLinkDialog.urlFieldIsEmptyErr'),
+        urlValid: (value: string) => {
+          const pattern = /^(http|https):\/\//
+          return pattern.test(value) || this.t('insertLinkDialog.urlFieldIsInvalidErr')
+        }
+      }
     }
   },
   methods: {
-    hide () {
-      this.$emit('update:modelValue', false)
+    hide() {
+      this.isVisible = false
     },
-    cancel () {
-      this.hide()
+    open() {
+      this.form.url = ''
+      this.form.title = ''
+      this.isVisible = true
     },
-    ok () {
-      this.$emit('ok')
+    async ok () {
+      const { valid } = await this.$refs.form.validate()
+      if (valid) {
+        this.$emit('ok', this.form.url, this.form.title)
+        this.hide()
+      }
     },
   }
 })

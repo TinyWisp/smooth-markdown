@@ -6,14 +6,23 @@ const messageMap: MessageMap = {
       title: 'link',
       cancel: 'cancel',
       ok: 'insert',
-      titleFieldPlaceHolder: 'title',
+      urlField: 'URL',
       urlFieldPlaceHolder: 'https://',
+      urlFieldIsEmptyErr: '',
+      urlFieldIsInvalidErr: 'The URL must start with either "http://" or "https://".',
+      titleField: 'title',
+      titleFieldPlaceHolder: ''
     },
     insertNetworkImageDialog: {
       title: 'image',
       cancel: 'cancel',
       ok: 'insert',
+      urlField: 'URL',
       urlFieldPlaceHolder: 'https://',
+      urlFieldIsEmptyErr: '',
+      urlFieldIsInvalidErr: 'The URL must start with either "http://" or "https://".',
+      titleField: 'title',
+      titleFieldPlaceHolder: ''
     },
     insertTableBoard: {
       title: 'Insert Table',

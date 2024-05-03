@@ -9,9 +9,8 @@
 
     <!-- the network image dialog -->
     <insert-network-image-dialog
-      v-model="networkImageDialog.show"
-      v-model:url="networkImageDialog.url"
       @ok="insertNetworkImage"
+      ref="networkImageDialog"
     ></insert-network-image-dialog>
 
     <!-- the upload image dialog -->
@@ -62,32 +61,15 @@ export default defineComponent({
       required: false,
     }
   },
-  data() {
-    return {
-      networkImageDialog: {
-        show: false,
-        url: '',
-        title: '',
-      }
-    }
-  },
   methods: {
-    insert (params: {url: string, title: string}) {
-      this.command('image', params)
-    },
     showNetworkImageDialog () {
-      this.networkImageDialog.url  = ''
-      this.networkImageDialog.show = true
+      this.$refs.networkImageDialog.open()
     },
-    hideNetworkImageDialog () {
-      this.networkImageDialog.show = false
-    },
-    insertNetworkImage () {
-      this.insert({
-        url: this.networkImageDialog.url,
-        title: '',
+    insertNetworkImage (url: string, title: string) {
+      this.command('image', {
+        url,
+        title
       })
-      this.hideNetworkImageDialog()
     },
     showUploadDialog () {
       const input = this.$refs.file as HTMLElement
@@ -101,7 +83,7 @@ export default defineComponent({
         if (this.fnUploadImage) {
           url = await this.fnUploadImage(input.files[0])
         }
-        this.insert({
+        this.command('image', {
           title: '',
           url
         })

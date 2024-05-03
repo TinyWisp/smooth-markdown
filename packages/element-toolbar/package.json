@@ -1,0 +1,27 @@
+{
+  "name": "@smooth-markdown/element-toolbar",
+  "version": "1.0.0",
+  "private": false,
+  "author": "TinyWisp",
+  "main": "./lib/index.cjs.js",
+  "module": "./lib/index.esm.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check build-only",
+    "preview": "vite preview",
+    "test:unit": "vitest",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "build:lib": "./build.types.sh && rollup --bundleConfigAsCjs --config build.lib.config.js && rm -rf ./lib/types"
+  },
+  "peerDependencies": {
+    "@mdi/js": "^7.1.96",
+    "@mdi/svg": "^7.4.47",
+    "element-plus": "^2.7.2"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.4.47"
+  }
+}

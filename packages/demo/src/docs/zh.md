@@ -343,6 +343,81 @@ https://github.com/craftzdog/cm6-themes
 
 # API
 
+## 属性
+
+| 属性名 | 类型 | 说明 | 默认值 | 备注 |
+| - | - | - | - | - |
+| locale | string | 语言 | en | 和加载的语言包有关 |
+| mode | string | 模式 | editor\|viewer | editor,viewer,toc'以\|相连，如'editor\|viewer  |
+| plugins | Array | 插件列表 | [] | - |
+| readonly | boolean | 是否只读 | false | - |
+
+## 方法
+
+| 方法 | 说明 | 备注 |
+| - | - | - |
+| getContext(): Context | 获取上下文 | - |
+| setContext(key, val) <br> setContext(key, subkey, val) | 设置上下文 | - |
+
+## 插槽
+
+| 插槽名 | 说明 |
+| toolbar | 工具栏 |
+| toc | 目录 |
+
+## 上下文
+
+- Context
+  - doc: Ref<string>
+  - mode: Ref<string>
+  - props: SmoothMarkdownProps
+  - lang: Lang
+    - t(path: string, varMap: VariableMap = {})
+    - print()
+    - setLocale(locale: string)
+    - setFallbackLocale(locale: string)
+  - eventBus: EventBus
+    - on(src: string, event: string, func: Function)
+    - off(src: string, event: string, func: Function)
+    - fire(src: string, event: string, detail: any)
+    - beginDebug()
+    - endDebug()
+  - pluginManager: PluginManager
+    - registerPlugin(plugin: Plugin)
+    - registerPlugins(plugins: Plugin[])
+    - unregisterPlugin(name: string)
+  - root
+    - el: HTMLElement | null
+    - selector: string
+    - style: {[key: string]: string}
+  - viewer
+    - el: HTMLElement | null
+    - selector: string
+    - containerEl: HTMLElement | null
+    - containerSelector: string
+    - scrollEl: Ref<HTMLElement | null>
+  - editor
+    - el: HTMLElement | null
+    - selector: string
+    - containerEl: HTMLElement | null
+    - containerSelector: string
+    - scrollEl: Ref<HTMLElement | null>
+  - toc
+    - el: HTMLElement | null
+    - selector: string
+    - containerEl: HTMLElement | null
+    - containerSelector: string
+    - scrollEl: Ref<HTMLElement | null>
+  - header
+    - el: HTMLElement | null
+    - selector: string
+  - body
+    - el: HTMLElement | null
+    - selector: string
+  - others
+
+
+
 ## references
 
 ## context
