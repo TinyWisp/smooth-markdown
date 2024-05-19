@@ -50,7 +50,7 @@ export interface VuetifyToolbarProps {
 
 const props = withDefaults(defineProps<VuetifyToolbarProps>(), {
   items: () => ['undo', 'redo', 'divider', 
-    'bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'mark', 'heading1', 'heading2', 'heading3', 'divider',
+    'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript', 'mark', 'heading1', 'heading2', 'heading3', 'divider',
     'bulletedList', 'numberedList', 'quote', 'codeBlock', 'link', 'image', 'horizontalRule', 'table',
     'spacer',
     'preview'
@@ -94,11 +94,11 @@ const toolbarItemMap: ToolbarItemMap = {
     cmd: 'italic',
     tip: () => t('toolbar.italic')
   },
-  strike: {
-    name: 'strike',
+  strikethrough: {
+    name: 'strikethrough',
     icon: 'mdi-format-strikethrough',
-    cmd: 'strike',
-    tip: () => t('toolbar.strike')
+    cmd: 'strikethrough',
+    tip: () => t('toolbar.strikethrough')
   },
   underline: {
     name: 'underline',

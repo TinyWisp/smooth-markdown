@@ -1,3 +1,3 @@
-import VuetifyToolbar from "./VuetifyToolbar"
+import ElementToolbar from "./ElementToolbar"
 
-export default VuetifyToolbar 
+export default ElementToolbar 

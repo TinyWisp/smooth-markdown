@@ -142,7 +142,7 @@ export function initEditor(getContext: FnGetContext, setContext: FnSetContext) {
     italic: () => {
       insertOrReplace('*<-->*')
     },
-    strike: () => {
+    strikethrough: () => {
       insertOrReplace('~~<-->~~')
     },
     underline: () => {
@@ -183,6 +183,9 @@ export function initEditor(getContext: FnGetContext, setContext: FnSetContext) {
     },
     quote: () => {
       insertOrReplace('> <-->', true)
+    },
+    inlineCode: () => {
+      insertOrReplace('`<-->`', false)
     },
     codeBlock: () => {
       insertOrReplace('```language\n<-->\n```\n', true)

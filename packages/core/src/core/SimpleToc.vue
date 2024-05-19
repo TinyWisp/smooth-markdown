@@ -1,6 +1,12 @@
 <template>
   <ul class="heading-list">
-    <draggable :disabled="readonly" :model-value="headingList" item-key="id" @change="handleChangeEvent">
+    <draggable 
+      :disabled="readonly"
+      :model-value="headingList"
+      item-key="id"
+      @change="handleChangeEvent"
+    >
+    
       <template #item="{ element, index }">
         <li
           :class="['heading-list-item', `level${element.level}`, {active: index === activeIndex}]"

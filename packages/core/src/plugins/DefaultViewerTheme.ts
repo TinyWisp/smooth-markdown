@@ -15,7 +15,6 @@ const css = `
       overflow: auto;
       word-break: normal;
       word-break: keep-all;
-      margin: 1.75em 0;
       border: 1px solid lightgray;
       border-radius: 3px;
       border-collapse: separate;
@@ -102,8 +101,7 @@ const css = `
     }
 
     &viewer blockquote {
-      margin: 2em 0;
-      padding-left: 20px;
+      padding: 20px;
       border-left: 4px solid var(--viewer-primary-color);
       background-color: #f3f5f7;
       white-space: nowrap;
@@ -181,7 +179,7 @@ const css = `
       display: none;
     }
 
-    &viewer p, ul, ol, summary {
+    &viewer p, &viewer ul, &viewer ol, &viewer summary, &viewer table, &viewer pre, &viewer blockquote {
       margin-bottom: 1.2em;
     }
 

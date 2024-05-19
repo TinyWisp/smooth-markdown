@@ -14,7 +14,7 @@
       </element-wrapper>
     </div>
     <div class="sm-body" ref="body">
-        <div v-if="containerMap.editor" class="sm-editor-container" ref="editorContainer">
+        <div v-show="containerMap.editor" class="sm-editor-container" ref="editorContainer">
           <element-wrapper :wrapper-list="editorWrapperList">
             <div
               :data-uniq-id="editorUniqId"
@@ -23,7 +23,7 @@
             ></div>
           </element-wrapper>
         </div>
-        <div v-if="containerMap.viewer" class="sm-viewer-container" ref="viewerContainer">
+        <div v-show="containerMap.viewer" class="sm-viewer-container" ref="viewerContainer">
           <element-wrapper :wrapper-list="viewerWrapperList">
             <div
               :data-uniq-id="viewerUniqId"
@@ -32,7 +32,7 @@
             ></div>
           </element-wrapper>
         </div>
-        <div v-if="containerMap.toc" class="sm-toc-container" ref="tocContainer">
+        <div v-show="containerMap.toc" class="sm-toc-container" ref="tocContainer">
           <element-wrapper :wrapper-list="tocWrapperList">
             <div
               :data-uniq-id="tocUniqId"
