@@ -1,5 +1,5 @@
-import classicMarkdownSyntax from "./presets/classicMarkdownSyntax"
+import classicSetup from "./presets/classicSetup"
 
 export {
-  classicMarkdownSyntax
+  classicSetup
 }

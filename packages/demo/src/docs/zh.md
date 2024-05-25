@@ -638,9 +638,6 @@ interface ToolbarItem {
 |   | fire | Function(src: string, event: string, detail: Any) | 发布事件消息 |
 |   | beginDebug | Function() | 开始打印事件信息 |
 |   | endDebug | Function() | 结束打印事件信息 |
-| pluginManager <br> 插件管理 | registerPlugin | Function(plugin: Plugin) | 注册插件 |
-|   | registerPlugins | Function(plugins: Plugin[]) | 注册多个插件 |
-|   | unregisterPlugin | Function(name: string) | 注销插件 |
 | root <br> 根元素(整个组件最外层的容器) | el | HTMLElement \| null | DOM元素 |
 |   | selector | string | css选择器 |
 |   | style | {[key: string]: string} | 样式 |

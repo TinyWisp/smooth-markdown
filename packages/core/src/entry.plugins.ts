@@ -1,4 +1,4 @@
-import highlightCodeBlockInEditableArea from "./plugins/HighlightCodeBlockInEditableAreaPlugin"
+import highlightCodeBlocksInEditableArea from "./plugins/HighlightCodeBlocksInEditableAreaPlugin"
 import customCodeBlockRenderer from "./plugins/CustomCodeBlockRendererPlugin"
 import customLinkAttrs from "./plugins/CustomLinkAttrsPlugin"
 import handleImageClick from "./plugins/HandleImageClickPlugin"
@@ -23,7 +23,7 @@ import defaultViewerTheme from "./plugins/DefaultViewerTheme"
 import defaultEditorTheme from "./plugins/DefaultEditorTheme"
 
 export {
-  highlightCodeBlockInEditableArea,
+  highlightCodeBlocksInEditableArea,
   customCodeBlockRenderer,
   customLinkAttrs,
   handleImageClick,

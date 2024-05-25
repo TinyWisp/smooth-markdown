@@ -1,7 +1,7 @@
 import { languages } from "@codemirror/language-data"
 import type { Plugin } from '../core/types'
 
-class HighlightCodeBlockInEditableAreaPlugin implements Plugin {
+class HighlightCodeBlocksInEditableAreaPlugin implements Plugin {
   name: string = 'core-plugin-highlight-code-block-in-editable-area'
   cmMarkdownConfig: object
 
@@ -12,6 +12,6 @@ class HighlightCodeBlockInEditableAreaPlugin implements Plugin {
   }
 }
 
-export default function HighlightCodeBlockInEditableArea() {
-  return new HighlightCodeBlockInEditableAreaPlugin()
+export default function HighlightCodeBlocksInEditableArea() {
+  return new HighlightCodeBlocksInEditableAreaPlugin()
 }
