@@ -68,7 +68,8 @@ const external = [
   /markdown-it/,
   /highlight.js/,
   /@lezer/,
-  /mermaid/
+  /mermaid/,
+  /@smooth-markdown/
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -237,80 +238,6 @@ function buildAllRenderersInOne() {
     ]
   });
 }
-
-/*
-buildPlugin({
-  input: 'src/entries/highlightPlugin.ts', 
-  outputDir: 'lib/plugins/highlight',
-  outputName: 'highlight',
-});
-buildPlugin({
-  input: 'src/entries/handleImageClickPlugin.ts',
-  outputDir: 'lib/plugins/handleImageClick',
-  outputName: 'handleImageClick',
-});
-buildPlugin({
-  input: 'src/entries/pasteImagePlugin.ts',
-  outputDir: 'lib/plugins/pasteImage',
-  outputName: 'pasteImage',
-});
-buildPlugin({
-  input: 'src/entries/customCodeBlockRendererPlugin.ts',
-  outputDir: 'lib/plugins/customCodeBlockRenderer',
-  outputName: 'customCodeBlockRenderer',
-});
-buildPlugin({
-  input: 'src/entries/customLinkAttrsPlugin.ts',
-  outputDir: 'lib/plugins/customLinkAttrs',
-  outputName: 'customLinkAttrs',
-});
-// ----- build a plugin ------
-function buildPlugin({input, outputDir, outputName}) {
-  builds.push({
-    input: input,
-    external,
-    output: {
-      file: `${outputDir}/index.esm.js`,
-      format: 'esm',
-      exports: 'named',
-    },
-    plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      vue(baseConfig.plugins.vue),
-      ...baseConfig.plugins.postVue,
-      babel(baseConfig.plugins.babel),
-      commonjs(),
-      typescript(),
-      resolve(baseConfig.plugins.resolve),
-    ],
-  });
-
-  builds.push({
-    input: input,
-    external,
-    output: {
-      file: `${outputDir}/index.umd.js`,
-      format: 'umd',
-      exports: 'named',
-      name: outputName,
-      globals,
-    },
-    plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      vue(baseConfig.plugins.vue),
-      ...baseConfig.plugins.postVue,
-      babel(baseConfig.plugins.babel),
-      commonjs(),
-      typescript(),
-      resolve(baseConfig.plugins.resolve)
-    ],
-  });
-}
-*/
-
-
 
 // Export config
 export default builds;

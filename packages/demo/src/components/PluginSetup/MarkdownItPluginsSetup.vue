@@ -25,7 +25,7 @@ markdownItPlugins([</pre>
 <script lang="ts" setup>
 import { watch, ref, reactive } from 'vue'
 import { markdownItPlugins } from '@smooth-markdown/core/plugins'
-import type { MditLoadPlugin } from '@smooth-markdown/core/plugins'
+import type { MditLoadPlugin } from '@smooth-markdown/core'
 import sup from 'markdown-it-sup'
 import sub from 'markdown-it-sub'
 import ins from 'markdown-it-ins'

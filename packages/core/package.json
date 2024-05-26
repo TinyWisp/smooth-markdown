@@ -54,7 +54,7 @@
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
     "mermaid": "^10.6.1",
-    "vue": "^3.2.47",
+    "vue": "^3.4.27",
     "vue-use-active-scroll": "^1.1.1"
   },
   "exports": {

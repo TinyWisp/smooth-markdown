@@ -12,7 +12,7 @@ import { ref } from 'vue'
 import { SmoothMarkdown } from '@smooth-markdown/core'
 import { syncScrollbars } from '@smooth-markdown/core/plugins'
 import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
-import cnt from './cnt.txt?raw'
+import cnt from '@/utils/sample'
 
 const doc = ref(cnt)
 const plugins = [syncScrollbars({})]

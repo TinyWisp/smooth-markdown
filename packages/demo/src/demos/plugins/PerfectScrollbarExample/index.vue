@@ -12,7 +12,7 @@ import { ref } from 'vue'
 import { SmoothMarkdown } from '@smooth-markdown/core'
 import { perfectScrollbar } from '@smooth-markdown/core/plugins'
 import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
-import cnt from './jane eyre.txt?raw'
+import cnt from '@/utils/sample'
 
 const doc = ref(cnt)
 const plugins = [perfectScrollbar({})]

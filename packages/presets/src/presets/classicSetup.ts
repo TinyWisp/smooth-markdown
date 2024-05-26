@@ -10,6 +10,7 @@ import {
   highlightCodeBlocksInEditableArea
 } from '@smooth-markdown/core/plugins'
 import { MermaidRenderer, KatexRenderer, CodeMirrorRenderer } from '@smooth-markdown/core/renderers'
+import type { Plugin } from '@smooth-markdown/core'
 import sup from 'markdown-it-sup'
 import sub from 'markdown-it-sub'
 import ins from 'markdown-it-ins'
@@ -20,7 +21,7 @@ import taskLists from 'markdown-it-task-lists'
 import footnote from 'markdown-it-footnote'
 import mialert from 'markdown-it-alert'
 
-const classicSetup = [
+const classicSetup: Plugin[] = [
   markdownItPlugins([
     [ sup ],
     [ sub ],

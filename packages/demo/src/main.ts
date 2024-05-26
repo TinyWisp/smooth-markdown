@@ -8,6 +8,8 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 
 const vuetify = createVuetify({
   components,
@@ -26,5 +28,6 @@ const vuetify = createVuetify({
 
 const app = createApp(App)
 app.use(vuetify)
+app.use(ElementPlus)
 app.use(router)
 app.mount('#app')

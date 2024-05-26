@@ -73,6 +73,7 @@ import deflist from 'markdown-it-deflist'
 import taskLists from 'markdown-it-task-lists'
 import footnote from 'markdown-it-footnote'
 import mialert from 'markdown-it-alert'
+import CustomCodeBlockRendererSetup from './CustomCodeBlockRendererSetup.vue'
 
 const plugins = reactive([
   {
@@ -158,6 +159,7 @@ const plugins = reactive([
       javascript: [CodeMirrorRenderer]
     }),
     desc: "custom code block renderers",
+    setup: CustomCodeBlockRendererSetup,
     enabled: true
   },
   {

@@ -5,14 +5,21 @@ smooth-markdown是一个基于vue.js 3的markdown编辑器。
 
 # 演示
 
-```iframe
-/demo?name=/playground
-```
-
+[点此查看演示](/demo?name=/playground)
 
 # 快速开始
 
+使用基于vuetify的工具栏
 
+```iframe
+/demo?name=/getting-started/vuetify-toolbar
+```
+
+使用基于element-plus的工具栏
+
+```iframe
+/demo?name=/getting-started/element-toolbar
+```
 
 # 插件
 
@@ -191,10 +198,6 @@ OverlayScrollbarsProps的选项如下
 [overlayscrollbars-vue](https://www.npmjs.com/package/overlayscrollbars-vue)
 [overlayscrollbars](https://www.npmjs.com/package/overlayscrollbars)
 
-```iframe
-/demo?name=/plugins/overlay-scrollbars
-```
-
 ## autoHeight
 
 
@@ -212,9 +215,6 @@ OverlayScrollbarsProps的选项如下
 **参数**
 无
 
-```iframe
-/demo?name=/plugins/highlight-code-block-in-editable-area
-```
 ## syncScrollbars
 
 

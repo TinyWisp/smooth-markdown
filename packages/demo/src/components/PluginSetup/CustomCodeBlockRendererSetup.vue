@@ -1,31 +1,27 @@
 <template>
   <pre>
-import sup from 'markdown-it-sup'
-import sub from 'markdown-it-sub'
-import ins from 'markdown-it-ins'
-import br  from 'markdown-it-br'
-import mark from 'markdown-it-mark'
-import deflist from 'markdown-it-deflist'
-import taskLists from 'markdown-it-task-lists'
-import footnote from 'markdown-it-footnote'
-import mialert from 'markdown-it-alert'
+import {
+  CodeMirrorRenderer,
+  MermaidRenderer,
+  KatexRenderer
+} from '@smooth-markdown/core/rendereres';
 
 ...
-markdownItPlugins([</pre> 
-    <div v-for="plugin of plugins" :key="plugin.name" class="item">
-      [{{ plugin.name }}],
-      <input type="checkbox" v-model="plugin.enabled" class="checkbox">
+customCodeBlockRenderer({
+  </pre>
+    <div v-for="item of renderers" :key="item.key" class="item">
+      {{ item.desc }},
+      <input type="checkbox" v-model="item.enabled" class="checkbox">
     </div>
   <pre>
-  ])
-...
+})
   </pre>
+
 </template>
 
 <script lang="ts" setup>
-import { watch, ref, reactive } from 'vue'
-import { markdownItPlugins } from '@smooth-markdown/core/plugins'
-import type { MditLoadPlugin } from '@smooth-markdown/core/plugins'
+import { watch, reactive } from 'vue'
+import { customCodeBlockRenderer } from '@smooth-markdown/core/plugins'
 import { CodeMirrorRenderer, KatexRenderer, MermaidRenderer } from '@smooth-markdown/core/renderers'
 
 defineProps({
@@ -35,17 +31,38 @@ defineProps({
   }
 })
 
+const renderers = reactive([
+  {
+    desc: 'math: [KatexRenderer]',
+    key: 'math',
+    renderer: [KatexRenderer],
+    enabled: true
+  },
+  {
+    desc: 'mermaid: [MermaidRenderer]',
+    key: 'mermaid',
+    renderer: [MermaidRenderer],
+    enabled: true
+  },
+  {
+    desc: 'CodeMirrorRenderer: [CodeMirrorRenderer]',
+    key: 'default',
+    renderer: [CodeMirrorRenderer],
+    enabled: true
+  }
+])
+
 const emit = defineEmits(['update:modelValue'])
-watch(plugins, () => {
-  const mdplugins: MditLoadPlugin[] = []
-  plugins.forEach((item) => {
+watch(renderers, () => {
+  const rendererMap: {[key: string]: any} = {}
+  renderers.forEach((item) => {
     if (item.enabled) {
-      mdplugins.push(item.plugin)
+      rendererMap[item.key] = item.renderer
     }
   })
 
   emit('update:modelValue', () => {
-    return markdownItPlugins(mdplugins)
+    return customCodeBlockRenderer(rendererMap)
   })
 }, { deep: true })
 

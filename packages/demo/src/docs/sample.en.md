@@ -19,7 +19,7 @@ There was no possibility of taking a walk that day. We had been wandering, indee
 | Italic | `* *` or `_ _`     | `_This text is italicized_` | _This text is italicized_ |
 | Strikethrough | `~~ ~~` | `~~This was mistaken text~~` | ~~This was mistaken text~~ |
 | Bold and nested italic | `** **` and `_ _` | `**This text is _extremely_ important**` | **This text is _extremely_ important** |
-| All bold and italic | `*** ***` | `***All this text is important***` | ***All this text is important*** | <!-- markdownlint-disable-line emphasis-style -->
+| All bold and italic | `*** ***` | `***All this text is important***` | ***All this text is important*** |
 | Subscript | `~ ~` | `This is a ~subscript~ text` | This is a ~subscript~ text |
 | Superscript | `^ ^` | `This is a ^superscript^ text` | This is a ^superscript^ text |
 

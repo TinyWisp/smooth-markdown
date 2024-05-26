@@ -27,6 +27,29 @@ const demoMap: DemoMap = {
     ]
   },
 
+  '/getting-started/vuetify-toolbar': {
+    comp: () => import('./getting-started/VuetifyToolbar/index.vue'),
+    height: 'auto',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./getting-started/VuetifyToolbar/index.vue?raw')
+      }
+    ]
+  },
+
+  '/getting-started/element-toolbar': {
+    comp: () => import('./getting-started/ElementToolbar/index.vue'),
+    height: 'auto',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./getting-started/ElementToolbar/index.vue?raw')
+      }
+    ]
+  },
+ 
+
   '/plugins/custom-code-block-renderer': {
     comp: () => import('./plugins/CustomCodeBlockRendererExample/index.vue'),
     height: '500px',
@@ -46,39 +69,6 @@ const demoMap: DemoMap = {
     ]
   },
 
-  '/plugins/affix-toolbar': {
-    comp: () => import('./plugins/AffixToolbarExample.vue'),
-    height: '500px',
-    codeTabs: [
-      {
-        title: 'index.vue',
-        code: () => import('./plugins/AffixToolbarExample.vue?raw')
-      }
-    ]
-  },
-
-  '/plugins/perfect-scrollbar': {
-    comp: () => import('./plugins/PerfectScrollbarExample/index.vue'),
-    height: '500px',
-    codeTabs: [
-      {
-        title: 'index.vue',
-        code: () => import('./plugins/PerfectScrollbarExample/index.vue?raw')
-      }
-    ]
-  },
-
-  '/plugins/overlay-scrollbars': {
-    comp: () => import('./plugins/OverlayScrollbarsExample/index.vue'),
-    height: '500px',
-    codeTabs: [
-      {
-        title: 'index.vue',
-        code: () => import('./plugins/OverlayScrollbarsExample/index.vue?raw')
-      }
-    ]
-  },
-
   '/plugins/auto-height': {
     comp: () => import('./plugins/AutoHeightExample/index.vue'),
     height: 'auto',
@@ -86,37 +76,6 @@ const demoMap: DemoMap = {
       {
         title: 'index.vue',
         code: () => import('./plugins/AutoHeightExample/index.vue?raw')
-      }
-    ]
-  },
-
-
-  '/plugins/highlight-code-block-in-editable-area': {
-    comp: () => import('./plugins/HighlightCodeBlockInEditableAreaExample/index.vue'),
-    height: 'auto',
-    codeTabs: [
-      {
-        title: 'index.vue',
-        code: () => import('./plugins/HighlightCodeBlockInEditableAreaExample/index.vue?raw')
-      },
-      {
-        title: 'cnt.md',
-        code: () => import('./plugins/HighlightCodeBlockInEditableAreaExample/cnt.md?raw')
-      }
-    ]
-  },
-
-  '/plugins/sync-scrollbar': {
-    comp: () => import('./plugins/SyncScrollbarExample/index.vue'),
-    height: 'auto',
-    codeTabs: [
-      {
-        title: 'index.vue',
-        code: () => import('./plugins/SyncScrollbarExample/index.vue?raw')
-      },
-      {
-        title: 'cnt.txt',
-        code: () => import('./plugins/SyncScrollbarExample/cnt.txt?raw')
       }
     ]
   },

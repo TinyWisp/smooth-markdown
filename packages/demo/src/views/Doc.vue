@@ -9,17 +9,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
-import { SmoothMarkdown, addParentSelector } from '@smooth-markdown/core'
-import { customCodeBlockRenderer, defaultViewerTheme, markdownItPlugins, overlayScrollbars, injectCss, tocSpy } from '@smooth-markdown/core/plugins'
+import { ref } from 'vue'
+import { SmoothMarkdown } from '@smooth-markdown/core'
+import { customCodeBlockRenderer, defaultViewerTheme, markdownItPlugins, overlayScrollbars, customLinkAttrs, tocSpy } from '@smooth-markdown/core/plugins'
 import { CodeMirrorRenderer } from '@smooth-markdown/core/renderers'
 import mditMultimdTable from 'markdown-it-multimd-table'
 import mditBr from 'markdown-it-br'
 import IframeRenderer from '../components/IframeRenderer.vue'
-import md from '../docs/zh.md?raw'
-// import css from './theme.css?raw'
+import manual from '../docs/manual.zh.md?raw'
 
-const doc = ref(md)
+const doc = ref(manual)
 const plugins = [
   defaultViewerTheme(),
   tocSpy(),
@@ -31,7 +30,11 @@ const plugins = [
   markdownItPlugins([
     [mditMultimdTable, { rowspan: true }],
     [mditBr]
-  ])
+  ]),
+  customLinkAttrs((attrs) => {
+    attrs.target = '_blank'
+    return attrs
+  })
 ]
 
 </script>

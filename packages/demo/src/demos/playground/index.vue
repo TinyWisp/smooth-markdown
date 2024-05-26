@@ -52,7 +52,7 @@ import { ref } from 'vue'
 import { SmoothMarkdown, SimpleToc } from '@smooth-markdown/core'
 import PluginSetup from '../../components/PluginSetup/PluginSetup.vue'
 import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
-import cnt from './cnt.md?raw'
+import cnt from '@/utils/sample'
 
 const modes = ['editor|viewer|toc', 'editor|viewer', 'toc|viewer', 'viewer|toc', 'viewer', 'editor']
 const langs = ['zh_CN', 'en']

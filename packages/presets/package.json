@@ -38,10 +38,12 @@
     "echarts": "^5.4.3",
     "highlight.js": "^11.9.0",
     "markdown-it": "^13.0.1",
+    "markdown-it-alert": "^0.1.5",
     "markdown-it-br": "^1.0.0",
     "markdown-it-deflist": "^2.1.0",
     "markdown-it-emoji": "^2.0.2",
     "markdown-it-footnote": "^4.0.0",
+    "markdown-it-github-alert": "^1.0.6",
     "markdown-it-ins": "^3.0.1",
     "markdown-it-katex": "^2.0.3",
     "markdown-it-mark": "^3.0.1",
@@ -52,7 +54,5 @@
     "vuetify": "^3.4.4"
   },
   "dependencies": {
-    "markdown-it-alert": "^0.1.5",
-    "markdown-it-github-alert": "^1.0.6"
   }
 }
