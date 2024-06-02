@@ -19,6 +19,7 @@ import tocSpy from "./plugins/TocSpyPlugin"
 import langZhCN from "./plugins/LangZhCNPlugin"
 import langEn from "./plugins/LangEnPlugin"
 import lang from "./plugins/LangPlugin"
+import customViewerTheme from "./plugins/CustomViewerTheme"
 import defaultViewerTheme from "./plugins/DefaultViewerTheme"
 import defaultEditorTheme from "./plugins/DefaultEditorTheme"
 
@@ -44,6 +45,7 @@ export {
   langZhCN,
   langEn,
   lang,
+  customViewerTheme,
   defaultEditorTheme,
   defaultViewerTheme
 }

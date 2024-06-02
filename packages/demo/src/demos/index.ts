@@ -16,17 +16,6 @@ export type DemoMap = {
 }
 
 const demoMap: DemoMap = {
-  '/playground': {
-    comp: () => import('./playground/index.vue'),
-    height: 'auto',
-    codeTabs: [
-      {
-        title: 'index.vue',
-        code: () => import('./playground/index.vue?raw')
-      }
-    ]
-  },
-
   '/getting-started/vuetify-toolbar': {
     comp: () => import('./getting-started/VuetifyToolbar/index.vue'),
     height: 'auto',
@@ -65,6 +54,14 @@ const demoMap: DemoMap = {
       {
         title: 'ArtText.jsx',
         code: () => import('./plugins/CustomCodeBlockRendererExample/ArtText.jsx?raw')
+      },
+      {
+        title: 'Card.vue',
+        code: () => import('./plugins/CustomCodeBlockRendererExample/Card.vue?raw')
+      },
+      {
+        title: 'cnt.md',
+        code: () => import('./plugins/CustomCodeBlockRendererExample/cnt.md?raw')
       }
     ]
   },

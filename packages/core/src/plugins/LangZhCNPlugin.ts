@@ -57,6 +57,7 @@ const messageMap: MessageMap = {
         openPreview: '预览',
         closePreview: '关闭预览',
         horizontalRule: '插入水平线',
+        toc: '目录'
       },
       codeBlock: {
         copied: '已复制'

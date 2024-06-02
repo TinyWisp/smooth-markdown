@@ -17,3 +17,15 @@ GRAPH
 	}]
 }
 ```
+
+```test1
+Genshin Impact
+```
+
+```test2
+Hollow Knight
+```
+
+```test3
+Trine
+```

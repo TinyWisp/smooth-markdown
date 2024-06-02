@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<ElementToolbarProps>(), {
     'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript', 'mark', 'heading1', 'heading2', 'heading3', 'divider',
     'bulletedList', 'numberedList', 'quote', 'codeBlock', 'link', 'image', 'horizontalRule', 'table',
     'spacer',
-    'preview'
+    'preview', 'toc'
   ],
 })
 
@@ -207,18 +207,54 @@ const toolbarItemMap: ToolbarItemMap = {
   preview: {
     name: 'preview',
     icon: () => {
-      return getMode() === 'editor|viewer'
+      const mode = getMode()
+      const parts = mode.split('|')
+      return parts.includes('viewer')
               ? 'mdi mdi-eye-off-outline'
               : 'mdi mdi-eye-outline'
     },
     exec: () => {
-      setMode(getMode() === 'editor|viewer' ? 'editor' : 'editor|viewer')
+      const mode = getMode()
+      const parts = mode.split('|')
+      if (parts.includes('viewer')) {
+        const nparts = parts.filter((item: string) => item !== 'viewer')
+        const nmode = nparts.join('|')
+        setMode(nmode)
+      } else {
+        const last = parts[parts.length - 1]
+        const nmode = last === 'toc'
+          ? 'editor|viewer|toc'
+          : 'editor|viewer'
+        setMode(nmode)
+      }
     },
     tip: () => {
-      return getMode() === 'editor|viewer'
+      const mode = getMode()
+      const parts = mode.split('|')
+      return parts.includes('viewer')
              ? t('toolbar.closePreview')
              : t('toolbar.openPreview')
     }
+  },
+  toc: {
+    name: 'toc',
+    icon: 'mdi mdi-text-box-outline',
+    exec: () => {
+      const mode = getMode()
+      const parts = mode.split('|')
+      const last = parts[parts.length - 1]
+      const nparts = [...parts]
+      if (last === 'toc') {
+        nparts.pop()
+      } else {
+        nparts.push('toc')
+      }
+      const nmode = nparts.join('|')
+      console.log('-----mode-----')
+      console.log(nmode)
+      setMode(nmode)
+    },
+    tip: () => t('toolbar.toc')
   }
 }
 

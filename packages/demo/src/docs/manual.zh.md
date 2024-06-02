@@ -65,18 +65,27 @@ customCodeBlockRenderer({
 下面的示例，表示:
 1. 使用ArtText组件，渲染art-text代码块, 并且向组件传入参数color="red"。
 1. 使用Echarts组件，渲染echarts代码块，无额外参数传入。 
-1. art-text, echarts之外的代码块，则使用默认组件HelloWorld进行渲染。
+1. art-text, echarts之外的代码块，则使用默认组件Card进行渲染。
 ```javascript
 customCodeBlockRenderer({
   'art-text': [ArtText, {color: 'red'}],
   echarts: [Echarts],
-  default: [HelloWorld]
+  default: [Card]
 })
 ```
 
 ```iframe
 /demo?name=/plugins/custom-code-block-renderer
 ```
+
+**默认向渲染组件传递的参数**
+
+| 名称 | 类型 | 说明 |
+| - | - | - |
+| lang | string | 语言 |
+| code | string | 代码 |
+| lineBegin | number | 起始行 |
+| lineEnd | number | 结束行 |
 
 ## affixToolbar
 
@@ -87,72 +96,27 @@ customCodeBlockRenderer({
 ```javascript
 affixToolbar({
   /**
-   * The relative element selector string. The relative element is
-   * the element you want your affix to be related to, as it will
-   * not be related to the window. The element will be affixed when
-   * the window reaches the relative element.
-   * 
-   * 相对元素的选择器。相对元素指你要固定在哪个元素上，默认情况下是window
-   * 
-   * @example '#contact'
-   * @type {String} 
+   * 滚动容器选择器，如果不设置，则默认为window
    */
-  relativeElementSelector: {
-    type: String,
-    required: true
-  },
-  
+  scrollContainerSelector: null,
+
   /**
-   * This is the offset margin between the top/bottom of the window
-   * before the affix is applied.
-   *
-   * @type {Object} 
+   * 窗口顶部/底部之间的偏移边距
    */
   offset: {
-    type: Object,
-    default: () => {
-      return {
-        top: 40,
-        bottom: 40
-      }
-    }
+    top: 40,
+    bottom: 40
   },
+
+  /**
+   * 是否开启
+   */
+  enabled: true,
   
   /**
-   * Checks if the plugin should be enabled/disabled based
-   * on true/false, good for mobile when you need to disable it.
-   *
-   * @type {Boolean} 
+   * 是否应在其高度超过视口时为“可滚动”，或者是否应始终固定在顶部，直到达到相对元素的末尾。
    */
-  enabled: {
-    type: Boolean,
-    default: true
-  },
-  
-  /**
-   * Sets if the affix should be 'scrollable' when it is
-   * taller than the viewport or if it should always be
-   * affixed to the top until it reaches the end of the
-   * relative element. Check the demo to understand better.
-   *
-   * @type {Boolean} 
-   */
-  scrollAffix: {
-    type: Boolean,
-    default: false
-  },
-  
-  /**
-   * Sets the scrollable container to use in scroll position
-   * calculations. If not set, the window object will be
-   * used by default.
-   *
-   * @type {Object} 
-   */
-  scrollContainerSelector: {
-    type: String,
-    default: null,
-  }
+  scrollAffix: false,
 })
 ```
 此插件基于第三方组件`vue-affix`
@@ -248,13 +212,25 @@ syncScrollbars(way: 'editor-to-viewer' | 'viewer-to-editor' | 'two-way')
 
 **参数**
 ```javascript
-lang({
+lang(messageMap: MessageMap)
 
+interface MessageMap {
+  [key: string]: string | MessageMap
+}
+```
+
+示例
+```javascript
+lang({
+  zh_CN: {
+    codeBlock: {
+      copy: '复制'
+    }
+  }
 })
 ```
 
 ## markdownItPlugins
-
 
 预览区域由markdown-it渲染，此插件用于加载markdown-it的插件
 
@@ -423,17 +399,6 @@ pasteImage(fnUpload: FnUpload)
 
 **属性**
 无
-
-**CodeMirror主题**
-
-```iframe
-/demo?name=/examples/codemirror-theme
-```
-
-需要更多的主题，可查看下面的网址
-- https://uiwjs.github.io/react-codemirror/#/theme/home
-- https://github.com/craftzdog/cm6-themes
-
 
 # 组件
 
@@ -672,7 +637,10 @@ interface ToolbarItem {
 text: 待插入/替换的文本, 如果包含"<-->"，"<-->"表示插入后光标所在的位置，或者在选中时，将"<-->"替换为选中的文字
 newLine: 是否新起一行再插入/替换, 默认为false
 
-# 命令
+**context.editor.command(cmd: string, params: Object = {})**
+向编辑器发送命令
+
+可使用命令如下所示:
 
 | 命令 | 说明 | 参数 |
 | - | - | - |
@@ -700,3 +668,15 @@ newLine: 是否新起一行再插入/替换, 默认为false
 | image | 图片 | {title: '标题', url: '地址'} |
 | link | 链接 |  {title: '标题', url: '地址'} |
 | table | 表格 | {row: 行数, col: 列数 } |
+
+# 自定义外观
+
+**CodeMirror主题**
+
+```iframe
+/demo?name=/examples/codemirror-theme
+```
+
+需要更多的主题，可查看下面的网址
+- https://uiwjs.github.io/react-codemirror/#/theme/home
+- https://github.com/craftzdog/cm6-themes

@@ -9,13 +9,15 @@ import { SmoothMarkdown } from '@smooth-markdown/core'
 import { customCodeBlockRenderer } from '@smooth-markdown/core/plugins'
 import Echarts from './Echarts.vue'
 import ArtText from './ArtText.jsx'
+import Card from './Card.vue'
 import cnt from './cnt.md?raw'
 
 const doc = ref(cnt)
 const plugins = [
 	customCodeBlockRenderer({
 		echarts: [Echarts],
-		'art-text': [ArtText, {color: 'red'}]
+		'art-text': [ArtText, {color: 'red'}],
+		default: [Card]
 	})
 ]
 </script>

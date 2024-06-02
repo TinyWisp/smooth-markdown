@@ -1,5 +1,5 @@
 <template>
-  <smooth-markdown v-model="doc" :plugins="plugins">
+  <smooth-markdown v-model="doc" v-model:mode="mode" :plugins="plugins">
     <template v-slot:toolbar>
       <element-toolbar color="white"></element-toolbar>
       <v-divider></v-divider>
@@ -16,6 +16,7 @@ import ElementToolbar from '@smooth-markdown/element-toolbar'
 import cnt from '@/utils/sample'
 
 const doc = ref(cnt)
+const mode = ref('editor|viewer')
 const plugins = [
   ...classicSetup,
   langEn()

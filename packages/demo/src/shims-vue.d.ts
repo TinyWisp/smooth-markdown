@@ -7,6 +7,7 @@ declare module 'markdown-it-mark'
 declare module 'markdown-it-deflist'
 declare module 'markdown-it-task-lists'
 declare module 'markdown-it-footnote'
+declare module 'iframe-resizer'
 declare module '*.vue' {
   import Vue from 'vue';
   export default Vue;

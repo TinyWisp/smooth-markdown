@@ -56,6 +56,7 @@ const messageMap: MessageMap = {
       openPreview: 'Open Preview',
       closePreview: 'Close Preview',
       horizontalRule: 'Horizontal Rule',
+      toc: 'Table of contents'
     },
     codeBlock: {
       copied: 'Copied'

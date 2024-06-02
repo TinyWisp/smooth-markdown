@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue"
+import { onMounted } from "vue"
 import { uniqId } from "@smooth-markdown/core"
 import { iframeResize } from "iframe-resizer"
 
@@ -23,7 +23,7 @@ onMounted(() => {
 
 <style scoped>
 iframe {
-  width: 90%;
+  width: 100%;
   height: auto;
   border: 0;
 }
