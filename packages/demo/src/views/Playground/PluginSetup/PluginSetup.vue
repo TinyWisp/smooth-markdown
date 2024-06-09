@@ -8,7 +8,12 @@
         md="4"
         class="cell"
       >
-        <v-card hover :class="{'plugin-expand': plugin.expand}">
+        <v-card
+          hover
+          :class="{'plugin-expand': plugin.expand}"
+          @mouseenter="plugin.expand=true"
+          @mouseleave="plugin.expand=false"
+        >
           <v-card-title>
             {{ plugin.name }}
             <v-switch v-model="plugin.enabled" color="primary" class="switch"></v-switch>
@@ -25,14 +30,18 @@
               @click="plugin.expand = !plugin.expand"
             />
           </v-card-actions>
-          <v-expand-transition v-if="plugin.setup">
-            <div v-show="plugin.expand">
-                <v-divider/>
-                <v-card-text>
-                  <component :is="plugin.setup" v-model="plugin.val" />
-                </v-card-text>
-            </div>
-          </v-expand-transition>
+          <div v-if="plugin.setup && plugin.expand">
+              <v-divider/>
+              <v-card-text>
+                <component :is="plugin.setup" v-model="plugin.val" />
+              </v-card-text>
+          </div>
+          <div v-else-if="plugin.tip && plugin.expand">
+              <v-divider/>
+              <v-card-text>
+                <pre>{{ plugin.tip }}</pre>
+              </v-card-text>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -44,6 +53,7 @@ import {
   customCodeBlockRenderer,
   langZhCN,
   langEn,
+  lang,
   overlayScrollbars,
   affixToolbar,
   autoHeight,
@@ -53,10 +63,12 @@ import {
   pasteImage,
   defaultEditorTheme,
   defaultViewerTheme,
+  customViewerTheme,
   markdownItPlugins,
   markdownItOptions,
   customLinkAttrs,
-  handleImageClick
+  handleImageClick,
+codemirrorExt
 } from '@smooth-markdown/core/plugins'
 import { CodeMirrorRenderer, KatexRenderer, MermaidRenderer } from '@smooth-markdown/core/renderers'
 import { watch } from 'vue'
@@ -74,6 +86,9 @@ import taskLists from 'markdown-it-task-lists'
 import footnote from 'markdown-it-footnote'
 import mialert from 'markdown-it-alert'
 import CustomCodeBlockRendererSetup from './CustomCodeBlockRendererSetup.vue'
+import { EditorView, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view'
+import { foldGutter } from '@codemirror/language'
+import CodeMirrorExtSetup from './CodeMirrorExtSetup.vue'
 
 const plugins = reactive([
   {
@@ -89,6 +104,13 @@ const plugins = reactive([
     val: () => langEn(),
     desc: '英文支持',
     enabled: true
+  },
+  {
+    name: 'lang',
+    code: 'lang({...})',
+    val: () => lang(),
+    desc: '自定义语言包',
+    enabled: false,
   },
   {
     name: 'overlayScrollbars',
@@ -197,10 +219,27 @@ const plugins = reactive([
     enabled: true
   },
   {
+    name: 'codemirrorExt',
+    code: 'codemirrorExt({...})',
+    val: () => codemirrorExt([
+      EditorView.lineWrapping,
+      lineNumbers(),
+      highlightActiveLine(),
+      highlightActiveLineGutter(),
+      foldGutter()
+    ]),
+    desc: 'loading codemirror extensions',
+    setup: CodeMirrorExtSetup,
+    enabled: true
+  },
+  {
     name: 'handleImageClick',
     code: 'handleImageClick(...)',
+    tip: "handleImageClick((imgs, idx) => {\n"
+      + "  alert(`images: [${imgs.map(item => item.src).join(',')}].\nthe index of the image you clicked: ${idx}`)\n"
+      + "})",
     val: () => handleImageClick((imgs, idx) => {
-      alert(`images: ${imgs.join(',')}.  the image you clicked: ${idx}`)
+      alert(`images: [${imgs.map(item => item.src).join(',')}].\nthe index of the image you clicked: ${idx}`)
     }),
     desc: 'handleImageClick',
     enabled: true
@@ -208,6 +247,11 @@ const plugins = reactive([
   {
     name: 'customLinkAttrs',
     code: 'customLinkAttrs(...)',
+    tip: "customLinkAttrs((attrs) => {\n"
+      + "  attrs.target = '_blank'\n"
+      + "  attrs.onclick = `javascript:alert('you are jumping to ${attrs.href}')`\n"
+      + "  return attrs\n"
+      + "})",
     val: () => customLinkAttrs((attrs) => {
       attrs.target = '_blank'
       attrs.onclick = `javascript:alert('you are jumping to ${attrs.href}')`
@@ -259,6 +303,12 @@ defineExpose({ getPlugins })
 .cell {
   height: 180px;
   overflow: visible;
+}
+.tip {
+  display: none;
+}
+.cell:hover .tip {
+  display: block;
 }
 .plugin-expand {
   z-index: 999999;

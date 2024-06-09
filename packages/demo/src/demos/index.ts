@@ -23,6 +23,10 @@ const demoMap: DemoMap = {
       {
         title: 'index.vue',
         code: () => import('./getting-started/VuetifyToolbar/index.vue?raw')
+      },
+      {
+        title: 'main.js',
+        code: () => import('./getting-started/VuetifyToolbar/main.js?raw')
       }
     ]
   },
@@ -34,6 +38,10 @@ const demoMap: DemoMap = {
       {
         title: 'index.vue',
         code: () => import('./getting-started/ElementToolbar/index.vue?raw')
+      },
+      {
+        title: 'main.js',
+        code: () => import('./getting-started/ElementToolbar/main.js?raw')
       }
     ]
   },
@@ -73,6 +81,36 @@ const demoMap: DemoMap = {
       {
         title: 'index.vue',
         code: () => import('./plugins/AutoHeightExample/index.vue?raw')
+      }
+    ]
+  },
+
+  '/vuetify-toolbar/custom-toolbar-items': {
+    comp: () => import('./vuetify-toolbar/CustomToolbarItemsExample/index.vue'),
+    height: 'auto',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./vuetify-toolbar/CustomToolbarItemsExample/index.vue?raw')
+      },
+      {
+        title: 'Bold.vue',
+        code: () => import('./vuetify-toolbar/CustomToolbarItemsExample/BoldButton.vue?raw')
+      }
+    ]
+  },
+
+  '/element-toolbar/custom-toolbar-items': {
+    comp: () => import('./element-toolbar/CustomToolbarItemsExample/index.vue'),
+    height: 'auto',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./element-toolbar/CustomToolbarItemsExample/index.vue?raw')
+      },
+      {
+        title: 'Bold.vue',
+        code: () => import('./element-toolbar/CustomToolbarItemsExample/BoldButton.vue?raw')
       }
     ]
   },

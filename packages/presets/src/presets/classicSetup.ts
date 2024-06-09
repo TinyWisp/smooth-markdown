@@ -21,7 +21,8 @@ import deflist from 'markdown-it-deflist'
 import taskLists from 'markdown-it-task-lists'
 import footnote from 'markdown-it-footnote'
 import mialert from 'markdown-it-alert'
-import { EditorView } from '@codemirror/view'
+import { EditorView, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view'
+import { foldGutter } from '@codemirror/language'
 
 const classicSetup: Plugin[] = [
   markdownItPlugins([
@@ -41,7 +42,11 @@ const classicSetup: Plugin[] = [
     default: [CodeMirrorRenderer]
   }),
   codemirrorExt([
-    EditorView.lineWrapping
+    EditorView.lineWrapping,
+    lineNumbers(),
+    highlightActiveLine(),
+    highlightActiveLineGutter(),
+    foldGutter()
   ]),
   overlayScrollbars(),
   math(),

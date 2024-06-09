@@ -25,7 +25,7 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="12">
-          <div style="border: 1px solid lightgray; border-radius: 3px;">
+          <div style="border: 1px solid lightgray; border-radius: 3px; height: 800px;">
             <smooth-markdown
               v-model="doc"
               :plugins="plugins"

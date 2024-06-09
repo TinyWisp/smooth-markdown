@@ -1,4 +1,4 @@
-import codemirrorExt from "./CodeMirrorExtensionPlugin"
+import codemirrorExt from "./CodeMirrorExtensionsPlugin"
 import { lineNumbers } from '@codemirror/view'
 
 function showLineNumbers() {

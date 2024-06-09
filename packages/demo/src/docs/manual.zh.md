@@ -1,25 +1,303 @@
-# 说明
+# 快速开始
 
 smooth-markdown是一个基于vue.js 3的markdown编辑器。
 它有着强大的扩展机制，不论是markdown语法，编辑操作，还是外观上，都非常易于扩展。
 
-# 演示
+**演示**
 
-[点此查看演示](/demo?name=/playground)
+[点此查看演示](/playground)
 
-# 快速开始
-
-使用基于vuetify的工具栏
+**使用基于vuetify的工具栏**
 
 ```iframe
 /demo?name=/getting-started/vuetify-toolbar
 ```
 
-使用基于element-plus的工具栏
+**使用基于element-plus的工具栏**
 
 ```iframe
 /demo?name=/getting-started/element-toolbar
 ```
+
+# 组件
+
+## smooth-markdown
+
+**属性**
+
+| 属性名 | 类型 | 说明 | 默认值 | 备注 |
+| - | - | - | - | - |
+| locale | string | 语言 | en | 和加载的语言包有关 |
+| mode | string | 模式 | editor\|viewer | editor,viewer,toc以\|相连，如'editor\|viewer  |
+| plugins | Array | 插件列表 | [] | - |
+| readonly | boolean | 是否只读 | false | - |
+
+**方法**
+
+| 方法 | 说明 | 备注 |
+| - | - | - |
+| getContext(): Context | 获取上下文 | - |
+| setContext(key, val) <br> setContext(key, subkey, val) | 设置上下文 | - |
+
+**插槽**
+
+| 插槽名 | 说明 |
+| - | - |
+| toolbar | 工具栏 |
+| toc | 目录 |
+
+## simple-toc
+
+**属性**
+无
+
+**方法**
+无
+
+## vuetify-toolbar
+
+基于vuetify 3的工具栏
+
+**属性**
+| 属性名 | 类型 | 说明 | 默认值 | 备注 |
+| - | - | - | - | - |
+| items | (string \| Component \| VNode \| () => VNode \| ToolbarItem)[] | 工具栏项列表 | [...] |  |
+
+**items的元素说明**
+- string 指工具栏预定义项的名称，如"sub", "sup"等等。
+- Component 自定义组件
+- VNode JSX
+- () => VNode 返回JSX的函数
+- ToolbarItem 自定义按钮, 如{ icon: 'mdi-format-underline', tip: 'underline', cmd: 'underline' }
+
+**ToolbarItem 自定义按钮**
+``` javascript
+interface ToolbarItem {
+  name?: string                      // 名称 
+  icon?: string | (() => string)     // 图标
+  tip?: string | (() => string)      // 提示，鼠标悬停在按钮上时显示的文字
+  cmd?: string                       // 命令
+  exec?: () => void                  // 自定义点击时执行的方法, 有cmd则不需要exec, 两者都有exec优先
+}
+```
+如:
+``` javascript
+{
+  icon: 'mdi-format-underline',
+  tip: 'underline',
+  cmd: 'underline'
+}
+```
+
+**预定义项**
+
+| 名称 | 说明 |
+| - | - |
+| divider | 分割符 |
+| spacer | 空白 |
+| undo | 撤消 |
+| redo | 重做 |
+| bold | 粗体 |
+| italic | 斜体 |
+| strike | 删除线 |
+| underline | 下划线 |
+| subscript | 下标 |
+| superscript | 上标 |
+| mark | 标记 |
+| heading1 | 1号标题 |
+| heading2 | 2号标题 |
+| heading3 | 3号标题 |
+| heading4 | 4号标题 |
+| heading5 | 5号标题 |
+| heading6 | 6号标题 |
+| bulletedList | 有序列表 |
+| numberedList | 无序列表 |
+| quote | 引用 |
+| inlineCode | 行内代码 |
+| codeBlock | 代码块 |
+| horizontalRule | 水平线 |
+| image | 图片 |
+| link | 链接 |
+| table | 表格 |
+| preview | 打开/关闭预览 |
+
+**示例**
+```iframe
+/demo?name=/vuetify-toolbar/custom-toolbar-items
+```
+
+## element-toolbar
+
+基于element plus的工具栏
+
+**属性**
+
+| 属性名 | 类型 | 说明 | 默认值 | 备注 |
+| - | - | - | - | - |
+| items | (string \| Component \| VNode \| () => VNode \| ToolbarItem)[] | 工具栏项列表 | [...] |  |
+
+**items的元素**
+- string 指工具栏预定义项的名称，如"sub", "sup"等等。
+- Component 自定义组件
+- VNode JSX
+- () => VNode 返回JSX的函数
+- ToolbarItem 自定义按钮, 如{ icon: 'mdi-format-underline', tip: 'underline', cmd: 'underline' }
+
+**ToolbarItem 自定义按钮**
+``` javascript
+interface ToolbarItem {
+  name?: string                      // 名称 
+  icon?: string | (() => string)     // 图标
+  tip?: string | (() => string)      // 提示，鼠标悬停在按钮上时显示的文字
+  cmd?: string                       // 命令
+  exec?: () => void                  // 自定义点击时执行的方法, 有cmd则不需要exec, 两者都有exec优先
+}
+```
+如:
+``` javascript
+{
+  icon: 'mdi-format-underline',
+  tip: 'underline',
+  cmd: 'underline'
+}
+```
+
+**预定义项**
+
+| 名称 | 说明 |
+| - | - |
+| divider | 分割符 |
+| spacer | 空白 |
+| undo | 撤消 |
+| redo | 重做 |
+| bold | 粗体 |
+| italic | 斜体 |
+| strike | 删除线 |
+| underline | 下划线 |
+| subscript | 下标 |
+| superscript | 上标 |
+| mark | 标记 |
+| heading1 | 1号标题 |
+| heading2 | 2号标题 |
+| heading3 | 3号标题 |
+| heading4 | 4号标题 |
+| heading5 | 5号标题 |
+| heading6 | 6号标题 |
+| bulletedList | 有序列表 |
+| numberedList | 无序列表 |
+| quote | 引用 |
+| inlineCode | 行内代码 |
+| codeBlock | 代码块 |
+| horizontalRule | 水平线 |
+| image | 图片 |
+| link | 链接 |
+| table | 表格 |
+| preview | 打开/关闭预览 |
+
+**示例**
+```iframe
+/demo?name=/element-toolbar/custom-toolbar-items
+```
+
+# 上下文
+
+**获取/设置上下文**
+
+组件方法
+- getContext()
+- setContext(key: string, val: any)
+- setContext(key: string, subkey: string, val: any)
+
+在slot中，可以使用inject, 如
+``` javascript
+  import type { FnGetContext, FnSetContext } from '@smooth-markdown/core'
+
+  const getContext = inject<FnGetContext>('getContext')
+  const getContext = inject<FnSetContext>('setContext')
+```
+
+**Context对像详情**
+
+| 对象 | 属性名/方法名 | 类型 | 说明 | 
+| - | - | - | - |
+| | doc | Ref<string> | 内容 |
+|   | mode | Ref<string> | 模式, 如`editor|viewer`, 值为editor, viewer, toc三个值的排列组合，以\|分隔 |
+|   | props | SmoothMarkdownProps | 传递给组件的参数 |
+| lang <br> 语言 | t |  Function(path: string, varMap: VariableMap = {}) | 翻译, path:消息路径, varMap: 变量映射 |
+|   | print | Function() | 打印所有消息 |
+|   | setLocale | Function(locale: string) | 设置当前语言 |
+|   | setFallbackLocale | Function(locale: string) | 设置回退语言，当某条消息找不到所需的翻译数据时，则使用回退语言 |
+| eventBus <br> 事件巴士 | on | Function(src: string, event: string, func: Function) | 绑定事件处理函数 |
+|   | off | Function(src: string, event: string, func: Function) | 解绑事件处理函数 |
+|   | fire | Function(src: string, event: string, detail: Any) | 发布事件消息 |
+|   | beginDebug | Function() | 开始打印事件信息 |
+|   | endDebug | Function() | 结束打印事件信息 |
+| root <br> 根元素(整个组件最外层的容器) | el | HTMLElement \| null | DOM元素 |
+|   | selector | string | css选择器 |
+|   | style | {[key: string]: string} | 样式 |
+| viewer <br> 预览区域 | el | HTMLElement \| null | DOM元素 |
+|   | selector | string | css选择器 |
+|   | containerEl | HTMLElement \| null | 容器DOM元素 |
+|   | containerSelector | string | 容器的css选择器 |
+|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
+|   | markdownIt | MarkdownIt | markdown-it的实例 |
+| editor <br> 编辑区域 | el | HTMLElement \| null | DOM元素 |
+|   | selector | string | css选择器 |
+|   | containerEl | HTMLElement \| null | 容器DOM元素 |
+|   | containerSelector | string | 容器的css选择器 |
+|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
+|   | insertOrReplace | Function(text: string, newLine: boolean = false) | 插入或替换 <br> newLine: 是否强制新行 |
+|   | command | Function(cmd: string, params: Object = {}) | 向编辑器发送命令 |
+|   | scrollToLine | Function(lineNum: number) | 跳转到某一行 |
+|   | moveLinesTo | Function(lineBegin: number, lineEnd: number, lineDes: number) | 将行移动至 |
+|   | cmEditorView | EditorView | CodeMirror实例 |
+| toc <br> 目录 | el | HTMLElement \| null | DOM元素 |
+|   | selector | string | css选择器 |
+|   | containerEl | HTMLElement \| null | 容器DOM元素 |
+|   | containerSelector | string | 容器的css选择器 |
+|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
+| header <br> 头部区域(工具栏) | el | HTMLElement \| null | DOM元素 |
+|   | selector | string | css选择器 |
+| body <br> 正文区域(内容编辑及预览区域) | el | HTMLElement \| null | DOM元素 |
+|   | selector | string | css选择器 |
+
+**context.editor.insertOrReplace(text: string, newLine: boolean = false)**
+如果处于选中文字状态，则替换。反之，则插入。
+text: 待插入/替换的文本, 如果包含"<-->"，"<-->"表示插入后光标所在的位置，或者在选中时，将"<-->"替换为选中的文字
+newLine: 是否新起一行再插入/替换, 默认为false
+
+**context.editor.command(cmd: string, params: Object = {})**
+向编辑器发送命令
+
+可使用命令如下所示:
+
+| 命令 | 说明 | 参数 |
+| - | - | - |
+| undo | 撤消 | |
+| redo | 重做 | |
+| bold | 粗体 | |
+| italic | 斜体 | |
+| strikethrough | 删除线 | |
+| underline | 下划线 | |
+| subscript | 下标 | |
+| superscript | 上标 | |
+| mark | 标记 | |
+| heading1 | 1号标题 | |
+| heading2 | 2号标题 | |
+| heading3 | 3号标题 | |
+| heading4 | 4号标题 | |
+| heading5 | 5号标题 | |
+| heading6 | 6号标题 | |
+| bulletedList | 有序列表 | |
+| numberedList | 无序列表 | |
+| quote | 引用 | |
+| inlineCode | 行内代码 | |
+| codeBlock | 代码块 | |
+| horizontalRule | 水平线 | |
+| image | 图片 | {title: '标题', url: '地址'} |
+| link | 链接 |  {title: '标题', url: '地址'} |
+| table | 表格 | {row: 行数, col: 列数 } |
+
 
 # 插件
 
@@ -165,7 +443,7 @@ OverlayScrollbarsProps的选项如下
 ## autoHeight
 
 
-使其自适应其内容高度，不出现滚动条。
+使其自适应其内容高度，不出现垂直滚动条。
 
 ```iframe
 /demo?name=/plugins/auto-height
@@ -399,275 +677,6 @@ pasteImage(fnUpload: FnUpload)
 
 **属性**
 无
-
-# 组件
-
-## smooth-markdown
-
-**属性**
-
-| 属性名 | 类型 | 说明 | 默认值 | 备注 |
-| - | - | - | - | - |
-| locale | string | 语言 | en | 和加载的语言包有关 |
-| mode | string | 模式 | editor\|viewer | editor,viewer,toc'以\|相连，如'editor\|viewer  |
-| plugins | Array | 插件列表 | [] | - |
-| readonly | boolean | 是否只读 | false | - |
-
-**方法**
-
-| 方法 | 说明 | 备注 |
-| - | - | - |
-| getContext(): Context | 获取上下文 | - |
-| setContext(key, val) <br> setContext(key, subkey, val) | 设置上下文 | - |
-
-**插槽**
-
-| 插槽名 | 说明 |
-| - | - |
-| toolbar | 工具栏 |
-| toc | 目录 |
-
-## simple-toc
-
-**属性**
-无
-
-**方法**
-无
-
-## vuetify-toolbar
-
-基于vuetify 3的工具栏
-
-**属性**
-| 属性名 | 类型 | 说明 | 默认值 | 备注 |
-| - | - | - | - | - |
-| items | (string \| Component \| VNode \| () => VNode \| ToolbarItem)[] | 工具栏项列表 | [...] |  |
-
-**items的元素说明**
-- string 指工具栏预定义项的名称，如"sub", "sup"等等。
-- Component 自定义组件
-- VNode JSX
-- () => VNode 返回JSX的函数
-- ToolbarItem 自定义按钮, 如{ icon: 'mdi-format-underline', tip: 'underline', cmd: 'underline' }
-
-**ToolbarItem 自定义按钮**
-``` javascript
-interface ToolbarItem {
-  name?: string                      // 名称 
-  icon?: string | (() => string)     // 图标
-  tip?: string | (() => string)      // 提示，鼠标悬停在按钮上时显示的文字
-  cmd?: string                       // 命令
-  exec?: () => void                  // 自定义点击时执行的方法, 有cmd则不需要exec, 两者都有exec优先
-}
-```
-如:
-``` javascript
-{
-  icon: 'mdi-format-underline',
-  tip: 'underline',
-  cmd: 'underline'
-}
-```
-
-**预定义项**
-
-| 名称 | 说明 |
-| - | - |
-| divider | 分割符 |
-| spacer | 空白 |
-| undo | 撤消 |
-| redo | 重做 |
-| bold | 粗体 |
-| italic | 斜体 |
-| strike | 删除线 |
-| underline | 下划线 |
-| subscript | 下标 |
-| superscript | 上标 |
-| mark | 标记 |
-| heading1 | 1号标题 |
-| heading2 | 2号标题 |
-| heading3 | 3号标题 |
-| heading4 | 4号标题 |
-| heading5 | 5号标题 |
-| heading6 | 6号标题 |
-| bulletedList | 有序列表 |
-| numberedList | 无序列表 |
-| quote | 引用 |
-| inlineCode | 行内代码 |
-| codeBlock | 代码块 |
-| horizontalRule | 水平线 |
-| image | 图片 |
-| link | 链接 |
-| table | 表格 |
-| preview | 打开/关闭预览 |
-
-## element-toolbar
-
-基于element plus的工具栏
-
-**属性**
-
-| 属性名 | 类型 | 说明 | 默认值 | 备注 |
-| - | - | - | - | - |
-| items | (string \| Component \| VNode \| () => VNode \| ToolbarItem)[] | 工具栏项列表 | [...] |  |
-
-**items的元素**
-- string 指工具栏预定义项的名称，如"sub", "sup"等等。
-- Component 自定义组件
-- VNode JSX
-- () => VNode 返回JSX的函数
-- ToolbarItem 自定义按钮, 如{ icon: 'mdi-format-underline', tip: 'underline', cmd: 'underline' }
-
-**ToolbarItem 自定义按钮**
-``` javascript
-interface ToolbarItem {
-  name?: string                      // 名称 
-  icon?: string | (() => string)     // 图标
-  tip?: string | (() => string)      // 提示，鼠标悬停在按钮上时显示的文字
-  cmd?: string                       // 命令
-  exec?: () => void                  // 自定义点击时执行的方法, 有cmd则不需要exec, 两者都有exec优先
-}
-```
-如:
-``` javascript
-{
-  icon: 'mdi-format-underline',
-  tip: 'underline',
-  cmd: 'underline'
-}
-```
-
-**预定义项**
-
-| 名称 | 说明 |
-| - | - |
-| divider | 分割符 |
-| spacer | 空白 |
-| undo | 撤消 |
-| redo | 重做 |
-| bold | 粗体 |
-| italic | 斜体 |
-| strike | 删除线 |
-| underline | 下划线 |
-| subscript | 下标 |
-| superscript | 上标 |
-| mark | 标记 |
-| heading1 | 1号标题 |
-| heading2 | 2号标题 |
-| heading3 | 3号标题 |
-| heading4 | 4号标题 |
-| heading5 | 5号标题 |
-| heading6 | 6号标题 |
-| bulletedList | 有序列表 |
-| numberedList | 无序列表 |
-| quote | 引用 |
-| inlineCode | 行内代码 |
-| codeBlock | 代码块 |
-| horizontalRule | 水平线 |
-| image | 图片 |
-| link | 链接 |
-| table | 表格 |
-| preview | 打开/关闭预览 |
-
-# 上下文
-
-**获取/设置上下文**
-
-组件方法
-- getContext()
-- setContext(key: string, val: any)
-- setContext(key: string, subkey: string, val: any)
-
-在slot中，可以使用inject, 如
-``` javascript
-  import type { FnGetContext, FnSetContext } from '@smooth-markdown/core'
-
-  const getContext = inject<FnGetContext>('getContext')
-  const getContext = inject<FnSetContext>('setContext')
-```
-
-**Context对像详情**
-
-| 对象 | 属性名/方法名 | 类型 | 说明 | 
-| - | - | - | - |
-| | doc | Ref<string> | 内容 |
-|   | mode | Ref<string> | 模式, 如`editor|viewer`, 值为editor, viewer, toc三个值的排列组合，以\|分隔 |
-|   | props | SmoothMarkdownProps | 传递给组件的参数 |
-| lang <br> 语言 | t |  Function(path: string, varMap: VariableMap = {}) | 翻译, path:消息路径, varMap: 变量映射 |
-|   | print | Function() | 打印所有消息 |
-|   | setLocale | Function(locale: string) | 设置当前语言 |
-|   | setFallbackLocale | Function(locale: string) | 设置回退语言，当某条消息找不到所需的翻译数据时，则使用回退语言 |
-| eventBus <br> 事件巴士 | on | Function(src: string, event: string, func: Function) | 绑定事件处理函数 |
-|   | off | Function(src: string, event: string, func: Function) | 解绑事件处理函数 |
-|   | fire | Function(src: string, event: string, detail: Any) | 发布事件消息 |
-|   | beginDebug | Function() | 开始打印事件信息 |
-|   | endDebug | Function() | 结束打印事件信息 |
-| root <br> 根元素(整个组件最外层的容器) | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | style | {[key: string]: string} | 样式 |
-| viewer <br> 预览区域 | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | containerEl | HTMLElement \| null | 容器DOM元素 |
-|   | containerSelector | string | 容器的css选择器 |
-|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
-|   | markdownIt | MarkdownIt | markdown-it的实例 |
-| editor <br> 编辑区域 | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | containerEl | HTMLElement \| null | 容器DOM元素 |
-|   | containerSelector | string | 容器的css选择器 |
-|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
-|   | insertOrReplace | Function(text: string, newLine: boolean = false) | 插入或替换 <br> newLine: 是否强制新行 |
-|   | command | Function(cmd: string, params: Object = {}) | 向编辑器发送命令 |
-|   | scrollToLine | Function(lineNum: number) | 跳转到某一行 |
-|   | moveLinesTo | Function(lineBegin: number, lineEnd: number, lineDes: number) | 将行移动至 |
-|   | cmEditorView | EditorView | CodeMirror实例 |
-| toc <br> 目录 | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | containerEl | HTMLElement \| null | 容器DOM元素 |
-|   | containerSelector | string | 容器的css选择器 |
-|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
-| header <br> 头部区域(工具栏) | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-| body <br> 正文区域(内容编辑及预览区域) | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-
-**context.editor.insertOrReplace(text: string, newLine: boolean = false)**
-如果处于选中文字状态，则替换。反之，则插入。
-text: 待插入/替换的文本, 如果包含"<-->"，"<-->"表示插入后光标所在的位置，或者在选中时，将"<-->"替换为选中的文字
-newLine: 是否新起一行再插入/替换, 默认为false
-
-**context.editor.command(cmd: string, params: Object = {})**
-向编辑器发送命令
-
-可使用命令如下所示:
-
-| 命令 | 说明 | 参数 |
-| - | - | - |
-| undo | 撤消 | |
-| redo | 重做 | |
-| bold | 粗体 | |
-| italic | 斜体 | |
-| strikethrough | 删除线 | |
-| underline | 下划线 | |
-| subscript | 下标 | |
-| superscript | 上标 | |
-| mark | 标记 | |
-| heading1 | 1号标题 | |
-| heading2 | 2号标题 | |
-| heading3 | 3号标题 | |
-| heading4 | 4号标题 | |
-| heading5 | 5号标题 | |
-| heading6 | 6号标题 | |
-| bulletedList | 有序列表 | |
-| numberedList | 无序列表 | |
-| quote | 引用 | |
-| inlineCode | 行内代码 | |
-| codeBlock | 代码块 | |
-| horizontalRule | 水平线 | |
-| image | 图片 | {title: '标题', url: '地址'} |
-| link | 链接 |  {title: '标题', url: '地址'} |
-| table | 表格 | {row: 行数, col: 列数 } |
 
 # 自定义外观
 

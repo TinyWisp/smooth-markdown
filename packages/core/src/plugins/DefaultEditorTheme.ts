@@ -5,8 +5,8 @@ import type { Plugin } from '../core/types'
 export default function defaultEditorTheme(): Plugin {
   const codemirrorExt = githubLightInit({
       settings: {
-        lineHighlight: '#efefef',
-        fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace'
+        gutterBackground: '#f7f7f7',
+        fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace',
       },
       styles: [
         {tag: t.heading, color: 'steelblue', fontWeight: 'bold'},
@@ -14,7 +14,7 @@ export default function defaultEditorTheme(): Plugin {
         {tag: t.meta, color: 'sienna'},
         {tag: t.url, color: '#090'},
         {tag: t.quote, color: '#090'},
-        {tag: t.monospace, color: 'sienna'}
+        {tag: t.monospace, color: 'sienna'},
       ]
     })
 

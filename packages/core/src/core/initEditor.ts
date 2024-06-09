@@ -54,7 +54,7 @@ export function initEditor(getContext: FnGetContext, setContext: FnSetContext) {
       extensions: [
         ...pluginManager.getCmExtensions(),
         readonlyCompart.of(EditorState.readOnly.of(false)),
-        basicSetup,
+        minimalSetup,
         keymap.of([indentWithTab]),
         markdown(pluginManager.getCmMarkdownConfig()),
         EditorView.updateListener.of((viewUpdate) => {

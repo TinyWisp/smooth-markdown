@@ -1,5 +1,5 @@
 import type { Ref, ShallowRef } from 'vue'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import type { FnGetContext, FnSetContext, Heading, Plugin } from '../core/types'
 import { useActiveScroll } from '../use-active-scroll'
 import type { Token as MditToken } from 'markdown-it'
@@ -20,7 +20,7 @@ class TocSpyPlugin implements Plugin {
 
   constructor(uasOptions: Object) {
     this.uasOptions = uasOptions
-    this.headingList = ref([])
+    this.headingList = shallowRef([])
     this.activeIndex = ref(0)
   }
  

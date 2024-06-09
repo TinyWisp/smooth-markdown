@@ -250,8 +250,6 @@ const toolbarItemMap: ToolbarItemMap = {
         nparts.push('toc')
       }
       const nmode = nparts.join('|')
-      console.log('-----mode-----')
-      console.log(nmode)
       setMode(nmode)
     },
     tip: () => t('toolbar.toc')
@@ -293,7 +291,8 @@ const calcToolbarItems = computed<ToolbarItem[]>(() => {
       return
     }
 
-    if ('_isVue' in val) {
+
+    if (typeof (val as any).render === 'function') {
       items.push({
         name: 'component',
         comp: val

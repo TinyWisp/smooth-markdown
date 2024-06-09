@@ -32,7 +32,7 @@
             ></div>
           </element-wrapper>
         </div>
-        <div v-show="containerMap.toc" class="sm-toc-container" ref="tocContainer">
+        <div v-if="containerMap.toc" class="sm-toc-container" ref="tocContainer">
           <element-wrapper :wrapper-list="tocWrapperList">
             <div
               :data-uniq-id="tocUniqId"

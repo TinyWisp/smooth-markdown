@@ -3,14 +3,16 @@
     <smooth-markdown
       v-model="doc"
       mode="viewer|toc"
-      :plugins="plugins">
-    </smooth-markdown>
+      :plugins="plugins"
+      ref="sm"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { SmoothMarkdown } from '@smooth-markdown/core'
+import { ref, watch, shallowRef } from 'vue'
+import type { Ref, ShallowRef } from 'vue'
+import { SmoothMarkdown, SimpleToc, type Context, type FnGetContext } from '@smooth-markdown/core'
 import { customCodeBlockRenderer, defaultViewerTheme, markdownItPlugins, overlayScrollbars, customLinkAttrs, tocSpy } from '@smooth-markdown/core/plugins'
 import { CodeMirrorRenderer } from '@smooth-markdown/core/renderers'
 import mditMultimdTable from 'markdown-it-multimd-table'
@@ -36,16 +38,27 @@ const plugins = [
     return attrs
   })
 ]
+const sm: Ref<InstanceType<typeof SmoothMarkdown> | null> = ref(null)
+const context: Ref<Context | null> = ref(null)
+const getContext: ShallowRef<FnGetContext | null> = shallowRef(null)
+watch(sm, () => {
+  if (sm.value) {
+    getContext.value = sm.value.getContext
+  }
+}, {immediate: true})
+
 
 </script>
 
 <style scoped>
 .doc-container {
-  width: 1400px;
+  width: 100vw;
   height: 100vh;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 </style>
 
