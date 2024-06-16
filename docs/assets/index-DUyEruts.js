@@ -1,0 +1,1 @@
+import{r as l,s as n,o as t,c as u,u as r,S as p,h as m}from"./index-BvmNQ16b.js";const _={__name:"index",setup(c){const e=l(n),o=[m()];return(d,a)=>(t(),u(r(p),{modelValue:e.value,"onUpdate:modelValue":a[0]||(a[0]=s=>e.value=s),plugins:o},null,8,["modelValue"]))}};export{_ as default};

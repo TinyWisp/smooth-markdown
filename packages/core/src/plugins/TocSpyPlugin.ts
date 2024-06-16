@@ -1,7 +1,7 @@
-import type { Ref, ShallowRef } from 'vue'
+import { triggerRef, type Ref, type ShallowRef } from 'vue'
 import { computed, ref, shallowRef, watch } from 'vue'
 import type { FnGetContext, FnSetContext, Heading, Plugin } from '../core/types'
-import { useActiveScroll } from '../use-active-scroll'
+import { useActiveScroll } from 'vue-use-active-scroll'
 import type { Token as MditToken } from 'markdown-it'
 import { uniqId } from '../utils/util'
 
@@ -46,6 +46,7 @@ class TocSpyPlugin implements Plugin {
 
     this.uasSetActive = setActive
     setContext('toc', 'setActive', this.setActive.bind(this))
+    setContext('toc', 'recalc', this.recalc.bind(this))
     watch(activeIndex, () => {
       context.toc.activeIndex.value = activeIndex.value
     })
@@ -87,6 +88,10 @@ class TocSpyPlugin implements Plugin {
       const context = this.getContext!()
       context.editor.scrollToLine(lineNum)
     }
+  }
+
+  recalc() {
+    triggerRef(this.headingList)
   }
 }
 

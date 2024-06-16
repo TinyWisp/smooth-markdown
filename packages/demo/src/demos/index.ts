@@ -94,7 +94,7 @@ const demoMap: DemoMap = {
         code: () => import('./vuetify-toolbar/CustomToolbarItemsExample/index.vue?raw')
       },
       {
-        title: 'Bold.vue',
+        title: 'BoldButton.vue',
         code: () => import('./vuetify-toolbar/CustomToolbarItemsExample/BoldButton.vue?raw')
       }
     ]
@@ -109,60 +109,37 @@ const demoMap: DemoMap = {
         code: () => import('./element-toolbar/CustomToolbarItemsExample/index.vue?raw')
       },
       {
-        title: 'Bold.vue',
+        title: 'BoldButton.vue',
         code: () => import('./element-toolbar/CustomToolbarItemsExample/BoldButton.vue?raw')
       }
     ]
   },
 
-  '/examples/codemirror-theme': {
-    comp: () => import('./examples/CodeMirrorTheme/index.vue'),
+  '/examples/custom-size': {
+    comp: () => import('./examples/CustomSize.vue'),
     height: '500px',
     codeTabs: [
       {
         title: 'index.vue',
-        code: () => import('./examples/CodeMirrorTheme/index.vue?raw')
-      },
-      {
-        title: 'cnt.md',
-        code: () => import('./examples/CodeMirrorTheme/cnt.md?raw')
+        code: () => import('./examples/CustomSize.vue?raw')
       }
     ]
   },
 
-  '/examples/view-theme': {
-    comp: () => import('./examples/ViewTheme/index.vue'),
+  '/examples/extending-markdown-syntax': {
+    comp: () => import('./examples/ExtendingMarkdownSyntax/index.vue'),
     height: '500px',
     codeTabs: [
       {
         title: 'index.vue',
-        code: () => import('./examples/ViewTheme/index.vue?raw')
+        code: () => import('./examples/ExtendingMarkdownSyntax/index.vue?raw')
       },
       {
         title: 'cnt.md',
-        code: () => import('./examples/ViewTheme/cnt.md?raw')
-      },
-      {
-        title: 'theme.css',
-        code: () => import('./examples/ViewTheme/theme.css?raw')
+        code: () => import('./examples/ExtendingMarkdownSyntax/cnt.md?raw')
       }
     ]
   },
-
-  '/renders/hljs': {
-    comp: () => import('./renders/hljs/index.vue'),
-    height: '500px',
-    codeTabs: [
-      {
-        title: 'index.vue',
-        code: () => import('./renders/hljs/index.vue?raw')
-      },
-      {
-        title: 'cnt.md',
-        code: () => import('./renders/hljs/cnt.md?raw')
-      }
-    ],
-  }
 }
 
 export default demoMap

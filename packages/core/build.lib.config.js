@@ -69,7 +69,8 @@ const external = [
   /highlight.js/,
   /@lezer/,
   /mermaid/,
-  /@smooth-markdown/
+  /@smooth-markdown/,
+  /katex/
 ];
 
 // UMD/IIFE shared settings: output.globals

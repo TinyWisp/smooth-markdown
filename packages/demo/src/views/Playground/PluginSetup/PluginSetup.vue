@@ -89,27 +89,28 @@ import CustomCodeBlockRendererSetup from './CustomCodeBlockRendererSetup.vue'
 import { EditorView, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view'
 import { foldGutter } from '@codemirror/language'
 import CodeMirrorExtSetup from './CodeMirrorExtSetup.vue'
+import { t } from '@/docs'
 
 const plugins = reactive([
   {
     name: 'langZhCN',
     code: 'langZhCN()',
     val: () => langZhCN(),
-    desc: '中文支持',
+    desc: t('playground.langZhCN'),
     enabled: true
   },
   {
     name: 'langEn',
     code: 'langEn()',
     val: () => langEn(),
-    desc: '英文支持',
+    desc: t('playground.langEn'),
     enabled: true
   },
   {
     name: 'lang',
     code: 'lang({...})',
     val: () => lang(),
-    desc: '自定义语言包',
+    desc: t('playground.lang'),
     enabled: false,
   },
   {
@@ -117,7 +118,7 @@ const plugins = reactive([
     code: 'overlayScrollbars({...})',
     val: () => overlayScrollbars(),
     setup: OverlayScrollbarsSetup,
-    desc: '滚动条',
+    desc: t('playground.overlayScrollbars'),
     enabled: true,
     expand: false
   },
@@ -125,35 +126,35 @@ const plugins = reactive([
     name: 'affixToolbar',
     code: 'affixToolbar()',
     val: () => affixToolbar(),
-    desc: '固定工具栏',
+    desc: t('playground.affixToolbar'),
     enabled: true
   },
   {
     name: 'autoHeight',
     code: 'autoHeight()',
     val: () => autoHeight(),
-    desc: '自动高度',
+    desc: t('playground.affixToolbar'),
     enabled: false
   },
   {
     name: 'math',
     code: 'math()',
     val: () => math(),
-    desc: '公式',
+    desc: t('playground.math'),
     enabled: true
   },
   {
     name: 'tocSpy',
     code: 'tocSpy()',
     val: () => tocSpy(),
-    desc: 'table of contents',
+    desc: t('playground.tocSpy'),
     enabled: true
   },
   {
     name: 'syncScrollbars',
     code: 'syncScrollbars(...)',
     val: () => syncScrollbars(),
-    desc: 'sync the scrollbars',
+    desc: t('playground.syncScrollbars'),
     setup: SyncScrollbarsSetup,
     enabled: true,
     expand: false
@@ -162,14 +163,14 @@ const plugins = reactive([
     name: 'defaultEditorTheme',
     code: 'defaultEditorTheme()',
     val: () => defaultEditorTheme(),
-    desc: "the default theme of the editor",
+    desc: t('playground.defaultEditorTheme'),
     enabled: true
   },
   {
     name: 'defaultViewerTheme',
     code: 'defaultViewerTheme()',
     val: () => defaultViewerTheme(),
-    desc: "the default theme of the viewer",
+    desc: t('playground.defaultViewerTheme'),
     enabled: true
   },
   {
@@ -180,7 +181,7 @@ const plugins = reactive([
       mermaid: [MermaidRenderer],
       javascript: [CodeMirrorRenderer]
     }),
-    desc: "custom code block renderers",
+    desc: t('playground.customCodeBlockRenderer'),
     setup: CustomCodeBlockRendererSetup,
     enabled: true
   },
@@ -190,7 +191,7 @@ const plugins = reactive([
     val: () => pasteImage((file) => {
       return URL.createObjectURL(file)
     }),
-    desc: 'uploading ',
+    desc: t('playground.pasteImage'),
     enabled: true
   },
   {
@@ -207,7 +208,7 @@ const plugins = reactive([
       [footnote], 
       [mialert] 
     ]),
-    desc: 'loading markdown-it plugins',
+    desc: t('playground.markdownItPlugins'),
     setup: MarkdownItPluginsSetup,
     enabled: true
   },
@@ -215,7 +216,7 @@ const plugins = reactive([
     name: 'markdownItOptions',
     code: 'markdownItOptions({...})',
     val: () => markdownItOptions({}),
-    desc: 'setting markdown-it options',
+    desc: t('playground.markdownItOptions'),
     enabled: true
   },
   {
@@ -228,7 +229,7 @@ const plugins = reactive([
       highlightActiveLineGutter(),
       foldGutter()
     ]),
-    desc: 'loading codemirror extensions',
+    desc: t('playground.codemirrorExt'),
     setup: CodeMirrorExtSetup,
     enabled: true
   },
@@ -241,7 +242,7 @@ const plugins = reactive([
     val: () => handleImageClick((imgs, idx) => {
       alert(`images: [${imgs.map(item => item.src).join(',')}].\nthe index of the image you clicked: ${idx}`)
     }),
-    desc: 'handleImageClick',
+    desc: t('playground.handleImageClick'),
     enabled: true
   },
   {
@@ -258,6 +259,7 @@ const plugins = reactive([
 
       return attrs
     }),
+    desc: t('playground.customLinkAttrs'),
     enabled: true
   }
 ])

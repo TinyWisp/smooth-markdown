@@ -12,7 +12,7 @@ import { ref } from 'vue'
 import { SmoothMarkdown } from '@smooth-markdown/core'
 import { highlightCodeBlockInEditableArea } from '@smooth-markdown/core/plugins'
 import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
-import cnt from '@/utils/sample'
+import { sample as cnt } from '@/docs'
 
 const doc = ref(cnt)
 const plugins = [

@@ -1,6 +1,7 @@
 import type { MditLoadPlugin, Plugin } from '../core/types'
 import katex from 'katex'
 import mditMath from 'markdown-it-math'
+import 'katex/dist/katex.css'
 
 class MathPlugin implements Plugin {
   name: string = 'core-plugin-math'

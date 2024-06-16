@@ -45,6 +45,11 @@
           </div>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols="12" md="12">
+          <div class="empty"></div>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -54,7 +59,7 @@ import { ref } from 'vue'
 import { SmoothMarkdown, SimpleToc } from '@smooth-markdown/core'
 import PluginSetup from './PluginSetup/PluginSetup.vue'
 import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
-import cnt from '@/utils/sample'
+import { sample as cnt } from '@/docs'
 
 const modes = ['editor|viewer|toc', 'editor|viewer', 'toc|viewer', 'viewer|toc', 'viewer', 'editor']
 const langs = ['zh_CN', 'en']
@@ -80,5 +85,9 @@ function handlePluginsChanged() {
   width: 100vw;
   height: 100vh;
   overflow: auto;
+}
+.empty {
+  width: 100%;
+  height: 500px;
 }
 </style>

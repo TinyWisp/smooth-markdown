@@ -7,7 +7,7 @@
 import { ref } from 'vue'
 import { SmoothMarkdown } from '@smooth-markdown/core'
 import { autoHeight } from '@smooth-markdown/core/plugins'
-import cnt from '@/utils/sample'
+import { sample as cnt } from '@/docs'
 
 const doc = ref(cnt)
 const plugins = [autoHeight()]

@@ -18,7 +18,8 @@ import { CodeMirrorRenderer } from '@smooth-markdown/core/renderers'
 import mditMultimdTable from 'markdown-it-multimd-table'
 import mditBr from 'markdown-it-br'
 import IframeRenderer from '../components/IframeRenderer.vue'
-import manual from '../docs/manual.zh.md?raw'
+import { manual } from '@/docs'
+import { onMounted } from 'vue'
 
 const doc = ref(manual)
 const plugins = [
@@ -39,15 +40,24 @@ const plugins = [
   })
 ]
 const sm: Ref<InstanceType<typeof SmoothMarkdown> | null> = ref(null)
-const context: Ref<Context | null> = ref(null)
-const getContext: ShallowRef<FnGetContext | null> = shallowRef(null)
-watch(sm, () => {
+
+function delay(ms: number) {
+  return new Promise(res => setTimeout(res, ms))
+} 
+
+function recalcTocPositions() {
   if (sm.value) {
-    getContext.value = sm.value.getContext
+    const context = sm.value.getContext()
+    context.toc.recalc()
   }
-}, {immediate: true})
+}
 
-
+onMounted(async () => {
+  for (let i=0; i<20; i++) {
+    await delay(500);
+    recalcTocPositions()
+  }
+});
 </script>
 
 <style scoped>

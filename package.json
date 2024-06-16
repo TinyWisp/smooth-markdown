@@ -35,6 +35,7 @@
     "@codemirror/state": "^6.2.1",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.12.0",
+    "@iframe-resizer/vue": "^5.0.2",
     "@types/katex": "^0.16.7",
     "@types/markdown-it": "^13.0.7",
     "codemirror": "^6.0.1",

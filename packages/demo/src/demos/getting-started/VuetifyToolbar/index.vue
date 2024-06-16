@@ -13,7 +13,7 @@ import { SmoothMarkdown } from '@smooth-markdown/core'
 import { langEn } from '@smooth-markdown/core/plugins'
 import { classicSetup } from '@smooth-markdown/presets'
 import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
-import cnt from '@/utils/sample'
+import { sample as cnt } from '@/docs'
 
 const doc = ref(cnt)
 const mode = ref('editor|viewer')
