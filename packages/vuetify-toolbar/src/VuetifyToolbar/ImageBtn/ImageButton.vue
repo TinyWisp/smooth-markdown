@@ -5,7 +5,7 @@
     color="white"
     class="sm-toolbar-button"
   >
-    <v-icon small color="grey darken-1">mdi-image</v-icon>
+    <v-icon small color="grey darken-1" :icon="mdiImage"></v-icon>
 
     <!-- the network image dialog -->
     <insert-network-image-dialog
@@ -42,12 +42,13 @@ import type { PropType } from 'vue'
 import type { FnUpload } from './types'
 import type { Context } from '@smooth-markdown/core'
 import InsertNetworkImageDialog from './InsertNetworkImageDialog.vue'
+import { mdiImage } from '@mdi/js'
 
 export default defineComponent({
   setup() {
     const getContext = inject<() => Context>('getContext')
     const context = (getContext!)()
-    const { t } = context.lang
+    const { t } = context.lang!
     const { command } = context.editor
 
     return { command, t }
@@ -59,6 +60,11 @@ export default defineComponent({
     fnUploadImage: {
       type: Function as PropType<FnUpload>,
       required: false,
+    }
+  },
+  data: function() {
+    return {
+      mdiImage
     }
   },
   methods: {

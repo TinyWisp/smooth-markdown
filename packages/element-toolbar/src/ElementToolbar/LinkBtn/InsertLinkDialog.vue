@@ -17,10 +17,8 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-space>
-        <el-button type="info" @click="hide()"> {{ t('insertLinkDialog.cancel') }} </el-button>
-        <el-button type="primary" @click="ok()"> {{ t('insertLinkDialog.ok') }} </el-button>
-      </el-space>
+      <el-button @click="hide()"> {{ t('insertLinkDialog.cancel') }} </el-button>
+      <el-button type="primary" @click="ok()"> {{ t('insertLinkDialog.ok') }} </el-button>
     </template>
   </el-dialog>
 </template>

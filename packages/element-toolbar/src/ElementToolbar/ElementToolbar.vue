@@ -24,8 +24,7 @@
           text
         >
           <template v-slot:icon>
-            <i v-if="typeof item.icon === 'string'" :class="item.icon"></i>
-            <i v-else-if="typeof item.icon === 'function'" :class="item.icon()"></i>
+            <mdi-js-icon :path="typeof item.icon === 'function' ? item.icon() : item.icon!"></mdi-js-icon>
           </template>
         </el-button>
       </el-tooltip>
@@ -42,6 +41,32 @@ import ImageBtn from './ImageBtn';
 import LinkBtn from './LinkBtn';
 import TableBtn from './TableBtn';
 import type { FnUpload } from './ImageBtn/types'
+import MdiJsIcon from './MdiJsIcon.vue'
+import {
+  mdiUndo,
+  mdiRedo,
+  mdiFormatBold,
+  mdiFormatItalic,
+  mdiFormatStrikethrough,
+  mdiFormatUnderline,
+  mdiFormatSubscript,
+  mdiFormatSuperscript,
+  mdiFormatColorHighlight,
+  mdiFormatHeader1,
+  mdiFormatHeader2,
+  mdiFormatHeader3,
+  mdiFormatHeader4,
+  mdiFormatHeader5,
+  mdiFormatHeader6,
+  mdiFormatListBulleted,
+  mdiFormatListNumbered,
+  mdiFormatQuoteClose,
+  mdiCodeTags,
+  mdiMinus,
+  mdiEyeOffOutline,
+  mdiEyeOutline,
+  mdiTextBoxOutline
+} from '@mdi/js'
 
 export interface ElementToolbarProps {
   items?: (string | Component | VNode | (() => VNode))[],
@@ -63,6 +88,7 @@ const { t } = context.lang!
 const { command } = context.editor
 const { getMode, setMode } = context
 
+
 const toolbarItemMap: ToolbarItemMap = {
   divider: {
     name: 'divider',
@@ -72,121 +98,121 @@ const toolbarItemMap: ToolbarItemMap = {
   },
   undo: {
     name: 'undo',
-    icon: 'mdi mdi-undo',
+    icon: mdiUndo,
     cmd: 'undo',
     tip: () => t('toolbar.undo')
   },
   redo: {
     name: 'redo',
-    icon: 'mdi mdi-redo',
+    icon: mdiRedo,
     cmd: 'redo',
     tip: () => t('toolbar.redo')
   },
   bold: {
     name: 'bold',
-    icon: 'mdi mdi-format-bold',
+    icon: mdiFormatBold,
     cmd: 'bold',
     tip: () => t('toolbar.bold')
   },
   italic: {
     name: 'italic',
-    icon: 'mdi mdi-format-italic',
+    icon: mdiFormatItalic,
     cmd: 'italic',
     tip: () => t('toolbar.italic')
   },
   strikethrough: {
     name: 'strikethrough',
-    icon: 'mdi mdi-format-strikethrough',
+    icon: mdiFormatStrikethrough,
     cmd: 'strikethrough',
     tip: () => t('toolbar.strikethrough')
   },
   underline: {
     name: 'underline',
-    icon: 'mdi mdi-format-underline',
+    icon: mdiFormatUnderline,
     cmd: 'underline',
     tip: () => t('toolbar.underline')
   },
   subscript: {
     name: 'subscript',
-    icon: 'mdi mdi-format-subscript',
+    icon: mdiFormatSubscript,
     cmd: 'subscript',
     tip: () => t('toolbar.subscript')
   },
   superscript: {
     name: 'superscript',
-    icon: 'mdi mdi-format-superscript',
+    icon: mdiFormatSuperscript,
     cmd: 'superscript',
     tip: () => t('toolbar.superscript')
   },
   mark: {
     name: 'mark',
-    icon: 'mdi mdi-format-color-highlight',
+    icon: mdiFormatColorHighlight,
     cmd: 'mark',
     tip: () => t('toolbar.mark')
   },
   heading1: {
     name: 'heading1',
-    icon: 'mdi mdi-format-header-1',
+    icon: mdiFormatHeader1,
     cmd: 'heading1',
     tip: () => t('toolbar.heading1')
   },
   heading2: {
     name: 'heading2',
-    icon: 'mdi mdi-format-header-2',
+    icon: mdiFormatHeader2,
     cmd: 'heading2',
     tip: () => t('toolbar.heading2')
   },
   heading3: {
     name: 'heading3',
-    icon: 'mdi mdi-format-header-3',
+    icon: mdiFormatHeader3,
     cmd: 'heading3',
     tip: () => t('toolbar.heading3')
   },
   heading4: {
     name: 'heading4',
-    icon: 'mdi mdi-format-header-',
+    icon: mdiFormatHeader4,
     cmd: 'heading4',
     tip: () => t('toolbar.heading4')
   },
   heading5: {
     name: 'heading5',
-    icon: 'mdi mdi-format-header-5',
+    icon: mdiFormatHeader5,
     cmd: 'heading5',
     tip: () => t('toolbar.heading5')
   },
   heading6: {
     name: 'heading6',
-    icon: 'mdi mdi-format-header-6',
+    icon: mdiFormatHeader6,
     cmd: 'heading6',
     tip: () => t('toolbar.heading6')
   },
   bulletedList: {
     name: 'bulletedList',
-    icon: 'mdi mdi-format-list-bulleted',
+    icon: mdiFormatListBulleted,
     cmd: 'bulletedList',
     tip: () => t('toolbar.bulletedList')
   },
   numberedList: {
     name: 'numberedList',
-    icon: 'mdi mdi-format-list-numbered',
+    icon: mdiFormatListNumbered,
     cmd: 'numberedList',
     tip: () => t('toolbar.numberedList')
   },
   quote: {
     name: 'quote',
-    icon: 'mdi mdi-format-quote-close',
+    icon: mdiFormatQuoteClose,
     cmd: 'quote',
     tip: () => t('toolbar.quote')
   },
   codeBlock: {
     name: 'codeBlock',
-    icon: 'mdi mdi-code-tags',
+    icon: mdiCodeTags,
     cmd: 'codeBlock',
     tip: () => t('toolbar.codeBlock')
   },
   horizontalRule: {
     name: 'horizontalRule',
-    icon: 'mdi mdi-minus',
+    icon: mdiMinus,
     cmd: 'horizontalRule',
     tip: () => t('toolbar.horizontalRule')
   },
@@ -210,8 +236,8 @@ const toolbarItemMap: ToolbarItemMap = {
       const mode = getMode()
       const parts = mode.split('|')
       return parts.includes('viewer')
-              ? 'mdi mdi-eye-off-outline'
-              : 'mdi mdi-eye-outline'
+              ? mdiEyeOffOutline
+              : mdiEyeOutline
     },
     exec: () => {
       const mode = getMode()
@@ -238,7 +264,7 @@ const toolbarItemMap: ToolbarItemMap = {
   },
   toc: {
     name: 'toc',
-    icon: 'mdi mdi-text-box-outline',
+    icon: mdiTextBoxOutline,
     exec: () => {
       const mode = getMode()
       const parts = mode.split('|')
@@ -255,8 +281,6 @@ const toolbarItemMap: ToolbarItemMap = {
     tip: () => t('toolbar.toc')
   }
 }
-
-
 
 const calcToolbarItems = computed<ToolbarItem[]>(() => {
   const items: ToolbarItem[] = []
@@ -332,7 +356,7 @@ function clickToolbarButton (item: ToolbarItem) {
   flex-shrink: 1;
   flex-grow: 1;
 }
-:deep(.el-button + .el-button) {
+.toolbar > :deep(.el-button + .el-button) {
   margin-left: 0;
 }
 </style>

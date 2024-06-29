@@ -1,7 +1,7 @@
-# 快速开始
+# 简介
 
 smooth-markdown是一个基于vue 3的markdown编辑器。
-它拥有较强的扩展机制，不论是markdown语法，编辑操作，还是外观上，都非常易于扩展。
+它拥有较强的扩展机制，不论是markdown语法，编辑操作，还是外观上，都很易于扩展。
 
 | 包  | 状态  | 说明 |
 | - | - | - |
@@ -10,16 +10,10 @@ smooth-markdown是一个基于vue 3的markdown编辑器。
 | @smooth-markdown/element-toolbar | [![npm](https://img.shields.io/npm/v/@smooth-markdown/element-toolbar)](https://www.npmjs.com/package/@smooth-markdown/element-toolbar) | 基于element plus的工具栏 |
 | @smooth-markdown/presets | [![npm](https://img.shields.io/npm/v/@smooth-markdown/presets)](https://www.npmjs.com/package/@smooth-markdown/presets) | 一些插件合集的预设 |
 
-**使用基于vuetify的工具栏**
+**安装依赖**
 
-```iframe
-/demo?name=/getting-started/vuetify-toolbar
-```
-
-**使用基于element-plus的工具栏**
-
-```iframe
-/demo?name=/getting-started/element-toolbar
+```bash
+npm install --legacy-peer-deps @smooth-markdown/core @smooth-markdown/presets @smooth-markdown/element-toolbar @smooth-markdown/vuetify-toolbar
 ```
 
 # 示例
@@ -27,6 +21,18 @@ smooth-markdown是一个基于vue 3的markdown编辑器。
 ## 演练场
 
 [演练场](/playground?lang=zh_CN)
+
+## 使用基于element-plus的工具栏
+
+```iframe
+/demo?name=/getting-started/element-toolbar
+```
+
+## 使用基于vuetify的工具栏
+
+```iframe
+/demo?name=/getting-started/vuetify-toolbar
+```
 
 ## 自定义大小
 
@@ -41,7 +47,102 @@ smooth-markdown是一个基于vue 3的markdown编辑器。
 本组件使用markdown-it渲染，使用插件markdownItPlugins加载markdown-it的插件即可。
 
 ```iframe
-demo?name=/examples/extending-markdown-syntax
+/demo?name=/examples/extending-markdown-syntax
+```
+
+## 语言
+
+加载所需语言包插件，并将locale属性设置为所需的语言
+
+```iframe
+/demo?name=/plugins/lang-zh-cn
+```
+
+## 自定义语言
+
+使用插件lang
+
+```iframe
+/demo?name=/plugins/lang
+```
+
+## 自定义外观
+
+本组件的编辑器部分，基于codemirror 6, 使用codemirrorExt插件加载codemirror 6的主题扩展，即可改变外观。
+预览部分，直接加上css样式即可。
+
+前面的示例中，使用了`@smooth-markdown/presets`中的`classicSetup`。
+classicSetup是一系列插件的预设，它的代码如下:
+
+```javascript
+import {
+  markdownItPlugins,
+  overlayScrollbars,
+  math,
+  customCodeBlockRenderer,
+  defaultEditorTheme,
+  defaultViewerTheme,
+  tocSpy,
+  syncScrollbars,
+  highlightCodeBlocksInEditableArea,
+  codemirrorExt
+} from '@smooth-markdown/core/plugins'
+import { MermaidRenderer, KatexRenderer, CodeMirrorRenderer } from '@smooth-markdown/core/renderers'
+import type { Plugin } from '@smooth-markdown/core'
+import sup from 'markdown-it-sup'
+import sub from 'markdown-it-sub'
+import ins from 'markdown-it-ins'
+import br  from 'markdown-it-br'
+import mark from 'markdown-it-mark'
+import deflist from 'markdown-it-deflist'
+import taskLists from 'markdown-it-task-lists'
+import footnote from 'markdown-it-footnote'
+import mialert from 'markdown-it-alert'
+import { EditorView, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view'
+import { foldGutter } from '@codemirror/language'
+
+const classicSetup: Plugin[] = [
+  markdownItPlugins([
+    [ sup ],
+    [ sub ],
+    [ ins ],
+    [ br ],
+    [ mark ],
+    [ deflist ],
+    [ taskLists ],
+    [ footnote ],
+    [ mialert ]
+  ]),
+  customCodeBlockRenderer({
+    math: [KatexRenderer],
+    mermaid: [MermaidRenderer],
+    default: [CodeMirrorRenderer]
+  }),
+  codemirrorExt([
+    EditorView.lineWrapping,
+    lineNumbers(),
+    highlightActiveLine(),
+    highlightActiveLineGutter(),
+    foldGutter()
+  ]),
+  overlayScrollbars(),
+  math(),
+  defaultEditorTheme(),
+  defaultViewerTheme(),
+  tocSpy(),
+  syncScrollbars(),
+  highlightCodeBlocksInEditableArea()
+]
+
+export default classicSetup
+```
+
+在此示例中，复制classicSetup的代码，并去除defaultEditorTheme, defaultViewerTheme两个插件。
+使用codemirrorExt插件加载codemirror的主题扩展solarizedDark。
+并使用injectCss插件加载样式。
+
+```iframe
+/demo?name=/examples/custom-appearances
 ```
 
 # 组件
@@ -343,7 +444,6 @@ newLine: 是否新起一行再插入/替换, 默认为false
 | codemirrorExt | 加载codemirror扩展 |
 | defaultEditorTheme | 编辑区域默认样式 |
 | defaultViewerTheme | 预览区域默认样式 |
-| customViewerTheme | 自定义预览区域样式 |
 | injectCss | 插入css样式  |
 | customLinkAttrs | 自定义链接标签的属性 |
 | math | 公式的显示 |
@@ -624,22 +724,6 @@ codemirror(ext: CmExtension)
 **参数**
 无
 
-## customViewerTheme
-
-自定义域览区域样式
-
-**参数**
-```javascript
-customViewerTheme(css: string)
-```
-如:
-```javascript
-customViewerTheme(`
-  p { margin: 20px; }
-  table { margin: 20px; }
-`)
-```
-
 ## injectCss
 
 插入css样式, 可以使用如下选择器:
@@ -734,15 +818,3 @@ pasteImage(fnUpload: FnUpload)
 
 **属性**
 无
-
-# 自定义外观
-
-**CodeMirror主题**
-
-```iframe
-/demo?name=/examples/codemirror-theme
-```
-
-需要更多的主题，可查看下面的网址
-- https://uiwjs.github.io/react-codemirror/#/theme/home
-- https://github.com/craftzdog/cm6-themes

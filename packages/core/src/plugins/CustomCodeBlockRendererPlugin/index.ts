@@ -76,7 +76,7 @@ class CustomCodeBlockRendererPlugin implements Plugin {
 
   mditCodeRenderer(code: string, lang: string, langAttrs: string, lineBegin: number, lineEnd: number): string {
     const positivePos = lineBegin
-    const negativePos = this.lineCount - lineBegin
+    const negativePos = lineBegin - this.lineCount
 
     if (this.codeBlockMap.value[positivePos] && this.codeBlockMap.value[positivePos].lang === lang) {
       this.nextCodeBlockMap[positivePos] = this.codeBlockMap.value[positivePos]
@@ -97,8 +97,7 @@ class CustomCodeBlockRendererPlugin implements Plugin {
         langAttrs,
         lang,
         code,
-        id,
-        disableTeleport: false
+        id
       }
       this.nextCodeBlockMap[positivePos] = codeBlock
       this.nextCodeBlockMap[negativePos] = this.nextCodeBlockMap[positivePos]

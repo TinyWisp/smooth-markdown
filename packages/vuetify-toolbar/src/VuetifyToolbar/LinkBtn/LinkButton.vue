@@ -6,7 +6,7 @@
     class="sm-toolbar-button"
     @click="showLinkDialog"
   >
-    <v-icon small color="grey darken-1">mdi-link-variant</v-icon>
+    <v-icon small color="grey darken-1" :icon="mdiLinkVariant"></v-icon>
     <v-tooltip location="bottom" activator="parent">{{ t('toolbar.link') }}</v-tooltip>
 
     <insert-link-dialog
@@ -20,18 +20,24 @@
 import { defineComponent, inject } from 'vue'
 import type { Context } from '@smooth-markdown/core'
 import InsertLinkDialog from './InsertLinkDialog.vue'
+import { mdiLinkVariant } from '@mdi/js'
 
 export default defineComponent({
   setup() {
     const getContext = inject<() => Context>('getContext')
     const context = (getContext!)()
-    const { t } = context.lang
+    const { t } = context.lang!
     const { command } = context.editor
 
     return { command, t }
   },
   components: {
     InsertLinkDialog
+  },
+  data: function() {
+    return {
+      mdiLinkVariant
+    }
   },
   methods: {
     showLinkDialog() {

@@ -54,6 +54,11 @@ const route = useRoute()
 const name = route.query.name as string
 const demo = demoMap[name]
 
+if (!demo || !demo.comp) {
+  console.log('======================++++++++')
+  console.log(name)
+}
+
 const comp = defineAsyncComponent(demo.comp)
 const codeTabs = demo.codeTabs
 const activeIdx = ref(0)

@@ -2,7 +2,7 @@
   <el-dropdown @command="handleDropdownMenuCommand">
     <el-button text class="btn">
       <template #icon>
-        <i class="mdi mdi-image"></i>
+        <mdi-js-icon :path="mdiImage"></mdi-js-icon>
       </template>
     </el-button>
 
@@ -43,24 +43,31 @@ import type { PropType } from 'vue'
 import type { FnUpload } from './types'
 import type { Context } from '@smooth-markdown/core'
 import InsertNetworkImageDialog from './InsertNetworkImageDialog.vue'
+import MdiJsIcon from '../MdiJsIcon.vue'
+import { mdiImage } from '@mdi/js'
 
 export default defineComponent({
   setup() {
     const getContext = inject<() => Context>('getContext')
     const context = (getContext!)()
-    const { t } = context.lang
+    const { t } = context.lang!
     const { command } = context.editor
-    context.lang.print()
 
     return { command, t }
   },
   components: {
-    InsertNetworkImageDialog
+    InsertNetworkImageDialog,
+    MdiJsIcon
   },
   props: {
     fnUploadImage: {
       type: Function as PropType<FnUpload>,
       required: false,
+    }
+  },
+  data() {
+    return {
+      mdiImage
     }
   },
   methods: {

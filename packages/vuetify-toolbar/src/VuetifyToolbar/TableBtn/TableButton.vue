@@ -5,7 +5,7 @@
     color="white"
     class="sm-toolbar-button"
   >
-    <v-icon small color="grey darken-1">mdi-table-plus</v-icon>
+    <v-icon small color="grey darken-1" :icon="mdiTablePlus"></v-icon>
     <v-tooltip location="bottom" activator="parent">{{ t('toolbar.table') }}</v-tooltip>
 
     <!-- table -->
@@ -24,6 +24,7 @@
 import { defineComponent, inject } from 'vue'
 import type { Context } from '@smooth-markdown/core'
 import InsertTableBoard from './InsertTableBoard.vue'
+import { mdiTablePlus } from '@mdi/js'
 
 export default defineComponent({
   setup() {
@@ -39,6 +40,7 @@ export default defineComponent({
   },
   data: function () {
     return {
+      mdiTablePlus
     }
   },
   methods: {

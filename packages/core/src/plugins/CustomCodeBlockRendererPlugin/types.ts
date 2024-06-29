@@ -11,7 +11,6 @@ export interface CodeBlock {
   code: string
   lineBegin: number
   lineEnd: number
-  disableTeleport: boolean
   component?: Component
   componentProps?: {
     [key: string]: any

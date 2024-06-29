@@ -6,10 +6,13 @@
 <script setup>
 import { ref } from 'vue'
 import { SmoothMarkdown } from '@smooth-markdown/core'
-import { codemirrorExt } from '@smooth-markdown/core/plugins'
-import { vscodeDark} from '@uiw/codemirror-theme-vscode'
-import cnt from './cnt.md?raw'
+import { autoHeight } from '@smooth-markdown/core/plugins'
+import { classicSetup } from '@smooth-markdown/presets'
+import { sample as cnt } from '@/docs'
 
 const doc = ref(cnt)
-const plugins = [codemirrorExt(vscodeDark)]
+const plugins = [
+  ...classicSetup,
+  autoHeight()
+]
 </script>

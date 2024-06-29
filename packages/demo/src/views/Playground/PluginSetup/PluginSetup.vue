@@ -63,7 +63,6 @@ import {
   pasteImage,
   defaultEditorTheme,
   defaultViewerTheme,
-  customViewerTheme,
   markdownItPlugins,
   markdownItOptions,
   customLinkAttrs,

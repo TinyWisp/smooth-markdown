@@ -6,7 +6,9 @@
   >
     <template #reference>
       <el-button text>
-        <i class="mdi mdi-table-plus"></i>
+        <template #icon>
+          <mdi-js-icon :path="mdiTablePlus"></mdi-js-icon>
+        </template>
       </el-button>
     </template>
 
@@ -18,21 +20,25 @@
 import { defineComponent, inject } from 'vue'
 import type { Context } from '@smooth-markdown/core'
 import InsertTableBoard from './InsertTableBoard.vue'
+import MdiJsIcon from '../MdiJsIcon.vue'
+import { mdiTablePlus } from '@mdi/js'
 
 export default defineComponent({
   setup() {
     const getContext = inject<() => Context>('getContext')
     const context = (getContext!)()
-    const { t } = context.lang
+    const { t } = context.lang!
     const { command } = context.editor
 
     return { command, t }
   },
   components: {
-    InsertTableBoard
+    InsertTableBoard,
+    MdiJsIcon
   },
-  data: function () {
+  data() {
     return {
+      mdiTablePlus
     }
   },
   methods: {

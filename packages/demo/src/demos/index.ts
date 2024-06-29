@@ -46,71 +46,111 @@ const demoMap: DemoMap = {
     ]
   },
  
-
   '/plugins/custom-code-block-renderer': {
-    comp: () => import('./plugins/CustomCodeBlockRendererExample/index.vue'),
+    comp: () => import('./plugins/CustomCodeBlockRenderer/index.vue'),
     height: '500px',
     codeTabs: [
       {
         title: 'index.vue',
-        code: () => import('./plugins/CustomCodeBlockRendererExample/index.vue?raw')
+        code: () => import('./plugins/CustomCodeBlockRenderer/index.vue?raw')
       },
       {
         title: 'Echarts.vue',
-        code: () => import('./plugins/CustomCodeBlockRendererExample/Echarts.vue?raw')
+        code: () => import('./plugins/CustomCodeBlockRenderer/Echarts.vue?raw')
       },
       {
         title: 'ArtText.jsx',
-        code: () => import('./plugins/CustomCodeBlockRendererExample/ArtText.jsx?raw')
+        code: () => import('./plugins/CustomCodeBlockRenderer/ArtText.jsx?raw')
       },
       {
         title: 'Card.vue',
-        code: () => import('./plugins/CustomCodeBlockRendererExample/Card.vue?raw')
+        code: () => import('./plugins/CustomCodeBlockRenderer/Card.vue?raw')
       },
       {
         title: 'cnt.md',
-        code: () => import('./plugins/CustomCodeBlockRendererExample/cnt.md?raw')
+        code: () => import('./plugins/CustomCodeBlockRenderer/cnt.md?raw')
       }
     ]
   },
 
   '/plugins/auto-height': {
-    comp: () => import('./plugins/AutoHeightExample/index.vue'),
+    comp: () => import('./plugins/AutoHeight/index.vue'),
     height: 'auto',
     codeTabs: [
       {
         title: 'index.vue',
-        code: () => import('./plugins/AutoHeightExample/index.vue?raw')
+        code: () => import('./plugins/AutoHeight/index.vue?raw')
+      }
+    ]
+  },
+
+  '/examples/custom-appearances': {
+    comp: () => import('./examples/CustomAppearances/index.vue'),
+    height: '500px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./examples/CustomAppearances/index.vue?raw')
+      },
+      {
+        title: 'mySetup.js',
+        code: () => import('./examples/CustomAppearances/mySetup.js?raw')
+      },
+      {
+        title: 'viewer.css',
+        code: () => import('./examples/CustomAppearances/viewer.css?inline')
+      }
+    ]
+  },
+
+  '/plugins/lang-zh-cn': {
+    comp: () => import('./plugins/LangZhCN.vue'),
+    height: '500px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./plugins/LangZhCN.vue?raw')
+      }
+    ]
+  },
+
+  '/plugins/lang': {
+    comp: () => import('./plugins/Lang.vue'),
+    height: 'auto',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./plugins/Lang.vue?raw')
       }
     ]
   },
 
   '/vuetify-toolbar/custom-toolbar-items': {
-    comp: () => import('./vuetify-toolbar/CustomToolbarItemsExample/index.vue'),
+    comp: () => import('./vuetify-toolbar/CustomToolbarItems/index.vue'),
     height: 'auto',
     codeTabs: [
       {
         title: 'index.vue',
-        code: () => import('./vuetify-toolbar/CustomToolbarItemsExample/index.vue?raw')
+        code: () => import('./vuetify-toolbar/CustomToolbarItems/index.vue?raw')
       },
       {
         title: 'BoldButton.vue',
-        code: () => import('./vuetify-toolbar/CustomToolbarItemsExample/BoldButton.vue?raw')
+        code: () => import('./vuetify-toolbar/CustomToolbarItems/BoldButton.vue?raw')
       }
     ]
   },
 
   '/element-toolbar/custom-toolbar-items': {
-    comp: () => import('./element-toolbar/CustomToolbarItemsExample/index.vue'),
+    comp: () => import('./element-toolbar/CustomToolbarItems/index.vue'),
     height: 'auto',
     codeTabs: [
       {
         title: 'index.vue',
-        code: () => import('./element-toolbar/CustomToolbarItemsExample/index.vue?raw')
+        code: () => import('./element-toolbar/CustomToolbarItems/index.vue?raw')
       },
       {
         title: 'BoldButton.vue',
-        code: () => import('./element-toolbar/CustomToolbarItemsExample/BoldButton.vue?raw')
+        code: () => import('./element-toolbar/CustomToolbarItems/BoldButton.vue?raw')
       }
     ]
   },

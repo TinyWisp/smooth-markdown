@@ -34,5 +34,11 @@ watch([container, props], () => {
   overflow: hidden;
   border-radius: 0.45em;
   width: 100%;
+  height: auto;
+}
+.sm-math {
+  overflow: visible;
+  height: auto;
+  width: auto;
 }
 </style>

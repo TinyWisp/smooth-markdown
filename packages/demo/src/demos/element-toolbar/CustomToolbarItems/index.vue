@@ -12,6 +12,7 @@ import { onMounted, ref } from 'vue'
 import { SmoothMarkdown } from '@smooth-markdown/core'
 import ElementToolbar from '@smooth-markdown/element-toolbar'
 import BoldButton from './BoldButton.vue'
+import { mdiAccount } from '@mdi/js'
 
 const doc = ref('')
 const sm = ref(null)
@@ -33,7 +34,7 @@ const luckyButton = () => {
 
 const avatarButton = {
   name: 'avatar',
-  icon: 'mdi mdi-account',
+  icon: mdiAccount,
   tip: 'avatar',
   exec() {
     context.editor.command('image', {
