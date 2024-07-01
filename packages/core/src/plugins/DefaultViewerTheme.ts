@@ -197,7 +197,7 @@ const css = `
   `
 function defaultViewerTheme(): Plugin {
   return {
-    name: 'core-plugin-default-viewer-theme',
+    name: 'default-viewer-theme',
     css
   }
 }

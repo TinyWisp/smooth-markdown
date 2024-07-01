@@ -5,7 +5,7 @@ import type { Extension as CmExtension } from "@codemirror/state"
  * load a codemirror extension.
  */
 class CodeMirrorExtensionPlugin implements Plugin {
-  name: string = 'core-plugin-codemirror-extension'
+  name: string = 'codemirror-extension'
   cmExtensions : CmExtension[]
 
   constructor(ext: CmExtension) {

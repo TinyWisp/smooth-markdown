@@ -11,7 +11,7 @@ import CodeBlockRenderer from './CodeBlockRenderer.vue'
  * render a code block using a user defined component
  */
 class CustomCodeBlockRendererPlugin implements Plugin {
-  name: string = 'core-plugin-custom-code-block-renderer'
+  name: string = 'custom-code-block-renderer'
   mditCodeRendererMap: MditCodeRendererMap
   mditRendererRuleMap: MditRendererRuleMap
   langComponentMap: LangComponentMap

@@ -1,7 +1,7 @@
 import type { Plugin, MessageMap } from '../core/types'
 
 class LangPlugin implements Plugin {
-  name: string = 'core-plugin-lang'
+  name: string = 'lang'
   messageMap: MessageMap
 
   constructor(messageMap: MessageMap) {

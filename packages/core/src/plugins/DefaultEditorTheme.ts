@@ -19,7 +19,7 @@ export default function defaultEditorTheme(): Plugin {
     })
 
   return {
-    name: 'core-plugin-default-editor-theme',
+    name: 'default-editor-theme',
     cmExtensions: [ codemirrorExt ]
   }
 }

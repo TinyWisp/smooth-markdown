@@ -4,7 +4,7 @@ import type { Plugin, Context, CmPasteEventHandlerMap, FnUpload, FnGetContext } 
  * upload the image from clipboard and insert it into the editor
  */
 class PasteImagePlugin implements Plugin {
-  name: string = 'core-plugin-paste-image'
+  name: string = 'paste-image'
   cmPasteEventHandlerMap: CmPasteEventHandlerMap
   getContext?: FnGetContext
 

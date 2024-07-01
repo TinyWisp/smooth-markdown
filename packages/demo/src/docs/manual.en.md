@@ -25,13 +25,13 @@ npm install --legacy-peer-deps @smooth-markdown/core @smooth-markdown/presets @s
 ## 使用基于element-plus的工具栏
 
 ```iframe
-/demo?name=/getting-started/element-toolbar
+#/demo?name=/getting-started/element-toolbar
 ```
 
 ## 使用基于vuetify的工具栏
 
 ```iframe
-/demo?name=/getting-started/vuetify-toolbar
+#/demo?name=/getting-started/vuetify-toolbar
 ```
 
 ## 自定义大小
@@ -39,7 +39,7 @@ npm install --legacy-peer-deps @smooth-markdown/core @smooth-markdown/presets @s
 在外面加个容器，设置容器的大小
 
 ```iframe
-/demo?name=/examples/custom-size
+#/demo?name=/examples/custom-size
 ```
 
 ## 语法扩展
@@ -47,7 +47,7 @@ npm install --legacy-peer-deps @smooth-markdown/core @smooth-markdown/presets @s
 本组件使用markdown-it渲染，使用插件markdownItPlugins加载markdown-it的插件即可。
 
 ```iframe
-/demo?name=/examples/extending-markdown-syntax
+#/demo?name=/examples/extending-markdown-syntax
 ```
 
 ## 语言
@@ -55,7 +55,7 @@ npm install --legacy-peer-deps @smooth-markdown/core @smooth-markdown/presets @s
 加载所需语言包插件，并将locale属性设置为所需的语言
 
 ```iframe
-/demo?name=/plugins/lang-zh-cn
+#/demo?name=/plugins/lang-zh-cn
 ```
 
 ## 自定义语言
@@ -63,7 +63,7 @@ npm install --legacy-peer-deps @smooth-markdown/core @smooth-markdown/presets @s
 使用插件lang
 
 ```iframe
-/demo?name=/plugins/lang
+#/demo?name=/plugins/lang
 ```
 
 ## 自定义外观
@@ -142,7 +142,7 @@ export default classicSetup
 并使用injectCss插件加载样式。
 
 ```iframe
-/demo?name=/examples/custom-appearances
+#/demo?name=/examples/custom-appearances
 ```
 
 # 组件
@@ -249,7 +249,7 @@ interface ToolbarItem {
 
 **示例**
 ```iframe
-/demo?name=/vuetify-toolbar/custom-toolbar-items
+#/demo?name=/vuetify-toolbar/custom-toolbar-items
 ```
 
 ## element-toolbar
@@ -322,7 +322,7 @@ interface ToolbarItem {
 
 **示例**
 ```iframe
-/demo?name=/element-toolbar/custom-toolbar-items
+#/demo?name=/element-toolbar/custom-toolbar-items
 ```
 
 # 上下文
@@ -478,7 +478,7 @@ customCodeBlockRenderer({
 ```
 
 ```iframe
-/demo?name=/plugins/custom-code-block-renderer
+#/demo?name=/plugins/custom-code-block-renderer
 ```
 
 **默认向渲染组件传递的参数**
@@ -571,7 +571,7 @@ OverlayScrollbarsProps的选项如下
 使其自适应其内容高度，不出现垂直滚动条。
 
 ```iframe
-/demo?name=/plugins/auto-height
+#/demo?name=/plugins/auto-height
 ```
 
 ## highlightCodeBlocksInEditableArea

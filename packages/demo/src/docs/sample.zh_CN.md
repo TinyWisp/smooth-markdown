@@ -29,9 +29,9 @@
 
 ## 图片
 
-![钟离](/img/zhongli.jpg)
-![芙宁娜](/img/furina.jpg)
-![提纳里](/img/tighnari.jpg)
+![钟离](./img/zhongli.jpg)
+![芙宁娜](./img/furina.jpg)
+![提纳里](./img/tighnari.jpg)
 
 ## 引用
 

@@ -7,7 +7,7 @@ import type { Plugin, MditLoadPlugin } from '../core/types'
  */
 function markdownItPlugins(plugins: MditLoadPlugin[]): Plugin {
   return {
-    name: 'core-plugin-markdownit-plugins',
+    name: 'markdownit-plugins',
     mditLoadPlugins: [...plugins]
   }
 }

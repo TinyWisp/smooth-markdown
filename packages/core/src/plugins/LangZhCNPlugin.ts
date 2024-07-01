@@ -67,7 +67,7 @@ const messageMap: MessageMap = {
 
 function langZhCN(): Plugin {
   return {
-    name: 'core-plugin-lang-zh-CN',
+    name: 'lang-zh-CN',
     messageMap
   }
 }

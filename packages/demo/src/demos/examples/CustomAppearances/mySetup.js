@@ -22,7 +22,7 @@ import mialert from 'markdown-it-alert'
 import { EditorView, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view'
 import { foldGutter } from '@codemirror/language'
 import { solarizedDark } from 'cm6-theme-solarized-dark'
-import css from './viewer.css?inline'
+import css from './viewer.style?raw'
 
 const classicSetup = [
   markdownItPlugins([

@@ -1,7 +1,7 @@
 import type { Plugin, Wrapper } from '../core/types'
 
 class ToolbarWrapperPlugin implements Plugin {
-  name: string = 'core-plugin-toolbar-wrapper'
+  name: string = 'toolbar-wrapper'
   toolbarWrapper: Wrapper
 
   constructor(comp: Wrapper) {

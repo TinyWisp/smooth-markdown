@@ -97,8 +97,8 @@ const demoMap: DemoMap = {
         code: () => import('./examples/CustomAppearances/mySetup.js?raw')
       },
       {
-        title: 'viewer.css',
-        code: () => import('./examples/CustomAppearances/viewer.css?inline')
+        title: 'viewer.style',
+        code: () => import('./examples/CustomAppearances/viewer.style?raw')
       }
     ]
   },

@@ -40,5 +40,6 @@ watch([container, props], () => {
   overflow: visible;
   height: auto;
   width: auto;
+  padding: 5px 0;
 }
 </style>

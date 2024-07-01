@@ -3,7 +3,7 @@ import type { Plugin, Wrapper } from '../core/types'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 
 class PerfectScrollbarPlugin implements Plugin {
-  name: string = 'core-plugin-perfect-scrollbar'
+  name: string = 'perfect-scrollbar'
   editorWrapper: Wrapper
   viewerWrapper: Wrapper
   css: String

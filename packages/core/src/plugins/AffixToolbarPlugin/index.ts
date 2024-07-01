@@ -3,7 +3,7 @@ import type { FnGetContext, Plugin, Wrapper } from '../../core/types'
 import { onMounted } from 'vue'
 
 class AffixToolbarPlugin implements Plugin {
-  name: string = 'core-plugin-affix-toolbar'
+  name: string = 'affix-toolbar'
   toolbarWrapper?: Wrapper
   props: {[key: string]: any}
 

@@ -2,7 +2,7 @@ import type { Plugin } from '../core/types'
 import 'overlayscrollbars/overlayscrollbars.css'
 
 class InjectCssPlugin implements Plugin {
-  name: string = 'core-plugin-inject-css'
+  name: string = 'inject-css'
   css: string
 
   constructor(css: string) {

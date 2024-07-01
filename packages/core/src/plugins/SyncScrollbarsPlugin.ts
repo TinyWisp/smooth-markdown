@@ -4,7 +4,7 @@ import type { FnGetContext, Plugin } from '../core/types'
 type SyncWay = 'editor-to-viewer' | 'viewer-to-editor' | 'two-way' 
 
 class SyncScrollbarsPlugin implements Plugin {
-  readonly name = 'core-plugin-sync-scrollbars'
+  readonly name = 'sync-scrollbars'
   way: SyncWay
 
   oneWay(srcScrollEl: Ref<HTMLElement|null>, desScrollEl: Ref<HTMLElement|null>) {

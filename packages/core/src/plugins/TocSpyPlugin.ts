@@ -11,7 +11,7 @@ import { uniqId } from '../utils/util'
  * context.toc.setActive
  */
 class TocSpyPlugin implements Plugin {
-  name: string = 'core-plugin-toc'
+  name: string = 'toc'
   headingList: ShallowRef<Heading[]>
   activeIndex: Ref<number>
   private uasSetActive?: Function

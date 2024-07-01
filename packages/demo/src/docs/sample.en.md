@@ -30,9 +30,9 @@ There was no possibility of taking a walk that day. We had been wandering, indee
 
 ## Images
 
-![ZhongLi](/img/zhongli.jpg)
-![Furina](/img/furina.jpg)
-![Tighnari](/img/tighnari.jpg)
+![ZhongLi](./img/zhongli.jpg)
+![Furina](./img/furina.jpg)
+![Tighnari](./img/tighnari.jpg)
 
 ## Quoting text
 

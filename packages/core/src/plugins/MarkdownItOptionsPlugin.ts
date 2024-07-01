@@ -7,7 +7,7 @@ import type { MditInitOptions } from '../core/types'
  */
 function markdownItOptionsPlugin(options: MditInitOptions) {
   return {
-    name: 'core-plugin-markdown-it-options',
+    name: 'markdown-it-options',
     mditInitOptions: options
   }
 }

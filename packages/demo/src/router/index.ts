@@ -1,10 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Demo from '../views/Demo.vue'
 import Doc from '../views/Doc.vue'
-import Playground from '../views/Playground/index.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/demo',
@@ -12,7 +11,7 @@ const router = createRouter({
     },
     {
       path: '/playground',
-      component: Playground
+      component: () => import('../views/Playground/index.vue')
     },
     {
       path: '/',

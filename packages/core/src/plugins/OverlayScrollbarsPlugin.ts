@@ -16,7 +16,7 @@ type OverlayScrollbarsPluginProps = {
 }
 
 class OverlayScrollbarsPlugin implements Plugin {
-  name: string = 'core-plugin-overlay-scrollbars'
+  name: string = 'overlay-scrollbars'
   editorWrapper?: Wrapper
   viewerWrapper?: Wrapper
   tocWrapper?: Wrapper

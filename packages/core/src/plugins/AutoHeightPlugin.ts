@@ -1,7 +1,7 @@
 import type { Plugin } from '../core/types'
 
 class AutoHeightPlugin implements Plugin {
-  name: string = 'core-plugin-auto-height'
+  name: string = 'auto-height'
   css: string
 
   constructor() {

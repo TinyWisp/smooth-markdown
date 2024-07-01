@@ -4,7 +4,7 @@ import mditMath from 'markdown-it-math'
 import 'katex/dist/katex.css'
 
 class MathPlugin implements Plugin {
-  name: string = 'core-plugin-math'
+  name: string = 'math'
   mditLoadPlugins?: MditLoadPlugin[]
 
   constructor(options: Object) {

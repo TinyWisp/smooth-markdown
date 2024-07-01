@@ -66,7 +66,7 @@ const messageMap: MessageMap = {
 
 function langEn(): Plugin {
   return {
-    name: 'core-plugin-lang-en',
+    name: 'lang-en',
     messageMap
   }
 }
