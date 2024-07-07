@@ -26,7 +26,7 @@
             <v-spacer/>
             <v-btn
               v-if="plugin.setup"
-              :icon="plugin.expand ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+              :icon="plugin.expand ? mdiChevronUp : mdiChevronDown"
               @click="plugin.expand = !plugin.expand"
             />
           </v-card-actions>
@@ -88,6 +88,7 @@ import CustomCodeBlockRendererSetup from './CustomCodeBlockRendererSetup.vue'
 import { EditorView, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view'
 import { foldGutter } from '@codemirror/language'
 import CodeMirrorExtSetup from './CodeMirrorExtSetup.vue'
+import { mdiChevronDown, mdiChevronUp } from '@mdi/js'
 import { t } from '@/docs'
 
 const plugins = reactive([

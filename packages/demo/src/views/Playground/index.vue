@@ -83,11 +83,10 @@ function handlePluginsChanged() {
 <style scoped>
 .container {
   width: 100vw;
-  height: 100vh;
-  overflow: auto;
+  height: auto;
 }
 .empty {
   width: 100%;
-  height: 500px;
+  height: 1200px;
 }
 </style>

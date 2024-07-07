@@ -1,78 +1,78 @@
-# 简介
+# Introduction
 
-smooth-markdown是一个基于vue 3的markdown编辑器。
-它拥有较强的扩展机制，不论是markdown语法，编辑操作，还是外观上，都很易于扩展。
+smooth-markdown is a pluggable markdown editor for vue.js 3. it is easy to extend in terms of markdown syntax, editing operations, and appearance.
 
-| 包  | 状态  | 说明 |
+| package  | status  | info |
 | - | - | - |
-| @smooth-markdown/core | [![npm](https://img.shields.io/npm/v/@smooth-markdown/core)](https://www.npmjs.com/package/@smooth-markdown/core) | 核心组件及插件 |
-| @smooth-markdown/vuetify-toolbar | [![npm](https://img.shields.io/npm/v/@smooth-markdown/vuetify-toolbar)](https://www.npmjs.com/package/@smooth-markdown/vuetify-toolbar) | 基于vuetify的工具栏 |
-| @smooth-markdown/element-toolbar | [![npm](https://img.shields.io/npm/v/@smooth-markdown/element-toolbar)](https://www.npmjs.com/package/@smooth-markdown/element-toolbar) | 基于element plus的工具栏 |
-| @smooth-markdown/presets | [![npm](https://img.shields.io/npm/v/@smooth-markdown/presets)](https://www.npmjs.com/package/@smooth-markdown/presets) | 一些插件合集的预设 |
+| @smooth-markdown/core | [![npm](https://img.shields.io/npm/v/@smooth-markdown/core)](https://www.npmjs.com/package/@smooth-markdown/core) | the core components and plugins. |
+| @smooth-markdown/vuetify-toolbar | [![npm](https://img.shields.io/npm/v/@smooth-markdown/vuetify-toolbar)](https://www.npmjs.com/package/@smooth-markdown/vuetify-toolbar) | a toolbar based on vuetify. |
+| @smooth-markdown/element-toolbar | [![npm](https://img.shields.io/npm/v/@smooth-markdown/element-toolbar)](https://www.npmjs.com/package/@smooth-markdown/element-toolbar) | a toolbar based on element-plus. |
+| @smooth-markdown/presets | [![npm](https://img.shields.io/npm/v/@smooth-markdown/presets)](https://www.npmjs.com/package/@smooth-markdown/presets) | presets |
 
-**安装依赖**
+**Install**
 
 ```bash
 npm install --legacy-peer-deps @smooth-markdown/core @smooth-markdown/presets @smooth-markdown/element-toolbar @smooth-markdown/vuetify-toolbar
 ```
 
-# 示例
+# Examples
 
-## 演练场
+## Playground
 
-[演练场](/playground?lang=zh_CN)
+[playground](#/playground?lang=en)
 
-## 使用基于element-plus的工具栏
+## Vuetify Toolbar 
 
 ```iframe
 #/demo?name=/getting-started/element-toolbar
 ```
 
-## 使用基于vuetify的工具栏
+## Element Plus Toolbar
 
 ```iframe
 #/demo?name=/getting-started/vuetify-toolbar
 ```
 
-## 自定义大小
+## Custom Size
 
-在外面加个容器，设置容器的大小
+wrap it with a container, and set the size of the container.
+
 
 ```iframe
 #/demo?name=/examples/custom-size
 ```
 
-## 语法扩展
+## Extending Syntax
 
-本组件使用markdown-it渲染，使用插件markdownItPlugins加载markdown-it的插件即可。
+This component uses markdown-it for rendering, so it is able to extending syntax by loading markdown-it plugins.
+There is a `markdownItPlugins` plugin to acheive that.
 
 ```iframe
 #/demo?name=/examples/extending-markdown-syntax
 ```
 
-## 语言
+## Language
 
-加载所需语言包插件，并将locale属性设置为所需的语言
+loading the language plugin you need, and setting the `locale` property to the equivalent value.
 
 ```iframe
 #/demo?name=/plugins/lang-zh-cn
 ```
 
-## 自定义语言
+## Custom Language Resource
 
-使用插件lang
+using the `lang` plugin
 
 ```iframe
 #/demo?name=/plugins/lang
 ```
 
-## 自定义外观
+## Custom Appearance
 
-本组件的编辑器部分，基于codemirror 6, 使用codemirrorExt插件加载codemirror 6的主题扩展，即可改变外观。
-预览部分，直接加上css样式即可。
+The editable area of this component is based on CodeMirror 6. By using the `CodeMirrorExt` plugin to load a theme extension for CodeMirror 6, you can change its appearance. For the preview area, simply add CSS styles.
 
-前面的示例中，使用了`@smooth-markdown/presets`中的`classicSetup`。
-classicSetup是一系列插件的预设，它的代码如下:
+In the previous examples, there is a `classicSetup` provided by `@smooth-markdown/presets`.
+`classicSetup` is an array that contains multiple plugins. Below is its source code.
 
 ```javascript
 import {
@@ -137,76 +137,77 @@ const classicSetup: Plugin[] = [
 export default classicSetup
 ```
 
-在此示例中，复制classicSetup的代码，并去除defaultEditorTheme, defaultViewerTheme两个插件。
-使用codemirrorExt插件加载codemirror的主题扩展solarizedDark。
-并使用injectCss插件加载样式。
+In this example, I copied the source code of  `classicSetup`, deleted the `defaultEditor` plugin and
+the `defaultViewerTheme` plugin, loaded the `solarizedDark` extension for codemirror, and used the `injectCss`
+plugin to style the preview area.
 
 ```iframe
 #/demo?name=/examples/custom-appearances
 ```
 
-# 组件
+# Components
 
 ## smooth-markdown
 
-**属性**
+**Props**
 
-| 属性名 | 类型 | 说明 | 默认值 | 备注 |
+| name | type | desc | default | note |
 | - | - | - | - | - |
 | locale | string | 语言 | en | 和加载的语言包有关 |
 | mode | string | 模式 | editor\|viewer | editor,viewer,toc以\|相连，如'editor\|viewer  |
 | plugins | Array | 插件列表 | [] | - |
 | readonly | boolean | 是否只读 | false | - |
 
-**方法**
+**Methods**
 
-| 方法 | 说明 | 备注 |
+| method | desc | note |
 | - | - | - |
-| getContext(): Context | 获取上下文 | - |
-| setContext(key, val) <br> setContext(key, subkey, val) | 设置上下文 | - |
+| getContext(): Context | get the context | - |
+| setContext(key, val) <br> setContext(key, subkey, val) | set the context | - |
 
-**插槽**
+**Slots**
 
-| 插槽名 | 说明 |
+| name | desc |
 | - | - |
-| toolbar | 工具栏 |
-| toc | 目录 |
+| toolbar | toolbar |
+| toc | table of contents |
 
 ## simple-toc
 
-**属性**
-无
+**Props**
+-
 
-**方法**
-无
+**Methods**
+-
 
 ## vuetify-toolbar
 
-基于vuetify 3的工具栏
+A toolbar based on vuetify 3
 
-**属性**
-| 属性名 | 类型 | 说明 | 默认值 | 备注 |
+**Attributes**
+| name | type | desc | default | note |
 | - | - | - | - | - |
-| items | (string \| Component \| VNode \| () => VNode \| ToolbarItem)[] | 工具栏项列表 | [...] |  |
+| items | (string \| Component \| VNode \| () => VNode \| ToolbarItem)[] | items of the toolbar | [...] |  |
 
-**items的元素说明**
-- string 指工具栏预定义项的名称，如"sub", "sup"等等。
-- Component 自定义组件
-- VNode JSX
-- () => VNode 返回JSX的函数
-- ToolbarItem 自定义按钮, 如{ icon: 'mdi-format-underline', tip: 'underline', cmd: 'underline' }
+**Type**
+- `string`  name of a predefined toolbar item, like 'sub' and 'sup'.
+- `Component` a component.
+- `VNode` JSX.
+- `() => VNode` a function that returns JSX.
+- `ToolbarItem` a custom button described by an object, like `{ icon: 'mdi-format-underline', tip: 'underline', cmd: 'underline' }`.
 
-**ToolbarItem 自定义按钮**
+**Object that describes a button**
 ``` javascript
 interface ToolbarItem {
-  name?: string                      // 名称 
-  icon?: string | (() => string)     // 图标
-  tip?: string | (() => string)      // 提示，鼠标悬停在按钮上时显示的文字
-  cmd?: string                       // 命令
-  exec?: () => void                  // 自定义点击时执行的方法, 有cmd则不需要exec, 两者都有exec优先
+  name?: string                      // name
+  icon?: string | (() => string)     // an icon from '@mdi/js'
+  tip?: string | (() => string)      // tip
+  cmd?: string                       // command
+  exec?: () => void                  // a custom function executed when the button is clicked. it is not needed if the `cmd` property is provided.
 }
 ```
-如:
+
+example:
 ``` javascript
 {
   icon: 'mdi-format-underline',
@@ -215,71 +216,72 @@ interface ToolbarItem {
 }
 ```
 
-**预定义项**
+**Predefined Items**
 
-| 名称 | 说明 |
+| name | desc |
 | - | - |
-| divider | 分割符 |
-| spacer | 空白 |
-| undo | 撤消 |
-| redo | 重做 |
-| bold | 粗体 |
-| italic | 斜体 |
-| strike | 删除线 |
-| underline | 下划线 |
-| subscript | 下标 |
-| superscript | 上标 |
-| mark | 标记 |
-| heading1 | 1号标题 |
-| heading2 | 2号标题 |
-| heading3 | 3号标题 |
-| heading4 | 4号标题 |
-| heading5 | 5号标题 |
-| heading6 | 6号标题 |
-| bulletedList | 有序列表 |
-| numberedList | 无序列表 |
-| quote | 引用 |
-| inlineCode | 行内代码 |
-| codeBlock | 代码块 |
-| horizontalRule | 水平线 |
-| image | 图片 |
-| link | 链接 |
-| table | 表格 |
-| preview | 打开/关闭预览 |
+| divider | |
+| spacer | push the following items to right. |
+| undo | |
+| redo | |
+| bold | |
+| italic | |
+| strikethrough | |
+| underline | |
+| subscript | |
+| superscript |  |
+| mark | |
+| heading1 | |
+| heading2 | |
+| heading3 | |
+| heading4 | |
+| heading5 | |
+| heading6 | |
+| bulletedList | |
+| numberedList | |
+| quote | |
+| inlineCode | |
+| codeBlock | |
+| horizontalRule | |
+| image | |
+| link | |
+| table | |
+| preview | open or close the preview. |
 
-**示例**
+**Example**
 ```iframe
 #/demo?name=/vuetify-toolbar/custom-toolbar-items
 ```
 
 ## element-toolbar
 
-基于element plus的工具栏
+A toolbar based on element plus.
 
-**属性**
+**Attributes**
 
-| 属性名 | 类型 | 说明 | 默认值 | 备注 |
+| name | type | desc | default | note |
 | - | - | - | - | - |
-| items | (string \| Component \| VNode \| () => VNode \| ToolbarItem)[] | 工具栏项列表 | [...] |  |
+| items | (string \| Component \| VNode \| () => VNode \| ToolbarItem)[] | items of the toolbar | [...] |  |
 
-**items的元素**
-- string 指工具栏预定义项的名称，如"sub", "sup"等等。
-- Component 自定义组件
-- VNode JSX
-- () => VNode 返回JSX的函数
-- ToolbarItem 自定义按钮, 如{ icon: 'mdi-format-underline', tip: 'underline', cmd: 'underline' }
+**Type**
+- `string`  name of a predefined toolbar item, like 'sub' and 'sup'.
+- `Component` a component.
+- `VNode` JSX.
+- `() => VNode` a function that returns JSX.
+- `ToolbarItem` a custom button described by an object, like `{ icon: 'mdi-format-underline', tip: 'underline', cmd: 'underline' }`.
 
-**ToolbarItem 自定义按钮**
+**Object that describes a button**
 ``` javascript
 interface ToolbarItem {
-  name?: string                      // 名称 
-  icon?: string | (() => string)     // 图标
-  tip?: string | (() => string)      // 提示，鼠标悬停在按钮上时显示的文字
-  cmd?: string                       // 命令
-  exec?: () => void                  // 自定义点击时执行的方法, 有cmd则不需要exec, 两者都有exec优先
+  name?: string                      // name
+  icon?: string | (() => string)     // an icon from '@mdi/js'
+  tip?: string | (() => string)      // tip
+  cmd?: string                       // command
+  exec?: () => void                  // a custom function executed when the button is clicked. it is not needed if the `cmd` property is provided.
 }
 ```
-如:
+
+example:
 ``` javascript
 {
   icon: 'mdi-format-underline',
@@ -288,53 +290,53 @@ interface ToolbarItem {
 }
 ```
 
-**预定义项**
+**Predefined Items**
 
-| 名称 | 说明 |
+| name | desc |
 | - | - |
-| divider | 分割符 |
-| spacer | 空白 |
-| undo | 撤消 |
-| redo | 重做 |
-| bold | 粗体 |
-| italic | 斜体 |
-| strike | 删除线 |
-| underline | 下划线 |
-| subscript | 下标 |
-| superscript | 上标 |
-| mark | 标记 |
-| heading1 | 1号标题 |
-| heading2 | 2号标题 |
-| heading3 | 3号标题 |
-| heading4 | 4号标题 |
-| heading5 | 5号标题 |
-| heading6 | 6号标题 |
-| bulletedList | 有序列表 |
-| numberedList | 无序列表 |
-| quote | 引用 |
-| inlineCode | 行内代码 |
-| codeBlock | 代码块 |
-| horizontalRule | 水平线 |
-| image | 图片 |
-| link | 链接 |
-| table | 表格 |
-| preview | 打开/关闭预览 |
+| divider | |
+| spacer | push the following items to right. |
+| undo | |
+| redo | |
+| bold | |
+| italic | |
+| strikethrough | |
+| underline | |
+| subscript | |
+| superscript |  |
+| mark | |
+| heading1 | |
+| heading2 | |
+| heading3 | |
+| heading4 | |
+| heading5 | |
+| heading6 | |
+| bulletedList | |
+| numberedList | |
+| quote | |
+| inlineCode | |
+| codeBlock | |
+| horizontalRule | |
+| image | |
+| link | |
+| table | |
+| preview | open or close the preview. |
 
-**示例**
+**Example**
 ```iframe
 #/demo?name=/element-toolbar/custom-toolbar-items
 ```
 
-# 上下文
+# Context
 
-**获取/设置上下文**
+**get/set**
 
-组件方法
+methods:
 - getContext()
 - setContext(key: string, val: any)
 - setContext(key: string, subkey: string, val: any)
 
-在slot中，可以使用inject, 如
+you can also get it via `inject` in a slot.
 ``` javascript
   import type { FnGetContext, FnSetContext } from '@smooth-markdown/core'
 
@@ -342,14 +344,14 @@ interface ToolbarItem {
   const getContext = inject<FnSetContext>('setContext')
 ```
 
-**Context对像详情**
+**Details**
 
-| 对象 | 属性名/方法名 | 类型 | 说明 | 
+| object | name | type | note | 
 | - | - | - | - |
-| | doc | Ref<string> | 内容 |
-|   | mode | Ref<string> | 模式, 如`editor|viewer`, 值为editor, viewer, toc三个值的排列组合，以\|分隔 |
-|   | props | SmoothMarkdownProps | 传递给组件的参数 |
-| lang <br> 语言 | t |  Function(path: string, varMap: VariableMap = {}) | 翻译, path:消息路径, varMap: 变量映射 |
+| | doc | Ref<string> | content |
+|   | mode | Ref<string> | mode. its value is a combination of 'editor', 'viewer' and 'toc', seprated by  '\|', like `editor|viewer` |
+|   | props | SmoothMarkdownProps | the props passed to the component.  |
+| lang <br> 语言 | t |  Function(path: string, varMap: VariableMap = {}) | translate. path:消息路径, varMap: 变量映射 |
 |   | print | Function() | 打印所有消息 |
 |   | setLocale | Function(locale: string) | 设置当前语言 |
 |   | setFallbackLocale | Function(locale: string) | 设置回退语言，当某条消息找不到所需的翻译数据时，则使用回退语言 |
@@ -361,114 +363,125 @@ interface ToolbarItem {
 | root <br> 根元素(整个组件最外层的容器) | el | HTMLElement \| null | DOM元素 |
 |   | selector | string | css选择器 |
 |   | style | {[key: string]: string} | 样式 |
-| viewer <br> 预览区域 | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | containerEl | HTMLElement \| null | 容器DOM元素 |
-|   | containerSelector | string | 容器的css选择器 |
-|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
-|   | markdownIt | MarkdownIt | markdown-it的实例 |
-| editor <br> 编辑区域 | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | containerEl | HTMLElement \| null | 容器DOM元素 |
-|   | containerSelector | string | 容器的css选择器 |
-|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
-|   | insertOrReplace | Function(text: string, newLine: boolean = false) | 插入或替换 <br> newLine: 是否强制新行 |
-|   | command | Function(cmd: string, params: Object = {}) | 向编辑器发送命令 |
-|   | scrollToLine | Function(lineNum: number) | 跳转到某一行 |
-|   | moveLinesTo | Function(lineBegin: number, lineEnd: number, lineDes: number) | 将行移动至 |
-|   | cmEditorView | EditorView | CodeMirror实例 |
-| toc <br> 目录 | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | containerEl | HTMLElement \| null | 容器DOM元素 |
-|   | containerSelector | string | 容器的css选择器 |
-|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
-| header <br> 头部区域(工具栏) | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-| body <br> 正文区域(内容编辑及预览区域) | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
+| viewer <br> the preview area | el | HTMLElement \| null | the DOM element |
+|   | selector | string | the css selector |
+|   | containerEl | HTMLElement \| null | the container's DOM element |
+|   | containerSelector | string | the css selector of its container |
+|   | scrollEl | Ref<HTMLElement \| null> | the element to be scrolled |
+|   | markdownIt | MarkdownIt | the instance of `markdown-it` |
+| editor <br> the editable area | el | HTMLElement \| null | the DOM element |
+|   | selector | string | the css selector |
+|   | containerEl | HTMLElement \| null | the contianer's DOM element |
+|   | containerSelector | string | the css selector of its container |
+|   | scrollEl | Ref<HTMLElement \| null> | the element to be scrolled |
+|   | insertOrReplace | Function(text: string, newLine: boolean = false) | insert or replace a text <br> newLine: whether to insert a newline if the cursor is not at the beginning of a line |
+|   | command | Function(cmd: string, params: Object = {}) | execute a command |
+|   | scrollToLine | Function(lineNum: number) | scroll to a line  |
+|   | moveLinesTo | Function(lineBegin: number, lineEnd: number, lineDes: number) | move the specified lines to a new position |
+|   | cmEditorView | EditorView | the instance of `codemirror` |
+| toc <br> table of content | el | HTMLElement \| null | the DOM element |
+|   | selector | string | the css selector |
+|   | containerEl | HTMLElement \| null | the container's DOM element |
+|   | containerSelector | string | the css selector of the container |
+|   | scrollEl | Ref<HTMLElement \| null> | the DOM element to be scrolled |
+| header | el | HTMLElement \| null | the DOM element |
+|   | selector | string | the css selector |
+| body | el | HTMLElement \| null | the DOM element |
+|   | selector | string | the css selector |
+
+**elements**
+
+```html
+<div data-tip>
+  <div>
+</div>
+```
 
 **context.editor.insertOrReplace(text: string, newLine: boolean = false)**
-如果处于选中文字状态，则替换。反之，则插入。
-text: 待插入/替换的文本, 如果包含"<-->"，"<-->"表示插入后光标所在的位置，或者在选中时，将"<-->"替换为选中的文字
-newLine: 是否新起一行再插入/替换, 默认为false
+replace the selected text, or insert at the cursor.
+`text`: the text to be replaced or inserted. 
+if it doesn't include a `<-->` and there is nothing selected, it will be inserted into the edtior.
+if it doesn't include a `<-->` and there is a selected text in the editor, the selected text will be replaced with it.
+if it includes a `<-->` and there is nothing selected in the editor, `<-->` means the position of the cursor after inserting. 
+if it includes a `<-->` and there is a selected text in the editor, `<-->` will be replaced with the selected text.
+`newLine`: whether to insert a newLine if the cursor is not at the beginning of a line.
 
 **context.editor.command(cmd: string, params: Object = {})**
-向编辑器发送命令
+execute an command
 
-可使用命令如下所示:
+avaliable commands:
 
-| 命令 | 说明 | 参数 |
+| command | desc | params |
 | - | - | - |
-| undo | 撤消 | |
-| redo | 重做 | |
-| bold | 粗体 | |
-| italic | 斜体 | |
-| strikethrough | 删除线 | |
-| underline | 下划线 | |
-| subscript | 下标 | |
-| superscript | 上标 | |
-| mark | 标记 | |
-| heading1 | 1号标题 | |
-| heading2 | 2号标题 | |
-| heading3 | 3号标题 | |
-| heading4 | 4号标题 | |
-| heading5 | 5号标题 | |
-| heading6 | 6号标题 | |
-| bulletedList | 有序列表 | |
-| numberedList | 无序列表 | |
-| quote | 引用 | |
-| inlineCode | 行内代码 | |
-| codeBlock | 代码块 | |
-| horizontalRule | 水平线 | |
-| image | 图片 | {title: '标题', url: '地址'} |
-| link | 链接 |  {title: '标题', url: '地址'} |
-| table | 表格 | {row: 行数, col: 列数 } |
+| undo | | |
+| redo | | |
+| bold | | |
+| italic | | |
+| strikethrough | | |
+| underline | | |
+| subscript | | |
+| superscript | | |
+| mark | | |
+| heading1 | | |
+| heading2 | | |
+| heading3 | | |
+| heading4 | | |
+| heading5 | | |
+| heading6 | | |
+| bulletedList | | |
+| numberedList | | |
+| quote | | |
+| inlineCode | | |
+| codeBlock | | |
+| horizontalRule |  | |
+| image | | {title: 'title', url: 'url'} |
+| link | |  {title: 'title', url: 'url'} |
+| table | | {row: row, col: col } |
 
-# 插件
+# Plugins
 
-## 插件列表
+## List of plugins
 
-| 插件    | 说明 |
+| plugin    | desc |
 | --------- | ----------- |
-| customCodeBlockRenderer | 自定义代码块渲染 |
-| affixToolbar | 固定工具栏到屏幕顶部 |
-| overlayScrollbars | 基于overlayScrollbars的滚动条 |
-| autoHeight | 自适应高度，使组件的高度适应其内容 |
-| highlightCodeBlocksInEditableArea | 编辑区域代码块语法高亮 |
-| syncScrollbars | 滚动条同步 |
-| langCN | 中文语言包 |
-| langEn | 英文语言包 |
-| lang | 自定义语言包 |
-| markdownItPlugins | 加载markdown-it插件 |
-| markdownItOptions | 设置markdown-it的选项 |
-| codemirrorExt | 加载codemirror扩展 |
-| defaultEditorTheme | 编辑区域默认样式 |
-| defaultViewerTheme | 预览区域默认样式 |
-| injectCss | 插入css样式  |
-| customLinkAttrs | 自定义链接标签的属性 |
-| math | 公式的显示 |
-| handleImageClick | 图片点击处理 |
-| pasteImage | 粘贴图片时上传并写入 |
+| customCodeBlockRenderer | rendering the code blocks with custom vue components |
+| affixToolbar | affix the toolbar on the screen |
+| overlayScrollbars | scrollbars based on overlayScrollbars |
+| autoHeight | make its height fit to its content |
+| highlightCodeBlocksInEditableArea | highlight the codes in the editable area |
+| syncScrollbars | sync the scrollbars |
+| langCN | Chinese language resource |
+| langEn | English language resource |
+| lang | custom language resource |
+| markdownItPlugins | loading markdown-it plugins |
+| markdownItOptions | setting markdown-it options |
+| codemirrorExt | loading codemirror extensions |
+| defaultEditorTheme | the default appearance of the editable area |
+| defaultViewerTheme | the default appearance of the preview area |
+| injectCss | inject css  |
+| customLinkAttrs | custom the attributes of link tags  |
+| math | math |
+| handleImageClick | handle the click events when the user clicks an image |
+| pasteImage | uploading the pasted image and insert it into the editor |
 
 ## customCodeBlockRenderer 
 
+rendering the code blocks with custom vue components
 
-自定义代码块渲染。
-
-**参数**
+**params**
 ```javascript
 customCodeBlockRenderer({
   [lang: string]: [ RendererComponent, RendererComponentProps? ]
 })
 ```
-- lang 语言
-- RendererComponent 用于渲染的组件
-- RendererComponentProps 传递给渲染组件的参数
+- `lang` language
+- `RendererComponent` component for rendering
+- `RendererComponentProps` props passed to the component
 
-下面的示例，表示:
-1. 使用ArtText组件，渲染art-text代码块, 并且向组件传入参数color="red"。
-1. 使用Echarts组件，渲染echarts代码块，无额外参数传入。 
-1. art-text, echarts之外的代码块，则使用默认组件Card进行渲染。
+the following example means that:
+1. rendering `art-text` codes with the ArtText component，and the `color="red"` prop will be passed to it.
+1. rendering `echart` codes with the Echarts component, without any extra props.
+1. codes other than `art-text` and `echarts`, will be rendered by the Card component.
 ```javascript
 customCodeBlockRenderer({
   'art-text': [ArtText, {color: 'red'}],
@@ -481,30 +494,38 @@ customCodeBlockRenderer({
 #/demo?name=/plugins/custom-code-block-renderer
 ```
 
-**默认向渲染组件传递的参数**
+**props passed to the rendering component by default**
 
-| 名称 | 类型 | 说明 |
+| name | type | desc |
 | - | - | - |
-| lang | string | 语言 |
-| code | string | 代码 |
-| lineBegin | number | 起始行 |
-| lineEnd | number | 结束行 |
+| lang | string | lang |
+| code | string | code |
+| lineBegin | number | number of the start line |
+| lineEnd | number |  number of the end line |
 
 ## affixToolbar
 
-
-固定顶部工具栏
+affix the toolbar on the screen
 
 **参数**
 ```javascript
 affixToolbar({
   /**
-   * 滚动容器选择器，如果不设置，则默认为window
+   * The relative element selector string. The relative element is
+   * the element you want your affix to be related to, as it will
+   * not be related to the window. The element will be affixed when
+   * the window reaches the relative element.
+   *
+   * @example '#contact'
+   * @type {String} 
    */
   scrollContainerSelector: null,
 
   /**
-   * 窗口顶部/底部之间的偏移边距
+   * This is the offset margin between the top/bottom of the window
+   * before the affix is applied.
+   *
+   * @type {Object} 
    */
   offset: {
     top: 40,
@@ -512,28 +533,35 @@ affixToolbar({
   },
 
   /**
-   * 是否开启
+   * Checks if the plugin should be enabled/disabled based
+   * on true/false, good for mobile when you need to disable it.
+   *
+   * @type {Boolean} 
    */
   enabled: true,
   
   /**
-   * 是否应在其高度超过视口时为“可滚动”，或者是否应始终固定在顶部，直到达到相对元素的末尾。
+   * Sets if the affix should be 'scrollable' when it is
+   * taller than the viewport or if it should always be
+   * affixed to the top until it reaches the end of the
+   * relative element. Check the demo to understand better.
+   *
+   * @type {Boolean} 
    */
   scrollAffix: false,
 })
 ```
-此插件基于第三方组件`vue-affix`
-参数与`vue-affix`的参数相同，[点击查看vue-affix的参数](https://www.npmjs.com/package/vue-affix)
 
-**另请参考**
+this plugin is based on the `vue-affix`, and it params is the same with the props of `vue-affix`
+
+**see also**
 [vue-affix](https://www.npmjs.com/package/vue-affix)
 
 ## overlayScrollbars
 
+scrollbars based on `overlayscrollbars-vue`
 
-基于OverlayScrollbars的滚动条
-
-**参数**
+**params**
 ```javascript
 affixToolbar({
   editor?: false | OverlayScrollbarsProps,
@@ -542,10 +570,10 @@ affixToolbar({
   codeBlock?: false | OverlayScrollbarsProps
 })
 ```
-- false 不使用该滚动条
-- OverlayScrollbarsProps指传递给overlayscrollbars-vue组件的参数
+- false means no scrollbar
+- OverlayScrollbarsProps means the props passed to `overlayscrollbars-vue`
 
-OverlayScrollbarsProps的选项如下
+OverlayScrollbarsProps
 ```javascript
 {
   element: "span",
@@ -561,14 +589,13 @@ OverlayScrollbarsProps的选项如下
 }
 ```
 
-**另请参考**
+**see also**
 [overlayscrollbars-vue](https://www.npmjs.com/package/overlayscrollbars-vue)
 [overlayscrollbars](https://www.npmjs.com/package/overlayscrollbars)
 
 ## autoHeight
 
-
-使其自适应其内容高度，不出现垂直滚动条。
+make its height fit to its content
 
 ```iframe
 #/demo?name=/plugins/auto-height
@@ -576,47 +603,42 @@ OverlayScrollbarsProps的选项如下
 
 ## highlightCodeBlocksInEditableArea
 
+highlight the code blocks in the editalbe area.
 
-编辑区域代码高亮
-
-**参数**
-无
+**params**
+-
 
 ## syncScrollbars
 
+sync the scrollbars.
 
-同步滚动条
-
-**参数**
+**params**
 ```javascript
 syncScrollbars(way: 'editor-to-viewer' | 'viewer-to-editor' | 'two-way')
 ```
-- editor-to-viewer 从编辑区域同步到预览区域
-- viewer-to-editor 从预览区域同步到编辑区域
-- two-way 双向同步
+- `editor-to-viewer` sync the scrollbars from the editable area to the preview area.
+- `viewer-to-editor` sync the scrollbars from the preview area to the editable area.
+- `two-way` two-way sync
 
 ## langCN
 
-
-中文语言包
+Chinese language resource.
 
 **参数**
-无
+-
 
 ## langEn
 
-
-英文语言包
+English language resource.
 
 **参数**
-无
+-
 
 ## lang
 
+custom language resource.
 
-自定义语言包
-
-**参数**
+**params**
 ```javascript
 lang(messageMap: MessageMap)
 
@@ -625,7 +647,7 @@ interface MessageMap {
 }
 ```
 
-示例
+example
 ```javascript
 lang({
   zh_CN: {
@@ -638,15 +660,16 @@ lang({
 
 ## markdownItPlugins
 
-预览区域由markdown-it渲染，此插件用于加载markdown-it的插件
+the preview area is rendered by `markdown-it`.
+this plugin helps you load `markdown-it` plugins.
 
-**参数**
+**params**
 ```javascript
 markdownItPlugins([
   [MarkdownItPlugin, MarkdownItPluginProps?]
 ])
 ```
-**另请参考**
+**see also**
 [markdown-it-sup](https://www.npms.com/packages/markdown-it-sup)
 [markdown-it-sub](https://www.npms.com/packages/markdown-it-sub)
 [markdown-it-ins](https://www.npms.com/packages/markdown-it-ins)
@@ -660,94 +683,98 @@ markdownItPlugins([
 
 ## markdownItOptions
 
+the preview area is rendered by `markdown-it`.
+this plugin helps you set the options of `markdown-it`.
 
-预览区域由markdown-it渲染，此插件用于设置markdown-it的选项
-
-**参数**
+**params**
 ```javascript
 markdownItOptions({
-  // 是否允许html标签
+  // Enable HTML tags in source
   html:         false,
 
-  // 使用 '/' 关闭单标签，如<br />
-  // 这仅仅是为了兼容CommonMark
+  // Use '/' to close single tags (<br />).
+  // This is only for full CommonMark compatibility.
   xhtmlOut:     false,
 
-  // 将段落中的 '\n' 转换为 <br>
+  // Convert '\n' in paragraphs into <br>
   breaks:       false,
 
-  // 代码块渲染时的css类名前缀
+  // CSS language prefix for fenced blocks. Can be
+  // useful for external highlighters.
   langPrefix:   'language-',
 
-  // 自动将像url的文本转换为链接
+  // Autoconvert URL-like text to links
   linkify:      false,
 
-  // 常见排版元素替换，如(c) => ©, (tm) => ™ 
-  // 要查看完整的替换列表， 请点击 https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/replacements.mjs
+  // Enable some language-neutral replacement + quotes beautification
+  // For the full list of replacements, see https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/replacements.mjs
   typographer:  false,
 
-  // 当typographer选项开启时，替换双引号及单引号
+  // Double + single quotes replacement pairs, when typographer enabled,
+  // and smartquotes on. Could be either a String or an Array.
+  //
+  // For example, you can use '«»„“' for Russian, '„“‚‘' for German,
+  // and ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'] for French (including nbsp).
   quotes: '“”‘’',
 
-  // 代码块渲染函数，它应该返回转义过的html，或者 ''。
-  // 如果返回的结果以<pre开头，则跳过内置的包装，否则会加上<pre><code xxx>...</code></pre>等包装。
+  // Highlighter function. Should return escaped HTML,
+  // or '' if the source string is not changed and should be escaped externally.
+  // If result starts with <pre... internal wrapper is skipped.
   highlight: function (/*str, lang*/) { return ''; }
 })
 ```
-**另请参考**
+
+**see also**
 [markdown-it](https://www.npmjs.com/package/markdown-it)
 
 ## codemirrorExt
 
+the editable area is based on `codemirror`.
+this plugin helps you load `codemirror` extensions.
 
-编辑区域由codemirror实现，此插件用于加载codemirror的扩展
-
-**参数**
+**params**
 ```javascript
 codemirror(ext: CmExtension)
 ```
-- ext: CodeMirror的扩展
+- ext: the CodeMirror extensions
 
 ## defaultEditorTheme
 
+default appearance of the editable area.
 
-编辑区域的默认样式
-
-**参数**
-无
+**params**
+-
 
 ## defaultViewerTheme
 
+default appearance of the preview area.
 
-预览区域的默认样式
-
-**参数**
-无
+**params**
+-
 
 ## injectCss
 
-插入css样式, 可以使用如下选择器:
-&root
-&header
-&body
-&editor
-&viewer
-&toc
-&editor-container
-&viewer-container
-&toc-container
+inject css, which may includes the following selectors:
+- `&root`
+- `&header`
+- `&body`
+- `&editor`
+- `&viewer`
+- `&toc`
+- `&editor-container`
+- `&viewer-container`
+- `&toc-container`
 
 ## customLinkAttrs
 
+custom the attributes of link tags.
 
-自定义渲染后的链接标签的的属性
-
-**参数**
+**params**
 ```javascript
 customLinkAttrs((oldAttrMap: MditTokenAttrMap) => MditTokenAttrMap)
 ```
 
-**示例**
+**example**
 ```javascript
 customLinkAttrs((attrs) => {
   attrs.target = '_blank'
@@ -759,62 +786,60 @@ customLinkAttrs((attrs) => {
 
 ## math
 
+rendering math between `$...$` and `$$...$$`.
 
-使用katex渲染公式, 渲染$...$之间或$$...$$之间的公式
-
-**参数**
+**params**
 ```javascript
 math(options?: Object)
 ```
-此插件基于markdown-it-math, options即是传给markdown-it-math的参数
 
-**另请参考**
+this plugin is based on `markdown-it-math`. `options` is the params passed to `markdown-it-math`.
+
+**see also**
 [markdown-it-math](https://www.npmjs.com/package/markdown-it-math)
 
 ## handleImageClick
 
+handle the click events when the user clicks the images.
 
-处理图片点击事件
-
-**参数**
+**params**
 ```javascript
 handleImageClick((images: ImageData[], idx: number, event: Event) => void)
 ```
 
 ## pasteImage
 
+upload the pasted image and insert it into the editor.
 
-粘贴图片时上传并插入
-
-**参数**
+**params**
 ```javascript
 type FnUpload = (file: File) => string | Promise<string>
 pasteImage(fnUpload: FnUpload)
 ```
 
-# 代码块渲染
+# Code block Rendering
 
-此处主要是指使用CustomCodeBlockRenderer插件对代码块进行渲染
+it means rendering the codes using the `CustomCodeBlockRenderer` plugin.
 
 ## CodeMirrorRenderer
 
-使用CodeMirror渲染代码块
+rendering the codes using `codemirror`.
 
-**属性**
-| 名称 | 默认值 | 说明 |
+**attributes**
+| name | default | desc |
 | - | - | - |
-| extensions | [] | CodeMirror的扩展 |
+| extensions | [] | extensions of `codemirror` |
 
 ## MermaidRenderer
 
-使用mermaid渲染代码块
+rendering the codes using `mermaid`.
 
-**属性**
-无
+**attributes**
+-
 
 ## KatexRenderer
 
-使用Katex渲染代码块
+rendering the codes using `katex`.
 
-**属性**
-无
+**attributes**
+-

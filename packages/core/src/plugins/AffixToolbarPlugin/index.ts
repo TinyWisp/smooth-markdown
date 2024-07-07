@@ -19,6 +19,10 @@ class AffixToolbarPlugin implements Plugin {
       props.relativeElementSelector = context.root.selector
     }
 
+    if (!props.offset) {
+      props.offset = { top: 0, bottom: 0 }
+    }
+
     this.toolbarWrapper = [VueAffix, props, 'vueAffix']
 
     onMounted(() => {
@@ -29,7 +33,7 @@ class AffixToolbarPlugin implements Plugin {
         const headerElWidth = headerEl?.clientWidth
         const headerElHeight = headerEl?.clientHeight
         injectCss(`
-          &header .affix { width: ${headerElWidth}px !important; height: ${headerElHeight}px !important;}
+          &header .vue-affix { width: ${headerElWidth}px !important; height: ${headerElHeight}px !important; z-index: 999;}
           &header { height: ${headerElHeight}px !important;}
         `)
       }

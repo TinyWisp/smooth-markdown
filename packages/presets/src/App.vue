@@ -17,7 +17,6 @@ import VuetifyToolbar from '@smooth-markdown/vuetify-toolbar'
 import { EditorView } from '@codemirror/view'
 import { githubLightInit } from '@uiw/codemirror-theme-github'
 import { tags as t } from '@lezer/highlight'
-import classicMarkdownSyntax from './presets/classicMarkdownSyntax'
 
 const doc = ref('')
 const locale = ref('en')
@@ -27,7 +26,6 @@ setTimeout(() => {
 const plugins = [
   langEn(),
   langZhCN(),
-  ...classicMarkdownSyntax,
   math(),
   syncScrollbars(),
   customCodeBlockRenderer({
