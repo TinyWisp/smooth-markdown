@@ -114,10 +114,10 @@ onMounted(async () => {
   position: absolute;
   right: 0;
   top: 0;
-  margin: 0.5em 0.5em 0 0;
+  margin: 5px 5px 0 0;
   z-index: 2;
-  width: 3em;
-  height: 3em;
+  width: 40px;
+  height: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -133,8 +133,8 @@ onMounted(async () => {
   content: ' ';
   position: absolute;
   margin: auto;
-  width: 1.5em;
-  height: 1.5em;
+  width: 20px;
+  height: 20px;
   --svg: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE5LDIxSDhWN0gxOU0xOSw1SDhBMiwyIDAgMCwwIDYsN1YyMUEyLDIgMCAwLDAgOCwyM0gxOUEyLDIgMCAwLDAgMjEsMjFWN0EyLDIgMCAwLDAgMTksNU0xNiwxSDRBMiwyIDAgMCwwIDIsM1YxN0g0VjNIMTZWMVoiIC8+PC9zdmc+Cg==);
   -webkit-mask: var(--svg);
   mask: var(--svg);

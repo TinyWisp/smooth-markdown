@@ -12,7 +12,7 @@ smooth-markdown is a pluggable markdown editor for vue.js 3. it is easy to exten
 **Install**
 
 ```bash
-npm install --legacy-peer-deps @smooth-markdown/core @smooth-markdown/presets @smooth-markdown/element-toolbar @smooth-markdown/vuetify-toolbar
+npm install @smooth-markdown/core @smooth-markdown/presets @smooth-markdown/element-toolbar @smooth-markdown/vuetify-toolbar
 ```
 
 # Examples
@@ -175,10 +175,10 @@ plugin to style the preview area.
 ## simple-toc
 
 **Props**
--
+\-
 
 **Methods**
--
+\-
 
 ## vuetify-toolbar
 
@@ -507,7 +507,7 @@ customCodeBlockRenderer({
 
 affix the toolbar on the screen
 
-**参数**
+**params**
 ```javascript
 affixToolbar({
   /**
@@ -606,7 +606,7 @@ make its height fit to its content
 highlight the code blocks in the editalbe area.
 
 **params**
--
+\-
 
 ## syncScrollbars
 
@@ -624,15 +624,15 @@ syncScrollbars(way: 'editor-to-viewer' | 'viewer-to-editor' | 'two-way')
 
 Chinese language resource.
 
-**参数**
--
+**params**
+\-
 
 ## langEn
 
 English language resource.
 
-**参数**
--
+**params**
+\-
 
 ## lang
 
@@ -743,14 +743,14 @@ codemirror(ext: CmExtension)
 default appearance of the editable area.
 
 **params**
--
+\-
 
 ## defaultViewerTheme
 
 default appearance of the preview area.
 
 **params**
--
+\-
 
 ## injectCss
 
@@ -835,11 +835,11 @@ rendering the codes using `codemirror`.
 rendering the codes using `mermaid`.
 
 **attributes**
--
+\-
 
 ## KatexRenderer
 
 rendering the codes using `katex`.
 
 **attributes**
--
+\-

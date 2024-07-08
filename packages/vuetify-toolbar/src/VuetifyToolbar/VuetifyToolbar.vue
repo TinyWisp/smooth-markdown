@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar density="compact" class="sm-toolbar">
+  <v-toolbar density="compact" color="white" class="sm-toolbar">
     <template v-for="(item, idx) of calcToolbarItems" :key="item.name + idx">
       <!-- divider -->
       <v-divider
@@ -344,6 +344,9 @@ defineExpose({
 </script>
 
 <style scoped>
+.sm-toolbar {
+  border-bottom: 1px solid #e0e0e0;
+}
 .sm-toolbar-button {
   min-width: 40px !important;
 }

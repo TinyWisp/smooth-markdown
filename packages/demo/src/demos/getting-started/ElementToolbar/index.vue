@@ -1,8 +1,7 @@
 <template>
   <smooth-markdown v-model="doc" v-model:mode="mode" :plugins="plugins">
     <template v-slot:toolbar>
-      <element-toolbar color="white"></element-toolbar>
-      <v-divider></v-divider>
+      <element-toolbar></element-toolbar>
     </template>
   </smooth-markdown>
 </template>

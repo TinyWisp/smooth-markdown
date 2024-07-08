@@ -13,7 +13,16 @@
 import { ref, watch, shallowRef } from 'vue'
 import type { Ref, ShallowRef } from 'vue'
 import { SmoothMarkdown, SimpleToc, type Context, type FnGetContext } from '@smooth-markdown/core'
-import { customCodeBlockRenderer, defaultViewerTheme, markdownItPlugins, overlayScrollbars, customLinkAttrs, tocSpy } from '@smooth-markdown/core/plugins'
+import { 
+  customCodeBlockRenderer,
+  defaultViewerTheme,
+  markdownItPlugins,
+  overlayScrollbars,
+  customLinkAttrs,
+  tocSpy,
+  langEn,
+  langZhCN
+} from '@smooth-markdown/core/plugins'
 import { CodeMirrorRenderer } from '@smooth-markdown/core/renderers'
 import mditMultimdTable from 'markdown-it-multimd-table'
 import mditBr from 'markdown-it-br'
@@ -37,7 +46,9 @@ const plugins = [
   customLinkAttrs((attrs) => {
     attrs.target = '_blank'
     return attrs
-  })
+  }),
+  langEn(),
+  langZhCN()
 ]
 const sm: Ref<InstanceType<typeof SmoothMarkdown> | null> = ref(null)
 

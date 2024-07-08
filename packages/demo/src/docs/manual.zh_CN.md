@@ -13,7 +13,7 @@ smooth-markdown是一个基于vue 3的markdown编辑器。
 **安装依赖**
 
 ```bash
-npm install --legacy-peer-deps @smooth-markdown/core @smooth-markdown/presets @smooth-markdown/element-toolbar @smooth-markdown/vuetify-toolbar
+npm install @smooth-markdown/core @smooth-markdown/presets @smooth-markdown/element-toolbar @smooth-markdown/vuetify-toolbar
 ```
 
 # 示例

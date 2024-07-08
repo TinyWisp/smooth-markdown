@@ -2,8 +2,7 @@
   <div class="container">
     <smooth-markdown v-model="doc" v-model:mode="mode" :plugins="plugins">
       <template v-slot:toolbar>
-        <vuetify-toolbar color="white"></vuetify-toolbar>
-        <v-divider></v-divider>
+        <vuetify-toolbar></vuetify-toolbar>
       </template>
     </smooth-markdown>
   </div>
