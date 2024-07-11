@@ -347,45 +347,45 @@ interface ToolbarItem {
 | 对象 | 属性名/方法名 | 类型 | 说明 | 
 | - | - | - | - |
 | | doc | Ref<string> | 内容 |
-|   | mode | Ref<string> | 模式, 如`editor|viewer`, 值为editor, viewer, toc三个值的排列组合，以\|分隔 |
-|   | props | SmoothMarkdownProps | 传递给组件的参数 |
+| ^^ | mode | Ref<string> | 模式, 如`editor|viewer`, 值为editor, viewer, toc三个值的排列组合，以\|分隔 |
+| ^^ | props | SmoothMarkdownProps | 传递给组件的参数 |
 | lang <br> 语言 | t |  Function(path: string, varMap: VariableMap = {}) | 翻译, path:消息路径, varMap: 变量映射 |
-|   | print | Function() | 打印所有消息 |
-|   | setLocale | Function(locale: string) | 设置当前语言 |
-|   | setFallbackLocale | Function(locale: string) | 设置回退语言，当某条消息找不到所需的翻译数据时，则使用回退语言 |
+| ^^ | print | Function() | 打印所有消息 |
+| ^^ | setLocale | Function(locale: string) | 设置当前语言 |
+| ^^ | setFallbackLocale | Function(locale: string) | 设置回退语言，当某条消息找不到所需的翻译数据时，则使用回退语言 |
 | eventBus <br> 事件巴士 | on | Function(src: string, event: string, func: Function) | 绑定事件处理函数 |
-|   | off | Function(src: string, event: string, func: Function) | 解绑事件处理函数 |
-|   | fire | Function(src: string, event: string, detail: Any) | 发布事件消息 |
-|   | beginDebug | Function() | 开始打印事件信息 |
-|   | endDebug | Function() | 结束打印事件信息 |
+| ^^ | off | Function(src: string, event: string, func: Function) | 解绑事件处理函数 |
+| ^^ | fire | Function(src: string, event: string, detail: Any) | 发布事件消息 |
+| ^^ | beginDebug | Function() | 开始打印事件信息 |
+| ^^ | endDebug | Function() | 结束打印事件信息 |
 | root <br> 根元素(整个组件最外层的容器) | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | style | {[key: string]: string} | 样式 |
+| ^^ | selector | string | css选择器 |
+| ^^ | style | {[key: string]: string} | 样式 |
 | viewer <br> 预览区域 | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | containerEl | HTMLElement \| null | 容器DOM元素 |
-|   | containerSelector | string | 容器的css选择器 |
-|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
-|   | markdownIt | MarkdownIt | markdown-it的实例 |
+| ^^ | selector | string | css选择器 |
+| ^^ | containerEl | HTMLElement \| null | 容器DOM元素 |
+| ^^ | containerSelector | string | 容器的css选择器 |
+| ^^ | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
+| ^^ | markdownIt | MarkdownIt | markdown-it的实例 |
 | editor <br> 编辑区域 | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | containerEl | HTMLElement \| null | 容器DOM元素 |
-|   | containerSelector | string | 容器的css选择器 |
-|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
-|   | insertOrReplace | Function(text: string, newLine: boolean = false) | 插入或替换 <br> newLine: 是否强制新行 |
-|   | command | Function(cmd: string, params: Object = {}) | 向编辑器发送命令 |
-|   | scrollToLine | Function(lineNum: number) | 跳转到某一行 |
-|   | moveLinesTo | Function(lineBegin: number, lineEnd: number, lineDes: number) | 将行移动至 |
-|   | cmEditorView | EditorView | CodeMirror实例 |
+| ^^ | selector | string | css选择器 |
+| ^^ | containerEl | HTMLElement \| null | 容器DOM元素 |
+| ^^ | containerSelector | string | 容器的css选择器 |
+| ^^ | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
+| ^^ | insertOrReplace | Function(text: string, newLine: boolean = false) | 插入或替换 <br> newLine: 是否强制新行 |
+| ^^ | command | Function(cmd: string, params: Object = {}) | 向编辑器发送命令 |
+| ^^ | scrollToLine | Function(lineNum: number) | 跳转到某一行 |
+| ^^ | moveLinesTo | Function(lineBegin: number, lineEnd: number, lineDes: number) | 将行移动至 |
+| ^^ | cmEditorView | EditorView | CodeMirror实例 |
 | toc <br> 目录 | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | containerEl | HTMLElement \| null | 容器DOM元素 |
-|   | containerSelector | string | 容器的css选择器 |
-|   | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
+| ^^ | selector | string | css选择器 |
+| ^^ | containerEl | HTMLElement \| null | 容器DOM元素 |
+| ^^ | containerSelector | string | 容器的css选择器 |
+| ^^ | scrollEl | Ref<HTMLElement \| null> | 滚动DOM元素 |
 | header <br> 头部区域(工具栏) | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
+| ^^ | selector | string | css选择器 |
 | body <br> 正文区域(内容编辑及预览区域) | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
+| ^^ | selector | string | css选择器 |
 
 **context.editor.insertOrReplace(text: string, newLine: boolean = false)**
 如果处于选中文字状态，则替换。反之，则插入。

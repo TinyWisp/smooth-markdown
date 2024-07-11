@@ -21,7 +21,8 @@ import {
   customLinkAttrs,
   tocSpy,
   langEn,
-  langZhCN
+  langZhCN,
+  injectCss
 } from '@smooth-markdown/core/plugins'
 import { CodeMirrorRenderer } from '@smooth-markdown/core/renderers'
 import mditMultimdTable from 'markdown-it-multimd-table'
@@ -48,7 +49,34 @@ const plugins = [
     return attrs
   }),
   langEn(),
-  langZhCN()
+  langZhCN(),
+  injectCss(`
+      &viewer table td[rowspan="2"],
+      &viewer table td[rowspan="3"],
+      &viewer table td[rowspan="4"],
+      &viewer table td[rowspan="5"],
+      &viewer table td[rowspan="6"],
+      &viewer table td[rowspan="7"],
+      &viewer table td[rowspan="8"],
+      &viewer table td[rowspan="9"],
+      &viewer table td[rowspan="10"],
+      &viewer table td[rowspan="11"],
+      &viewer table td[rowspan="12"]
+      { border-top: 1px solid lightgray;}
+      &viewer table td[rowspan="2"]~td,
+      &viewer table td[rowspan="3"]~td,
+      &viewer table td[rowspan="4"]~td,
+      &viewer table td[rowspan="5"]~td,
+      &viewer table td[rowspan="6"]~td,
+      &viewer table td[rowspan="7"]~td,
+      &viewer table td[rowspan="8"]~td,
+      &viewer table td[rowspan="9"]~td,
+      &viewer table td[rowspan="10"]~td,
+      &viewer table td[rowspan="11"]~td,
+      &viewer table td[rowspan="12"]~td
+      { border-top: 1px solid lightgray;}
+    `
+  )
 ]
 const sm: Ref<InstanceType<typeof SmoothMarkdown> | null> = ref(null)
 

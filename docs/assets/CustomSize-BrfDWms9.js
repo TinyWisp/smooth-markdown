@@ -1,9 +1,11 @@
-<template>
-  <smooth-markdown v-model="doc" v-model:mode="mode" :plugins="plugins">
-    <template v-slot:toolbar>
-      <vuetify-toolbar></vuetify-toolbar>
-    </template>
-  </smooth-markdown>
+const o=`<template>
+  <div class="container">
+    <smooth-markdown v-model="doc" v-model:mode="mode" :plugins="plugins">
+      <template v-slot:toolbar>
+        <vuetify-toolbar></vuetify-toolbar>
+      </template>
+    </smooth-markdown>
+  </div>
 </template>
 
 <script setup>
@@ -19,4 +21,11 @@ const plugins = [
   ...classicSetup,
   langEn()
 ]
-</script>
+<\/script>
+
+<style scoped>
+.container {
+  width: 600px;
+  height: 300px;
+}
+</style>`;export{o as default};

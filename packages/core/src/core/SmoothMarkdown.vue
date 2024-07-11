@@ -308,7 +308,7 @@ defineExpose({getContext, setContext })
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
-  border: 0;
+  border: 1px solid #e0e0e0;
   overflow: hidden;
 }
 
@@ -361,7 +361,7 @@ defineExpose({getContext, setContext })
   align-items: stretch;
   max-width: 100%;
   border-left-style: solid;
-  border-left-color: rgba(0, 0, 0, 0.12);
+  border-left-color: #e0e0e0;
 }
 
 .sm-root > .sm-body > .sm-editor-container {

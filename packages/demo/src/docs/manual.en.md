@@ -349,45 +349,45 @@ you can also get it via `inject` in a slot.
 | object | name | type | note | 
 | - | - | - | - |
 | | doc | Ref<string> | content |
-|   | mode | Ref<string> | mode. its value is a combination of 'editor', 'viewer' and 'toc', seprated by  '\|', like `editor|viewer` |
-|   | props | SmoothMarkdownProps | the props passed to the component.  |
+| ^^ | mode | Ref<string> | mode. its value is a combination of 'editor', 'viewer' and 'toc', seprated by  '\|', like `editor|viewer` |
+| ^^ | props | SmoothMarkdownProps | the props passed to the component.  |
 | lang <br> 语言 | t |  Function(path: string, varMap: VariableMap = {}) | translate. path:消息路径, varMap: 变量映射 |
-|   | print | Function() | 打印所有消息 |
-|   | setLocale | Function(locale: string) | 设置当前语言 |
-|   | setFallbackLocale | Function(locale: string) | 设置回退语言，当某条消息找不到所需的翻译数据时，则使用回退语言 |
+| ^^ | print | Function() | 打印所有消息 |
+| ^^ | setLocale | Function(locale: string) | 设置当前语言 |
+| ^^ | setFallbackLocale | Function(locale: string) | 设置回退语言，当某条消息找不到所需的翻译数据时，则使用回退语言 |
 | eventBus <br> 事件巴士 | on | Function(src: string, event: string, func: Function) | 绑定事件处理函数 |
-|   | off | Function(src: string, event: string, func: Function) | 解绑事件处理函数 |
-|   | fire | Function(src: string, event: string, detail: Any) | 发布事件消息 |
-|   | beginDebug | Function() | 开始打印事件信息 |
-|   | endDebug | Function() | 结束打印事件信息 |
+| ^^ | off | Function(src: string, event: string, func: Function) | 解绑事件处理函数 |
+| ^^ | fire | Function(src: string, event: string, detail: Any) | 发布事件消息 |
+| ^^ | beginDebug | Function() | 开始打印事件信息 |
+| ^^ | endDebug | Function() | 结束打印事件信息 |
 | root <br> 根元素(整个组件最外层的容器) | el | HTMLElement \| null | DOM元素 |
-|   | selector | string | css选择器 |
-|   | style | {[key: string]: string} | 样式 |
+| ^^ | selector | string | css选择器 |
+| ^^ | style | {[key: string]: string} | 样式 |
 | viewer <br> the preview area | el | HTMLElement \| null | the DOM element |
-|   | selector | string | the css selector |
-|   | containerEl | HTMLElement \| null | the container's DOM element |
-|   | containerSelector | string | the css selector of its container |
-|   | scrollEl | Ref<HTMLElement \| null> | the element to be scrolled |
-|   | markdownIt | MarkdownIt | the instance of `markdown-it` |
+| ^^ | selector | string | the css selector |
+| ^^ | containerEl | HTMLElement \| null | the container's DOM element |
+| ^^ | containerSelector | string | the css selector of its container |
+| ^^ | scrollEl | Ref<HTMLElement \| null> | the element to be scrolled |
+| ^^ | markdownIt | MarkdownIt | the instance of `markdown-it` |
 | editor <br> the editable area | el | HTMLElement \| null | the DOM element |
-|   | selector | string | the css selector |
-|   | containerEl | HTMLElement \| null | the contianer's DOM element |
-|   | containerSelector | string | the css selector of its container |
-|   | scrollEl | Ref<HTMLElement \| null> | the element to be scrolled |
-|   | insertOrReplace | Function(text: string, newLine: boolean = false) | insert or replace a text <br> newLine: whether to insert a newline if the cursor is not at the beginning of a line |
-|   | command | Function(cmd: string, params: Object = {}) | execute a command |
-|   | scrollToLine | Function(lineNum: number) | scroll to a line  |
-|   | moveLinesTo | Function(lineBegin: number, lineEnd: number, lineDes: number) | move the specified lines to a new position |
-|   | cmEditorView | EditorView | the instance of `codemirror` |
+| ^^ | selector | string | the css selector |
+| ^^ | containerEl | HTMLElement \| null | the contianer's DOM element |
+| ^^ | containerSelector | string | the css selector of its container |
+| ^^ | scrollEl | Ref<HTMLElement \| null> | the element to be scrolled |
+| ^^ | insertOrReplace | Function(text: string, newLine: boolean = false) | insert or replace a text <br> newLine: whether to insert a newline if the cursor is not at the beginning of a line |
+| ^^ | command | Function(cmd: string, params: Object = {}) | execute a command |
+| ^^ | scrollToLine | Function(lineNum: number) | scroll to a line  |
+| ^^ | moveLinesTo | Function(lineBegin: number, lineEnd: number, lineDes: number) | move the specified lines to a new position |
+| ^^ | cmEditorView | EditorView | the instance of `codemirror` |
 | toc <br> table of content | el | HTMLElement \| null | the DOM element |
-|   | selector | string | the css selector |
-|   | containerEl | HTMLElement \| null | the container's DOM element |
-|   | containerSelector | string | the css selector of the container |
-|   | scrollEl | Ref<HTMLElement \| null> | the DOM element to be scrolled |
+| ^^ | selector | string | the css selector |
+| ^^ | containerEl | HTMLElement \| null | the container's DOM element |
+| ^^ | containerSelector | string | the css selector of the container |
+| ^^ | scrollEl | Ref<HTMLElement \| null> | the DOM element to be scrolled |
 | header | el | HTMLElement \| null | the DOM element |
-|   | selector | string | the css selector |
+| ^^ | selector | string | the css selector |
 | body | el | HTMLElement \| null | the DOM element |
-|   | selector | string | the css selector |
+| ^^ | selector | string | the css selector |
 
 **elements**
 

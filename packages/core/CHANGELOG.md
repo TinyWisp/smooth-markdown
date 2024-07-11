@@ -1,3 +1,7 @@
+1.0.3
+- changed:
+  - adjusted its appearance.
+
 1.0.2
 - changed:
   - adjusted the appearance of `CodeMirrorRenderer`.
