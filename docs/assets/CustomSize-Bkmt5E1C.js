@@ -1,4 +1,4 @@
-<template>
+const o=`<template>
   <smooth-markdown v-model="doc" v-model:mode="mode" :plugins="plugins" style="width: 600px; height: 400px;">
     <template v-slot:toolbar>
       <vuetify-toolbar></vuetify-toolbar>
@@ -19,4 +19,4 @@ const plugins = [
   ...classicSetup,
   langEn()
 ]
-</script>
+<\/script>`;export{o as default};

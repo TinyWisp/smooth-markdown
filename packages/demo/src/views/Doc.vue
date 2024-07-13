@@ -28,6 +28,7 @@ import { CodeMirrorRenderer } from '@smooth-markdown/core/renderers'
 import mditMultimdTable from 'markdown-it-multimd-table'
 import mditBr from 'markdown-it-br'
 import IframeRenderer from '../components/IframeRenderer.vue'
+import HtmlRenderer from '../components/HtmlRenderer.vue'
 import { manual } from '@/docs'
 import { onMounted } from 'vue'
 
@@ -38,6 +39,7 @@ const plugins = [
   overlayScrollbars(),
   customCodeBlockRenderer({
     iframe: [IframeRenderer],
+    html: [HtmlRenderer],
     default: [CodeMirrorRenderer]
   }),
   markdownItPlugins([
@@ -75,6 +77,77 @@ const plugins = [
       &viewer table td[rowspan="11"]~td,
       &viewer table td[rowspan="12"]~td
       { border-top: 1px solid lightgray;}
+      &viewer .structure {
+        width: 100%;
+        height: atuo;
+        --s-line-color: gray;
+        --s-spacing: 50px;
+      }
+      &viewer .structure .col {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        border: 1px solid var(--s-line-color);
+        padding: var(--s-spacing);
+        position: relative;
+        flex-grow: 1;
+        flex-shrink: 1;
+      }
+      &viewer .structure .col > div ~ div {
+        margin-top: var(--s-spacing);
+      }
+      &viewer .structure div:not([caption=''])::before {
+        content: attr(data-caption);
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: -13px;
+        transform: translateX(-50%);
+        background-color: white;
+        color: red;
+        padding: 0 5px;
+      }
+      &viewer .structure .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: stretch;
+        border: 1px solid var(--s-line-color);
+        min-height: 100px;
+        position: relative;
+        padding: var(--s-spacing);
+      }
+      &viewer .structure .row > div ~ div {
+        margin-left: var(--s-spacing);
+      }
+      &viewer .structure .row .cell ~ .cell {
+        margin-left: var(--s-spacing);
+      }
+      &viewer .structure .cell {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        flex-grow: 1;
+        flex-shrink: 1;
+        border: 1px solid var(--s-line-color);
+        min-height: 100px;
+        position: relative;
+      }
+      &viewer .structure .vellipsis {
+        flex-grow: 0;
+        flex-shrink: 0;
+        width: 100%;
+        height: 30px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+      &viewer .structure .vellipsis::after {
+        content: '⋮';
+      }
     `
   )
 ]

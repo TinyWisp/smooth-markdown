@@ -166,6 +166,17 @@ const demoMap: DemoMap = {
     ]
   },
 
+  '/examples/operations': {
+    comp: () => import('./examples/Operations.vue'),
+    height: '500px',
+    codeTabs: [
+      {
+        title: 'index.vue',
+        code: () => import('./examples/Operations.vue?raw')
+      }
+    ]
+  },
+
   '/examples/extending-markdown-syntax': {
     comp: () => import('./examples/ExtendingMarkdownSyntax/index.vue'),
     height: '500px',

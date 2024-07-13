@@ -36,8 +36,6 @@ npm install @smooth-markdown/core @smooth-markdown/presets @smooth-markdown/elem
 
 ## 自定义大小
 
-在外面加个容器，设置容器的大小
-
 ```iframe
 #/demo?name=/examples/custom-size
 ```
@@ -144,6 +142,15 @@ export default classicSetup
 ```iframe
 #/demo?name=/examples/custom-appearances
 ```
+
+## 操作
+
+通过context中提供的方法来操作
+
+```iframe
+#/demo?name=/examples/operations
+```
+
 
 # 组件
 
@@ -736,6 +743,30 @@ codemirror(ext: CmExtension)
 &editor-container
 &viewer-container
 &toc-container
+
+```html
+<div class="structure">
+  <div class="col" data-caption="&root">
+    <div class="row" data-caption="&header">
+    </div>
+    <div class="row" data-caption="&body">
+      <div class="col" data-caption="&editor-container">
+        <div class="vellipsis"></div>
+        <div class="cell" data-caption="&editor" style="height: 300px;"></div>
+      </div>
+      <div class="col" data-caption="&viewer-container">
+        <div class="vellipsis"></div>
+        <div class="cell" data-caption="&viewer" style="height: 300px;"></div>
+      </div>
+      <div class="col" data-caption="&toc-container">
+        <div class="vellipsis"></div>
+        <div class="cell" data-caption="&toc" style="height: 300px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
 
 ## customLinkAttrs
 

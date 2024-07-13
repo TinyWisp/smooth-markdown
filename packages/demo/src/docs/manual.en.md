@@ -35,9 +35,6 @@ npm install @smooth-markdown/core @smooth-markdown/presets @smooth-markdown/elem
 
 ## Custom Size
 
-wrap it with a container, and set the size of the container.
-
-
 ```iframe
 #/demo?name=/examples/custom-size
 ```
@@ -145,6 +142,14 @@ plugin to style the preview area.
 #/demo?name=/examples/custom-appearances
 ```
 
+## Operations
+
+use the methods provided by `context` to operate it.
+
+```iframe
+#/demo?name=/examples/operations
+```
+
 # Components
 
 ## smooth-markdown
@@ -153,10 +158,10 @@ plugin to style the preview area.
 
 | name | type | desc | default | note |
 | - | - | - | - | - |
-| locale | string | 语言 | en | 和加载的语言包有关 |
-| mode | string | 模式 | editor\|viewer | editor,viewer,toc以\|相连，如'editor\|viewer  |
-| plugins | Array | 插件列表 | [] | - |
-| readonly | boolean | 是否只读 | false | - |
+| locale | string | locale| en |  |
+| mode | string | parts to be displayed | editor\|viewer | enum values including `editor`, `viewer` and `toc`, joined by `\|`. such as 'editor\|viewer'.  |
+| plugins | Array | plugins to be loaded | [] | - |
+| readonly | boolean | whether it is editable | false | - |
 
 **Methods**
 
@@ -764,6 +769,29 @@ inject css, which may includes the following selectors:
 - `&editor-container`
 - `&viewer-container`
 - `&toc-container`
+
+```html
+<div class="structure">
+  <div class="col" data-caption="&root">
+    <div class="row" data-caption="&header">
+    </div>
+    <div class="row" data-caption="&body">
+      <div class="col" data-caption="&editor-container">
+        <div class="vellipsis"></div>
+        <div class="cell" data-caption="&editor" style="height: 300px;"></div>
+      </div>
+      <div class="col" data-caption="&viewer-container">
+        <div class="vellipsis"></div>
+        <div class="cell" data-caption="&viewer" style="height: 300px;"></div>
+      </div>
+      <div class="col" data-caption="&toc-container">
+        <div class="vellipsis"></div>
+        <div class="cell" data-caption="&toc" style="height: 300px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+```
 
 ## customLinkAttrs
 
