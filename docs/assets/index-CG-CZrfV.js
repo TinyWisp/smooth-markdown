@@ -1,0 +1,1 @@
+import{r as t,a0 as l,o as r,V as n,Y as u,a1 as p,I as m}from"./index-e1f0YLmt.js";import{c}from"./index.esm-BHO9S2EN.js";import"./index-5_xLa4tu.js";const g={__name:"index",setup(i){const a=t(l),o=[...c,m()];return(d,e)=>(r(),n(u(p),{modelValue:a.value,"onUpdate:modelValue":e[0]||(e[0]=s=>a.value=s),plugins:o},null,8,["modelValue"]))}};export{g as default};

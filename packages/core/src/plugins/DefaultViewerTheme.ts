@@ -79,7 +79,7 @@ const css = `
       text-decoration: none;
     }
 
-    &viewer p > code {
+    &viewer p > code, &viewer li > code {
       color: saddlebrown;
       background-color: #f1f1f1;
       padding: 0 0.5em;

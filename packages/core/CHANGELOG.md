@@ -1,3 +1,7 @@
+1.0.4
+- changed:
+  - adjusted the styles of inline codes.
+
 1.0.3
 - changed:
   - adjusted its appearance.
