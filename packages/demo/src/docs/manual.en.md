@@ -356,18 +356,18 @@ you can also get it via `inject` in a slot.
 | | doc | Ref<string> | content |
 | ^^ | mode | Ref<string> | mode. its value is a combination of 'editor', 'viewer' and 'toc', seprated by  '\|', like `editor|viewer` |
 | ^^ | props | SmoothMarkdownProps | the props passed to the component.  |
-| lang <br> 语言 | t |  Function(path: string, varMap: VariableMap = {}) | translate. path:消息路径, varMap: 变量映射 |
-| ^^ | print | Function() | 打印所有消息 |
-| ^^ | setLocale | Function(locale: string) | 设置当前语言 |
-| ^^ | setFallbackLocale | Function(locale: string) | 设置回退语言，当某条消息找不到所需的翻译数据时，则使用回退语言 |
-| eventBus <br> 事件巴士 | on | Function(src: string, event: string, func: Function) | 绑定事件处理函数 |
-| ^^ | off | Function(src: string, event: string, func: Function) | 解绑事件处理函数 |
-| ^^ | fire | Function(src: string, event: string, detail: Any) | 发布事件消息 |
-| ^^ | beginDebug | Function() | 开始打印事件信息 |
-| ^^ | endDebug | Function() | 结束打印事件信息 |
-| root <br> 根元素(整个组件最外层的容器) | el | HTMLElement \| null | DOM元素 |
-| ^^ | selector | string | css选择器 |
-| ^^ | style | {[key: string]: string} | 样式 |
+| lang <br> language | t |  Function(path: string, varMap: VariableMap = {}) | translate. t('error.userNotFound', {name: userName}) |
+| ^^ | print | Function() | print all the messages |
+| ^^ | setLocale | Function(locale: string) | set the current locale |
+| ^^ | setFallbackLocale | Function(locale: string) | set the fallback locale |
+| eventBus <br> 事件巴士 | on | Function(src: string, event: string, func: Function) | bind an event handler |
+| ^^ | off | Function(src: string, event: string, func: Function) | unbind an event handler |
+| ^^ | fire | Function(src: string, event: string, detail: Any) | fire an event |
+| ^^ | beginDebug | Function() | begin printing events |
+| ^^ | endDebug | Function() | end printing events |
+| root <br> the root container element | el | HTMLElement \| null | DOM element |
+| ^^ | selector | string | the css selector |
+| ^^ | style | {[key: string]: string} | style |
 | viewer <br> the preview area | el | HTMLElement \| null | the DOM element |
 | ^^ | selector | string | the css selector |
 | ^^ | containerEl | HTMLElement \| null | the container's DOM element |
